@@ -225,7 +225,7 @@ public class MundoVisual extends JFrame {
 
 	private static JButton createSimpleButton(String image, String tooltip) {
 		  JButton button = new JButton();
-		  button.setIcon(new ImageIcon(image));
+		  button.setIcon(LoadImage.getInstance().getIcon(image));
 		  button.setToolTipText(tooltip);
 		  button.setForeground(Color.BLACK);
 		  button.setBackground(Color.WHITE);
