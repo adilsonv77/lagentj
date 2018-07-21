@@ -20,13 +20,13 @@
 package br.udesc.lagentj;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -40,7 +40,6 @@ import java.net.ServerSocket;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -273,11 +272,11 @@ public class MundoVisual extends JFrame {
 	}
 
 	private JPanel getControle(final Exercicio exercicio) {
-		JPanel jp = new JPanel(new GridLayout(1,2));
+		JPanel jp = new JPanel(new BorderLayout());
 		jp.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.black));
-		
+
 		slider = createSimpleSlider();
-		jp.add(slider);
+		jp.add(slider, BorderLayout.CENTER);
 		
 
 		slider.setMaximum(1000);
@@ -295,7 +294,7 @@ public class MundoVisual extends JFrame {
 
 		JPanel jpBotoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		jpBotoes.setBackground(Color.white);
-		jp.add(jpBotoes);
+		jp.add(jpBotoes, BorderLayout.EAST);
 
 		jbExecutar = createSimpleButton("imagens/iconplay.png", "Executar");
 		jpBotoes.add(jbExecutar);
