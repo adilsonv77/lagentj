@@ -52,6 +52,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
+import javax.swing.text.DefaultCaret;
 
 import br.udesc.lagentj.exceptions.MundoException;
 import br.udesc.lagentj.suporte.Exercicio;
@@ -257,6 +258,10 @@ public class MundoVisual extends JFrame {
 		JScrollPane scroll = new JScrollPane(console);
 		console.setEditable(false);
 		console.setRows(5);
+		
+		DefaultCaret caret = (DefaultCaret)console.getCaret();
+	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
+	    
 		getContentPane().add(scroll, "South");
 		addWindowListener(new WindowAdapter() {
 
