@@ -30,75 +30,77 @@ import javax.swing.ImageIcon;
  */
 public interface ObjetoDoMundo {
 
-	public  void executar() throws Exception;
+	void executar() throws Exception;
 
-	public  void diga(String s) throws MundoException;
+	void diga(String s) throws MundoException;
 
-	public  void diga(Object obj) throws MundoException;
+	void diga(Object obj) throws MundoException;
 
-	public  void limparConsole() throws MundoException;
+	void limparConsole() throws MundoException;
 
-	public  void andarEsquerda() throws MundoException;
+	void andarEsquerda() throws MundoException;
 
-	public  void andarDireita() throws MundoException;
+	void andarDireita() throws MundoException;
 
-	public  void andarAcima() throws MundoException;
+	void andarAcima() throws MundoException;
 
-	public  void andarAbaixo() throws MundoException;
+	void andarAbaixo() throws MundoException;
 
-	public  boolean ehVazio(Direcao direcao) throws MundoException;
+	boolean ehVazio(Direcao direcao) throws MundoException;
 
-	public  boolean ehFim(Direcao direcao) throws MundoException;
+	boolean ehFim(Direcao direcao) throws MundoException;
 
-	public  <T extends ObjetoDoMundo> T getObjeto(Direcao direcao)
+	<T extends ObjetoDoMundo> T getObjeto(Direcao direcao)
 			throws MundoException;
 
-	public  <T extends ObjetoDoMundo> T getObjetoColLin(int col, int lin)
+	<T extends ObjetoDoMundo> T getObjetoColLin(int col, int lin)
 			throws MundoException;
 
-	public  int getColuna();
+	int getColuna();
 
-	public  int getLinha();
+	int getLinha();
 
-	public  ImageIcon criarImagem();
+	ImageIcon criarImagem();
 
-	public  void setObjetoMundoImpl(ObjetoMundoImpl objetomundoimpl);
+	void setObjetoMundoImpl(ObjetoMundoImpl objetomundoimpl);
 
-	public  void repintar() throws MundoException;
+	void repintar() throws MundoException;
 
-	public  int getUltimaTeclaPress() throws MundoException;
+	int getUltimaTeclaPress() throws MundoException;
 
-	public  void chegouUmObjetoNaPosicao(ObjetoDoMundo objetodomundo);
+	void chegouUmObjetoNaPosicao(ObjetoDoMundo objetodomundo);
 
-	public  ObjetoMundoImpl getObjetoMundoImpl();
+	ObjetoMundoImpl getObjetoMundoImpl();
 
-	public  void removerObjetoDoMundo(ObjetoDoMundo objetodomundo)
+	void removerObjetoDoMundo(ObjetoDoMundo objetodomundo)
 			throws MundoException;
 
-	public  void adicionarObjetoNoMundoColLin(ObjetoDoMundo objetodomundo,
+	void adicionarObjetoNoMundoColLin(ObjetoDoMundo objetodomundo,
 			int col, int lin) throws MundoException;
 
-	public  void adicionarObjetoNoMundo(ObjetoDoMundo objetodomundo,
+	void adicionarObjetoNoMundo(ObjetoDoMundo objetodomundo,
 			Direcao direcao) throws MundoException;
 
-	public  void adicionarObjetoNoMundoEmbaixo(
+	void adicionarObjetoNoMundoEmbaixo(
 			ObjetoDoMundo objetodomundo, Direcao direcao) throws MundoException;
 
-	public  void removerMe() throws MundoException;
+	void removerMe() throws MundoException;
 
-	public  boolean jahExplodiu() throws MundoException;
+	boolean jahExplodiu() throws MundoException;
 
-	public  int getTempoEspera();
+	int getTempoEspera();
 
-	public  void setTempoEspera(int milisegundos);
+	void setTempoEspera(int milisegundos);
 
-	public  boolean ehBloqueado();
+	boolean ehBloqueado();
 
-	public  void bloquear();
+	void bloquear();
 
-	public  void desbloquear();
+	void desbloquear();
 
-	public  String getSouDoTipo();
+	String getSouDoTipo();
 
-	public void colidido(ObjetoDoMundo objetoMundo);
+	void colidido(ObjetoDoMundo objetoMundo);
+	
+	
 }

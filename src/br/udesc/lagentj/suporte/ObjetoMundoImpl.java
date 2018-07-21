@@ -25,12 +25,12 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
-import br.udesc.lagentj.Direcao;
 import br.udesc.lagentj.AgenteJ;
+import br.udesc.lagentj.Direcao;
 import br.udesc.lagentj.ObjetoDoMundo;
 import br.udesc.lagentj.exceptions.AcabouEnergiaException;
-import br.udesc.lagentj.exceptions.MundoException;
 import br.udesc.lagentj.exceptions.MundoEncerradoException;
+import br.udesc.lagentj.exceptions.MundoException;
 
 /**
  * 

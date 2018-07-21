@@ -281,7 +281,7 @@ public class MundoVisual extends JFrame {
 		jp.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.black));
 
 		slider = createSimpleSlider();
-		jp.add(slider, BorderLayout.CENTER);
+		jp.add(slider, BorderLayout.WEST);
 		
 
 		slider.setMaximum(1000);
@@ -299,7 +299,7 @@ public class MundoVisual extends JFrame {
 
 		JPanel jpBotoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		jpBotoes.setBackground(Color.white);
-		jp.add(jpBotoes, BorderLayout.EAST);
+		jp.add(jpBotoes, BorderLayout.CENTER);
 
 		jbExecutar = createSimpleButton("imagens/iconplay.png", "Executar");
 		jpBotoes.add(jbExecutar);
