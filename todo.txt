@@ -1,0 +1,8 @@
++ JavaDoc de todo o framework
++ Mecanismo para auto-correção de exercícios
++ Apostila: colocar exercícios que levam ao desenvolvimento de um jogo
++ Na página do site criar uma área para disponibilizar classes adicionais para se divertirem 
+
+
+Varias versoes do nosso alien: https://en.wikipedia.org/wiki/File:Smiley_green_alien_GRRR.svg
+Site bom para nossas imagens: https://pixabay.com
