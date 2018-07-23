@@ -81,8 +81,12 @@ public class Numero extends ObjetoDoMundoAdapter {
 		g.fillRect(0, 0, 50, 50);
 
 		g.setColor(Color.black);
-		g.setFont(fonte);
-		g.drawString(String.valueOf(valor), 10, 25);
+		String v = String.valueOf(valor);
+		if (v.length()>=4)
+		  g.setFont(smallfonte);
+		else
+		  g.setFont(fonte);
+		g.drawString(v, 10, 25);
 
 		ImageIcon imagem = new ImageIcon(img);
 		return imagem;
@@ -97,5 +101,6 @@ public class Numero extends ObjetoDoMundoAdapter {
 
 	private int valor;
 	private static Font fonte = new Font("Arial", 0, 18);
+	private static Font smallfonte = new Font("Arial", 0, 10);
 
 }
