@@ -81,6 +81,11 @@ public class ExercicioFactory
         d.addCallMethod("*/booleano/valor", "setRandom", 1);
         d.addCallParam("*/booleano/valor", 0, "random");
         d.addBeanPropertySetter("*/booleano/valor");
+
+        addRuleObjetoClass(d, "*/img", ImagemExercicio.class);
+        d.addSetProperties("*/img");
+        d.addSetNext("*/img", "addElemento");
+        
         File srcfile = new File(nomeArquivoXML);
         d.parse(srcfile);
         exercicio.finalizar();

@@ -161,20 +161,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			gastarEnergia(10);
 			mundo.disse(euMesmo, texto);
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(10);
-						mundo.disse(euMesmo, texto);
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});
-	*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,18 +177,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		final List<MundoException> ex = new ArrayList<MundoException>();
 		try {
 			mundo.limparConsole();
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						mundo.limparConsole();
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -238,19 +212,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 			
 			gastarEnergia(20);
 			mundo.andar(euMesmo, direcao);
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(20);
-						mundo.andar(euMesmo, direcao);
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -307,20 +268,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			gastarEnergia(15);
 			objRet.add(mundo.getObjeto(euMesmo, direcao));
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(15);
-						objRet.add(mundo.getObjeto(euMesmo, direcao));
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			objRet.add(null);
@@ -341,20 +288,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			gastarEnergia(30);
 			objRet.add(mundo.getObjeto(euMesmo, x, y));
-			/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(30);
-						objRet.add(mundo.getObjeto(euMesmo, x, y));
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			objRet.add(null);
@@ -407,15 +340,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			if (mundo != null)
 				mundo.repintar();
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					if (mundo != null)
-						mundo.repintar();
-				}
-			});
-			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -430,20 +354,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			gastarEnergia(5);
 			bool.add(Boolean.valueOf(mundo.ehVazio(euMesmo, x, y)));
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(5);
-						bool.add(Boolean.valueOf(mundo.ehVazio(euMesmo, x, y)));
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -470,20 +380,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			gastarEnergia(5 * objetos.size());
 			objetos.add(mundo.getObjetos());
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(5 * objetos.size());
-						objetos.add(mundo.getObjetos());
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			objetos.add(new ArrayList<ObjetoMundoImpl>());
@@ -508,15 +404,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 	public void pararMundo() throws MundoException {
 		try {
 			mundo.parar();
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					mundo.parar();
-				}
-
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -528,18 +415,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 			throw new MundoEncerradoException();
 		final List<Integer> ultTeclaPress = new ArrayList<Integer>();
 		try {
-			ultTeclaPress.add(Integer.valueOf(mundo
-					.getUltimaTeclaPress()));
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					ultTeclaPress.add(Integer.valueOf(mundo
-							.getUltimaTeclaPress()));
-				}
-
-			});
-*/
+			ultTeclaPress.add(Integer.valueOf(mundo.getUltimaTeclaPress()));
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			ultTeclaPress.clear();
@@ -555,15 +431,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		final ObjetoMundoImpl euMesmo = this;
 		try {
 			mundo.addListenerCelula(euMesmo);
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					mundo.addListenerCelula(euMesmo);
-				}
-
-			});
-			*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -577,17 +444,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		final List<MundoException> ex = new ArrayList<MundoException>();
 		try {
 			mundo.addObjetoMundoImpl(objetoMundoImpl, embaixo);
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						mundo.addObjetoMundoImpl(objetoMundoImpl, embaixo);
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-			}); */
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -613,18 +469,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		final ObjetoMundoImpl euMesmo = this;
 		try {
 			mundo.removerObjeto(euMesmo);
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						mundo.removerObjeto(euMesmo);
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -651,19 +495,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 		try {
 			gastarEnergia(100);
 			mundo.mudarPosicao(euMesmo, x, y);
-/*
-			EventQueue.invokeAndWait(new Runnable() {
-
-				public void run() {
-					try {
-						gastarEnergia(100);
-						mundo.mudarPosicao(euMesmo, x, y);
-					} catch (MundoException e) {
-						ex.add(e);
-					}
-				}
-
-			});*/
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -172,6 +172,10 @@ public class MundoVisual extends JFrame {
 		return atributos.containsKey(nome);
 	}
 
+	public static void removerAtributo(String nome) {
+		atributos.remove(nome);
+	}
+	
 	private MundoAgenteJ mundoAgenteJ;
 
 	private MundoVisual(Exercicio exercicio, String autor) throws Exception {
@@ -405,6 +409,7 @@ public class MundoVisual extends JFrame {
 						if (runImmediatelly) {
 							mundoVisual.mundoAgenteJ.executar();
 							mundoVisual.mundoAgenteJ.requestFocus();
+							mundoVisual.habilitarBotoesExecucao();
 						}
 						
 					} catch (ClassNotFoundException classE) {
