@@ -137,5 +137,17 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 		return 0;
 	}
 	
-	public static final double VERSAO = 1.01;
+	public int getInt(Direcao direcao) throws MundoException {
+		if (objetoMundoImpl.getObjeto(direcao) == null) {
+			throw new NullPointerException();
+		}
+		
+		if (ehObjetoDoMundoTipo("Numero", direcao)) {
+			Numero n = getObjeto(direcao);
+			return n.getValor();
+		}
+		return 0;
+	}
+	
+	public static final double VERSAO = 1.02;
 }

@@ -1,3 +1,6 @@
+1.02 (14/08/2018)
+- Novo método getInt(Direcao):int
+
 1.01 (07/08/2018)
 - Atribuída uma cor para as gridlines da JTable, pois no Mac o padrão é branco.
 
