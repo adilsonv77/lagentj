@@ -3,7 +3,7 @@
     <description>Builds, tests, and runs the project AgentJ.</description>
 
 	<target name="jar">
-		<jar destfile="agentej-1.0.jar">
+		<jar destfile="agentej-1.01.jar">
 	       <fileset dir="bin"/>
 		   <fileset dir=".">
 		   	    <include name="imagens/**"/>

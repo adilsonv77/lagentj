@@ -1,4 +1,7 @@
-1.0 (xx/xx/2018)
+1.01 (07/08/2018)
+- Atribuída uma cor para as gridlines da JTable, pois no Mac o padrão é branco.
+
+1.0 (31/07/2018)
 - Nova classe para o XML: Imagem
 - Novo método MundoVisual.removerAtributo
 - Migração do Furbot 1.93 para AgenteJ 1.0

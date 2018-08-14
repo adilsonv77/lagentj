@@ -20,6 +20,7 @@
 package br.udesc.lagentj;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -210,6 +211,7 @@ public class MundoAgenteJ extends JPanel{
 		mapa.setRowHeight(mapaModel.mundo.getTamCell());
 		mapa.setAutoResizeMode(0);
 		mapa.setDefaultRenderer(Object.class, new MapaRenderer());
+		mapa.setGridColor(new Color(122, 138, 153)); // no Mac a cor padrao das linhas era branco.
 		for (int x = 0; x < mapa.getColumnCount(); x++) {
 			mapa.getColumnModel().getColumn(x).setMaxWidth(mapaModel.mundo.getTamCell());
 			mapa.getColumnModel().getColumn(x).setMinWidth(mapaModel.mundo.getTamCell());
