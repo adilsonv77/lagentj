@@ -71,7 +71,8 @@ public class Projetil extends ObjetoDoMundoAdapter
             }
             catch(MundoException mundoexception)
             {
-                return;
+                removerMe();
+            	return;
             }
         while(true);
     }

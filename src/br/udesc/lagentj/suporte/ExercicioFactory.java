@@ -69,6 +69,7 @@ public class ExercicioFactory
         d.addSetNext("*/agente", "addAgente");
         addRuleObjeto(d, "*/objeto");
         d.addSetNext("*/objeto", "addElemento");
+
         addRuleObjetoClass(d, "*/numero", NumeroElementoExercicio.class);
         d.addSetNext("*/numero", "addElemento");
         d.addCallMethod("*/numero/valor", "setRandomInf", 1);
@@ -76,6 +77,7 @@ public class ExercicioFactory
         d.addBeanPropertySetter("*/numero/valor");
         d.addCallMethod("*/numero/valor", "setRandomSup", 1);
         d.addCallParam("*/numero/valor", 0, "randomSup");
+
         addRuleObjetoClass(d, "*/booleano", BooleanoElementoExercicio.class);
         d.addSetNext("*/booleano", "addElemento");
         d.addCallMethod("*/booleano/valor", "setRandom", 1);

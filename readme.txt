@@ -1,3 +1,9 @@
+1.03 (16/08/2018)
+- Novo método iniciar que permite informar o número do socket
+- Novas imagens
+- Reestruturada a classe Numero e eliminada Tesouro 
+- Projetil eh removido quando chega ao fim
+
 1.02 (14/08/2018)
 - Novo método getInt(Direcao):int
 

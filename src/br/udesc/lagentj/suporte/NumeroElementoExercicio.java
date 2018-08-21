@@ -60,6 +60,7 @@ public class NumeroElementoExercicio extends ElementoExercicio
     {
         Numero num = (Numero)objMundo;
         num.setValorInicial(getValor());
+        num.setSource(source);
     }
 
     public int getRandomInf()
@@ -82,11 +83,20 @@ public class NumeroElementoExercicio extends ElementoExercicio
         this.randomSup = Integer.valueOf(randomSup).intValue();
     }
 
+    public String getSource() {
+		return source;
+	}
+    
+    public void setSource(String source) {
+		this.source = source;
+	}
+    
     public ElementoExercicio clonar()
         throws InstantiationException, IllegalAccessException
     {
         NumeroElementoExercicio e = (NumeroElementoExercicio)super.clonar();
         e.setValor(valor);
+        e.setSource(source);
         e.setRandomInf((new StringBuilder()).append(randomInf).toString());
         e.setRandomSup((new StringBuilder()).append(randomSup).toString());
         return e;
@@ -95,4 +105,5 @@ public class NumeroElementoExercicio extends ElementoExercicio
     private int valor;
     private int randomInf;
     private int randomSup;
+    private String source;
 }

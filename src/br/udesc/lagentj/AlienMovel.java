@@ -43,7 +43,7 @@ public class AlienMovel extends ObjetoDoMundoAdapter
 
     public ImageIcon criarImagem()
     {
-        return LoadImage.getInstance().getIcon("imagens/alienmovel.png");
+        return LoadImage.getInstance().getIcon("imagens/alienmovel.jpg");
     }
     
     public void executar()

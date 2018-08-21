@@ -149,5 +149,5 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 		return 0;
 	}
 	
-	public static final double VERSAO = 1.02;
+	public static final double VERSAO = 1.03;
 }

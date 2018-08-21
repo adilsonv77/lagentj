@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 import br.udesc.lagentj.exceptions.MundoException;
+import br.udesc.lagentj.suporte.LoadImage;
 
 /**
  * 
@@ -52,25 +53,6 @@ public class Numero extends ObjetoDoMundoAdapter {
 	}
 
 	public ImageIcon criarImagem() {
-		/*
-		 * BufferedImage img = new BufferedImage(MundoVisual.TAMCELL,
-		 * MundoVisual.TAMCELL, BufferedImage.TYPE_INT_RGB);
-		 * 
-		 * int x = (int) (MundoVisual.TAMCELL * 0.1); int y = (int)
-		 * (MundoVisual.TAMCELL * 0.5); int fontSize = (int)
-		 * (MundoVisual.TAMCELL * 0.36); fonte = new Font("Arial", Font.PLAIN,
-		 * fontSize);
-		 * 
-		 * Graphics2D g = img.createGraphics();
-		 * 
-		 * g.setColor(Color.white); g.fillRect(0, 0, MundoVisual.TAMCELL,
-		 * MundoVisual.TAMCELL);
-		 * 
-		 * g.setColor(Color.black); g.setFont(fonte);
-		 * g.drawString(String.valueOf(valor), x, y);
-		 * 
-		 * ImageIcon imagem = new ImageIcon(img); return imagem;
-		 */
 
 		BufferedImage img = new BufferedImage(50, 50,
 				BufferedImage.TYPE_INT_RGB);
@@ -80,18 +62,30 @@ public class Numero extends ObjetoDoMundoAdapter {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, 50, 50);
 
-		g.setColor(Color.black);
-		String v = String.valueOf(valor);
-		if (v.length()>=4)
-		  g.setFont(smallfonte);
-		else
-		  g.setFont(fonte);
-		g.drawString(v, 10, 25);
-
+		if (source != null) {
+			ImageIcon image = LoadImage.getInstance().getIcon(source);		
+			g.drawImage(image.getImage(), 2, 2, null);
+			g.fillRect(30, 30, 20, 20);
+			g.setColor(Color.black);
+			g.drawRect(30, 30, 19, 19);
+			g.setFont(fonteComImagem);
+			g.setColor(Color.red);
+			g.drawString(String.valueOf(getValor()), 32, 45);
+		} else {
+		
+			g.setColor(Color.black);
+			String v = String.valueOf(valor);
+			if (v.length()>=4)
+			  g.setFont(smallfonte);
+			else
+			  g.setFont(fonte);
+			g.drawString(v, 10, 25);
+		}
 		ImageIcon imagem = new ImageIcon(img);
 		return imagem;
 	}
 
+	
 	public void executar() throws Exception {
 	}
 
@@ -99,8 +93,19 @@ public class Numero extends ObjetoDoMundoAdapter {
 		return (new StringBuilder(String.valueOf(valor))).toString();
 	}
 
+	private String source;
+	
+	public String getSource() {
+		return source;
+	}
+	
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
 	private int valor;
 	private static Font fonte = new Font("Arial", 0, 18);
 	private static Font smallfonte = new Font("Arial", 0, 10);
+	private static Font fonteComImagem = new Font("Arial", Font.PLAIN, 14);
 
 }

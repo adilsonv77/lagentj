@@ -392,7 +392,7 @@ public class MundoVisual extends JFrame {
 	
 	public static void iniciar(String nomeArquivoXML, Class<?> clazz, final String autor, boolean runImmediatelly) {
 		try {
-			int socket = 57391;
+			int socket = MundoVisual.socket;
 			if (autor != null) {
 				String[] as = autor.split("|");
 				if (as.length > 2)
@@ -433,6 +433,11 @@ public class MundoVisual extends JFrame {
 	}
 	
 	public static void iniciar(String nomeArquivoXML, Class<?> clazz) {
+		iniciar(nomeArquivoXML, clazz, null, false);
+	}
+
+	public static void iniciar(String nomeArquivoXML, Class<?> clazz, int socket) {
+		MundoVisual.socket = socket;
 		iniciar(nomeArquivoXML, clazz, null, false);
 	}
 
@@ -493,5 +498,6 @@ public class MundoVisual extends JFrame {
 	private JButton jbParar;
 	private JSlider slider;
 	private JButton jbRenovar;
+	private static int socket = 57391;
 
 }
