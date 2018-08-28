@@ -95,6 +95,7 @@ public class NumeroElementoExercicio extends ElementoExercicio
         throws InstantiationException, IllegalAccessException
     {
         NumeroElementoExercicio e = (NumeroElementoExercicio)super.clonar();
+        
         e.setValor(valor);
         e.setSource(source);
         e.setRandomInf((new StringBuilder()).append(randomInf).toString());

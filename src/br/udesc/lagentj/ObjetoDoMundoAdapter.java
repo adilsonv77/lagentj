@@ -182,6 +182,7 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 		case ESQUERDA: // '\003'
 			x--;
 			break;
+		default :
 		}
 		doAdicionarObjXY(objeto, x, y, embaixo);
 	}
@@ -303,6 +304,26 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 			}
 		};
 		t.start();
+	}
+	
+	public int getInt() throws MundoException {
+		if (objetoMundoImpl.getObjeto(AQUIMESMO) != null && ehObjetoDoMundoTipo("Numero", AQUIMESMO)) {
+			Numero n = getObjeto(AQUIMESMO);
+			return n.getValor();
+		}
+		return 0;
+	}
+	
+	public int getInt(Direcao direcao) throws MundoException {
+		if (objetoMundoImpl.getObjeto(direcao) == null) {
+			throw new NullPointerException();
+		}
+		
+		if (ehObjetoDoMundoTipo("Numero", direcao)) {
+			Numero n = getObjeto(direcao);
+			return n.getValor();
+		}
+		return 0;
 	}
 	
 	public static final Direcao ESQUERDA;

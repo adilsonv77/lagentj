@@ -1,3 +1,6 @@
+1.04 (22/08/2018)
+- Transferidos os métodos getInt() e getInt(Direcao) do AgenteJ para ObjetoDoMundoAdapter
+
 1.03 (16/08/2018)
 - Novo método iniciar que permite informar o número do socket
 - Novas imagens

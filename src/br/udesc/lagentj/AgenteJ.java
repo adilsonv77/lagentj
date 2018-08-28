@@ -129,25 +129,5 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 		super.andarEsquerda();
 	}
 
-	public int getInt() throws MundoException {
-		if (objetoMundoImpl.getObjeto(AQUIMESMO) != null && ehObjetoDoMundoTipo("Numero", AQUIMESMO)) {
-			Numero n = getObjeto(AQUIMESMO);
-			return n.getValor();
-		}
-		return 0;
-	}
-	
-	public int getInt(Direcao direcao) throws MundoException {
-		if (objetoMundoImpl.getObjeto(direcao) == null) {
-			throw new NullPointerException();
-		}
-		
-		if (ehObjetoDoMundoTipo("Numero", direcao)) {
-			Numero n = getObjeto(direcao);
-			return n.getValor();
-		}
-		return 0;
-	}
-	
-	public static final double VERSAO = 1.03;
+	public static final double VERSAO = 1.04;
 }
