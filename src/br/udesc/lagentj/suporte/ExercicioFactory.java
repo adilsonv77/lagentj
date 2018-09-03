@@ -24,6 +24,8 @@ import java.io.IOException;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
+import br.udesc.lagentj.objetivos.Ir;
+
 /**
  * 
  * @author Adilson Vahldick
@@ -87,6 +89,14 @@ public class ExercicioFactory
         addRuleObjetoClass(d, "*/img", ImagemExercicio.class);
         d.addSetProperties("*/img");
         d.addSetNext("*/img", "addElemento");
+        
+        d.addObjectCreate("*/objetivo", Ir.class);
+//        d.addSetNext("*/objetivo", "addObjetivo");
+        
+//        d.addObjectCreate("*/objetivo", Ir.class);
+//        d.addSetNext("*/objetivo", "addObjetivo");
+//        d.addBeanPropertySetter( "students/student/name");
+
         
         File srcfile = new File(nomeArquivoXML);
         d.parse(srcfile);

@@ -43,6 +43,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -55,6 +56,7 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.text.DefaultCaret;
 
 import br.udesc.lagentj.exceptions.MundoException;
+import br.udesc.lagentj.objetivos.Objetivo;
 import br.udesc.lagentj.suporte.Exercicio;
 import br.udesc.lagentj.suporte.ExercicioFactory;
 import br.udesc.lagentj.suporte.LoadImage;
@@ -212,6 +214,7 @@ public class MundoVisual extends JFrame {
 					}
 				} else {
 					jbExecutar.setEnabled(true);
+					jbValidar.setEnabled(true);
 					jbParar.setEnabled(false);
 					jbRenovar.setEnabled(true);
 				}
@@ -278,7 +281,19 @@ public class MundoVisual extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
+		criarPainelObjetivos(exercicio);
 	}
+
+	private void criarPainelObjetivos(Exercicio exercicio) {
+		PainelObjetivos painel = new PainelObjetivos();
+		painel.setVisible(true);
+		for(Objetivo o: exercicio.getObjetivos()) {
+			JLabel label = new JLabel();
+			label.setText(o.getDescricao());
+			painel.add(label);
+		}
+	}
+
 
 	private JPanel getControle(final Exercicio exercicio) {
 		JPanel jp = new JPanel(new BorderLayout());
@@ -306,6 +321,7 @@ public class MundoVisual extends JFrame {
 		jp.add(jpBotoes, BorderLayout.CENTER);
 
 		jbExecutar = createSimpleButton("imagens/iconplay.png", "Executar");
+		jbValidar = createSimpleButton("imagens/iconplay.png", "Validar");
 		jpBotoes.add(jbExecutar);
 		ActionListener action = new ActionListener() {
 
@@ -318,7 +334,14 @@ public class MundoVisual extends JFrame {
 
 		};
 		jbExecutar.addActionListener(action);
+		jpBotoes.add(jbValidar);
+		jbValidar.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent arg0) {
+				validarObjetivos(exercicio);
+			}
+
+		});
 		jbRenovar = createSimpleButton("imagens/iconreloadcode.png", "Novo");
 		jpBotoes.add(jbRenovar);
 		jbRenovar.addActionListener(new ActionListener() {
@@ -353,6 +376,13 @@ public class MundoVisual extends JFrame {
 		return jp;
 	}
 
+	protected void validarObjetivos(Exercicio exercicio) {
+		JOptionPane.showMessageDialog(null, "Você está validando os objetivos", "Parabéns!", JOptionPane.INFORMATION_MESSAGE);
+		novaSequencia(exercicio);
+		executarInterno(exercicio);
+	}
+
+
 	private void novaSequencia(Exercicio exercicio) {
 		atributos.clear();
 	}
@@ -374,6 +404,7 @@ public class MundoVisual extends JFrame {
 
 	private void habilitarBotoesExecucao() {
 		jbExecutar.setEnabled(false);
+		jbValidar.setEnabled(false);
 		jbParar.setEnabled(true);
 		jbRenovar.setEnabled(false);
 	}
@@ -495,6 +526,7 @@ public class MundoVisual extends JFrame {
 	private static HashMap<String, Object> atributos = new HashMap<String, Object>();
 	//private JLabel jlEnunciado;
 	private JButton jbExecutar;
+	private JButton jbValidar;
 	private JButton jbParar;
 	private JSlider slider;
 	private JButton jbRenovar;
