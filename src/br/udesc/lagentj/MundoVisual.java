@@ -289,7 +289,8 @@ public class MundoVisual extends JFrame {
 		painel.setVisible(true);
 		for(Objetivo o: exercicio.getObjetivos()) {
 			JLabel label = new JLabel();
-			label.setText(o.getDescricao());
+			String status = " [ ]";
+			label.setText(o.getDescricao() + status);
 			painel.add(label);
 		}
 	}

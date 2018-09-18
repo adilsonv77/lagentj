@@ -24,7 +24,8 @@ import java.io.IOException;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
-import br.udesc.lagentj.objetivos.Ir;
+import br.udesc.lagentj.objetivos.Mover;
+import br.udesc.lagentj.objetivos.Objetivo;
 
 /**
  * 
@@ -90,13 +91,11 @@ public class ExercicioFactory
         d.addSetProperties("*/img");
         d.addSetNext("*/img", "addElemento");
         
-        d.addObjectCreate("*/objetivo", Ir.class);
-//        d.addSetNext("*/objetivo", "addObjetivo");
-        
-//        d.addObjectCreate("*/objetivo", Ir.class);
-//        d.addSetNext("*/objetivo", "addObjetivo");
-//        d.addBeanPropertySetter( "students/student/name");
-
+        d.addObjectCreate("*/objetivo", Mover.class);
+        d.addBeanPropertySetter("*/objetivo/x");
+        d.addBeanPropertySetter("*/objetivo/y");
+        d.addSetNext("*/objetivo", "addObjetivo");
+       
         
         File srcfile = new File(nomeArquivoXML);
         d.parse(srcfile);

@@ -26,9 +26,8 @@ import java.util.Random;
 
 import br.udesc.lagentj.Numero;
 import br.udesc.lagentj.ObjetoDoMundo;
-import br.udesc.lagentj.objetivos.Ir;
+import br.udesc.lagentj.objetivos.Mover;
 import br.udesc.lagentj.objetivos.Objetivo;
-import br.udesc.lagentj.objetivos.Posicao;
 
 /**
  * 
@@ -69,12 +68,7 @@ public class Exercicio extends GrupoObjetos
 			if (x <pedacos.length-2)
 				this.clazz += ".";
 		}
-		
 		objetivos = new ArrayList<>();
-		objetivos.add(new Ir(new Posicao(1, 2)));
-		objetivos.add(new Ir(new Posicao(2, 2)));
-		objetivos.add(new Ir(new Posicao(3, 4)));
-		objetivos.add(new Ir(new Posicao(5, 4)));
 		
 	}
 
