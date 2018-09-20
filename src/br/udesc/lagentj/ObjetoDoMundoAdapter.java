@@ -288,8 +288,8 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 		// aguardar que os descendentes implementem
 	}
 
-	public void invoqueApos(int segundos, String nomeMetodo) {
-		ObjetoDoMundoAdapter me = this;
+	public void invoqueApos(final int segundos, final String nomeMetodo) {
+		final ObjetoDoMundoAdapter me = this;
 		Thread t = new Thread() {
 			@Override
 			public void run() {

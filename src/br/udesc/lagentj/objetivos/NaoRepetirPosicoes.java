@@ -4,16 +4,17 @@ import java.util.Map;
 
 public class NaoRepetirPosicoes extends Objetivo {
 
-	public NaoRepetirPosicoes() {
-	}
+    public NaoRepetirPosicoes(ObjetivoConfiguracao config) {
+        super(config);
+    }
 
-	@Override
-	public boolean verificarObjetivo(Object opcoes) {
-		return true;
-	}
+    @Override
+    public boolean verificarObjetivo(Object opcoes) {
+        return true;
+    }
 
-	public String getDescricao() {
-		return String.format("Não é permitido visitar a mesma posição mais de uma vez.");
-	}
+    public String getDescricao() {
+        return String.format("Nï¿½o ï¿½ permitido visitar a mesma posiï¿½ï¿½o mais de uma vez.");
+    }
 
 }

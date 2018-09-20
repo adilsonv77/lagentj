@@ -39,7 +39,6 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 
 	private ImageIcon[] images;
 	private int imgIndex;
-	private List<Objetivo> objetivos;
 	
 	public AgenteJ() {
 		images = new ImageIcon[2];
@@ -77,7 +76,6 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 		MundoException ex = null;
 		try {
 			esperar(1);
-			validarObjetivos();
 			inteligencia();
 		} catch (MundoException e) {
 			ex = e;
@@ -87,12 +85,6 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 			throw ex;
 		else
 			return;
-	}
-	
-	private void validarObjetivos() {
-		for (Objetivo o: objetivos) {
-			System.out.println(o.getDescricao());
-		}
 	}
 
 	public abstract void inteligencia() throws Exception;
@@ -139,14 +131,6 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 	}
 
 	public static final double VERSAO = 1.04;
-
-	public List<Objetivo> getObjetivos() {
-		return objetivos;
-	}
-
-	public void setObjetivos(List<Objetivo> objetivos) {
-		this.objetivos = objetivos;
-	}
 	
 	
 }

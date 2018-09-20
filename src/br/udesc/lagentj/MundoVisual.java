@@ -57,9 +57,12 @@ import javax.swing.text.DefaultCaret;
 
 import br.udesc.lagentj.exceptions.MundoException;
 import br.udesc.lagentj.objetivos.Objetivo;
+import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
 import br.udesc.lagentj.suporte.Exercicio;
 import br.udesc.lagentj.suporte.ExercicioFactory;
 import br.udesc.lagentj.suporte.LoadImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -181,6 +184,8 @@ public class MundoVisual extends JFrame {
 	private MundoAgenteJ mundoAgenteJ;
 
 	private MundoVisual(Exercicio exercicio, String autor) throws Exception {
+                gerarObjetivos(exercicio.getConfiguracoes());
+                
 		executou = false;
 		euMesmo = this;
 		
@@ -287,7 +292,7 @@ public class MundoVisual extends JFrame {
 	private void criarPainelObjetivos(Exercicio exercicio) {
 		PainelObjetivos painel = new PainelObjetivos();
 		painel.setVisible(true);
-		for(Objetivo o: exercicio.getObjetivos()) {
+		for(Objetivo o: objetivos) {
 			JLabel label = new JLabel();
 			String status = " [ ]";
 			label.setText(o.getDescricao() + status);
@@ -378,7 +383,7 @@ public class MundoVisual extends JFrame {
 	}
 
 	protected void validarObjetivos(Exercicio exercicio) {
-		JOptionPane.showMessageDialog(null, "Você está validando os objetivos", "Parabéns!", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Vocï¿½ estï¿½ validando os objetivos", "Parabï¿½ns!", JOptionPane.INFORMATION_MESSAGE);
 		novaSequencia(exercicio);
 		executarInterno(exercicio);
 	}
@@ -422,7 +427,7 @@ public class MundoVisual extends JFrame {
 		iniciar(nomeArquivoXML, null, autor, false);
 	}
 	
-	public static void iniciar(String nomeArquivoXML, Class<?> clazz, final String autor, boolean runImmediatelly) {
+	public static void iniciar(String nomeArquivoXML, Class<?> clazz, final String autor, final boolean runImmediatelly) {
 		try {
 			int socket = MundoVisual.socket;
 			if (autor != null) {
@@ -532,5 +537,24 @@ public class MundoVisual extends JFrame {
 	private JSlider slider;
 	private JButton jbRenovar;
 	private static int socket = 57391;
+        private List<Objetivo> objetivos = new ArrayList();
+        
+        private void gerarObjetivos(List<ObjetivoConfiguracao> objetivoConfiguracoes) throws Exception {
+		objetivos.clear();
+		for (ObjetivoConfiguracao oc: objetivoConfiguracoes) {
+			Objetivo obj = oc.gerar();
+			obj.setMundo(this);
+			objetivos.add( obj );
+		}
+	}
+        
+        public void verificarObjetivos(String tipo, Object opcoes){
+            for (int i = 0; i < objetivos.size(); i++) {
+                Objetivo objetivo = objetivos.get(i);
+                if (objetivo.isCompleto(tipo, opcoes)){
+                    // objetivo estÃ¡ completo
+                }
+            }
+        }
 
 }

@@ -4,48 +4,25 @@ import java.util.Map;
 
 public class Mover extends Objetivo {
 
-	private int x;
-	private int y;
+    public Mover(ObjetivoConfiguracao config) {
+        super(config);
+    }
 
-	public Mover() {
-	}
+    @Override
+    public boolean verificarObjetivo(Object opcoes) {
+        Map<String, Object> coords = (Map) opcoes;
+        int x = (Integer) coords.get("x");
+        int y = (Integer) coords.get("y");
+        if (getConfig().getX() == x) {
+            if (getConfig().getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public Mover(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	@Override
-	public boolean verificarObjetivo(Object opcoes) {
-		Map<String, Object> coords = (Map<String, Object>) opcoes;
-		int x = (int) coords.get("x");
-		int y = (int) coords.get("y");
-		if (this.x == x) {
-			if (this.y == y) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public String getDescricao() {
-		return String.format("Você precisa mover o AgenteJ até a posição Col %s Lin %s", getX(), getY());
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
+    public String getDescricao() {
+        return String.format("Vocï¿½ precisa mover o AgenteJ atï¿½ a posiï¿½ï¿½o Col %s Lin %s", getConfig().getX(), getConfig().getY());
+    }
 
 }

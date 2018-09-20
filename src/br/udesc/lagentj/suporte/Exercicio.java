@@ -28,6 +28,7 @@ import br.udesc.lagentj.Numero;
 import br.udesc.lagentj.ObjetoDoMundo;
 import br.udesc.lagentj.objetivos.Mover;
 import br.udesc.lagentj.objetivos.Objetivo;
+import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
 
 /**
  * 
@@ -68,7 +69,7 @@ public class Exercicio extends GrupoObjetos
 			if (x <pedacos.length-2)
 				this.clazz += ".";
 		}
-		objetivos = new ArrayList<>();
+		configuracoes = new ArrayList();
 		
 	}
 
@@ -367,25 +368,21 @@ public class Exercicio extends GrupoObjetos
 	private HashMap<String, ObjetoMundoImpl> hashObjsMundo = new HashMap<String, ObjetoMundoImpl>();
     private int contaAgente;
     private Random sorteio = new Random();
-    private List<Objetivo> objetivos;
-    
-    public void addObjetivo(Objetivo o) {
-    	objetivos.add(o);
+    private List<ObjetivoConfiguracao> configuracoes;
+
+    public List<ObjetivoConfiguracao> getConfiguracoes() {
+        return configuracoes;
     }
     
-	public List<Objetivo> getObjetivos() {
-		return objetivos;
-	}
+    public void addObjetivo(ObjetivoConfiguracao o) {
+    	configuracoes.add(o);
+    }
 
-	public void setObjetivos(List<Objetivo> objetivos) {
-		this.objetivos = objetivos;
-	}
+    public String getTamanhoCel() {
+            return tamanhoCel;
+    }
 
-	public String getTamanhoCel() {
-		return tamanhoCel;
-	}
-
-	public void setTamanhoCel(String tamanhoCel) {
-		this.tamanhoCel = tamanhoCel;
-	}
+    public void setTamanhoCel(String tamanhoCel) {
+            this.tamanhoCel = tamanhoCel;
+    }
 }
