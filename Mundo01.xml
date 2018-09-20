@@ -111,6 +111,11 @@
 			<x>6</x>
 			<y>4</y>
 		</objetivo>
+<!-- 		<objetivo class="br.udesc.lagentj.Dizer"> -->
+<!-- 			<fala>cheguei</fala> -->
+<!-- 		</objetivo> -->
+<!-- 		<objetivo class="br.udesc.lagentj.NaoRepetirPosicoes"> -->
+<!-- 		</objetivo> -->
 	</objetivos>
 
 </agentej>

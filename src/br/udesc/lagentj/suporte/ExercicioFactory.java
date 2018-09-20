@@ -91,9 +91,7 @@ public class ExercicioFactory
         d.addSetProperties("*/img");
         d.addSetNext("*/img", "addElemento");
         
-        d.addObjectCreate("*/objetivo", Mover.class);
-        d.addBeanPropertySetter("*/objetivo/x");
-        d.addBeanPropertySetter("*/objetivo/y");
+        addRuleObjetivo(d, "*/objetivo");
         d.addSetNext("*/objetivo", "addObjetivo");
        
         
@@ -106,6 +104,11 @@ public class ExercicioFactory
     private static void addRuleObjeto(Digester d, String pattern)
     {
         addRuleObjetoClass(d, pattern, ElementoExercicio.class);
+    }
+    
+    private static void addRuleObjetivo(Digester d, String pattern)
+    {
+        addRuleObjetivoClass(d, pattern, Mover.class);
     }
 
     private static void addRuleObjetoClass(Digester d, String pattern, Class<?> clazz)
@@ -130,6 +133,14 @@ public class ExercicioFactory
         addRulesRandom(d, pattern);
         d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/energia").toString());
         d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/bloqueado").toString());
+    }
+    
+    private static void addRuleObjetivoClass(Digester d, String pattern, Class<?> clazz)
+    {
+        d.addObjectCreate(pattern, clazz);
+        d.addBeanPropertySetter("*/objetivo/x");
+        d.addBeanPropertySetter("*/objetivo/y");
+        
     }
 
     private static void addRulesRandom(Digester d, String pattern)
