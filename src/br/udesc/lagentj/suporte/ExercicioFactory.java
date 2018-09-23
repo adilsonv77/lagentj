@@ -121,6 +121,7 @@ public class ExercicioFactory
         addRulesRandom(d, pattern);
         d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/energia").toString());
         d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/bloqueado").toString());
+        d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/laterais").toString());
     }
 
     private static void addRulesRandom(Digester d, String pattern)
