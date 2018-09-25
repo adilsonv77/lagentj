@@ -1,0 +1,70 @@
+<agentej>
+
+	<mundo>
+		<qtdadeLin>5</qtdadeLin>
+		<qtdadeCol>5</qtdadeCol>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>2</y>
+	</agente>
+
+
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>1</x>
+		<y>1</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>1</x>
+		<y>2</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>1</x>
+		<y>3</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>3</x>
+		<y>1</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>3</x>
+		<y>2</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>3</x>
+		<y>3</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>2</x>
+		<y>1</y>
+	</objeto>
+	<objeto class="br.udesc.lagentj.Parede">
+		<x>2</x>
+		<y>3</y>
+	</objeto>
+
+	<objetivos>
+        <objetivo x="4" y="2">
+            <tipo>
+                mover
+            </tipo>
+        </objetivo>
+				<objetivo nomeMetodo="andar">
+            <tipo>
+                usarMetodo
+            </tipo>
+						<parametros>
+							<parametro nome="d">
+								Direcao
+							</parametro>
+							<parametro nome="casas">
+								int
+							</parametro>
+						</parametros>
+        </objetivo>
+    </objetivos>
+
+
+</agentej>

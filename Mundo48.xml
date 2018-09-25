@@ -1,0 +1,21 @@
+<agentej>
+	
+	<mundo>
+		<random limiteInfX="5" limiteInfY="5" limiteSupX="10" limiteSupY="10"/>
+		<explodir>true</explodir>
+	</mundo>
+	
+	<agente>
+		<x>0</x>
+		<y>0</y>
+	</agente>
+	
+	<objeto class="br.udesc.lagentj.Parede">
+		<random limiteInfX="-1" limiteSupX="-1" limiteInfY="1" limiteSupY="-1"/>
+	</objeto>
+	
+	<objeto class="br.udesc.lagentj.Parede">
+		<random limiteInfX="0" limiteSupX="0" limiteInfY="1" limiteSupY="-1"/>
+	</objeto>
+	
+</agentej>

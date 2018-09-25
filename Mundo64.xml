@@ -1,0 +1,97 @@
+<agentej>
+
+	<mundo>
+		<qtdadeLin>3</qtdadeLin>
+		<qtdadeCol>12</qtdadeCol>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>1</y>
+	</agente>
+
+	<numero>
+		<x>1</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>2</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>3</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>4</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>5</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>6</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>7</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>8</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>9</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>10</x>
+		<y>1</y>
+		<valor randomInf="1" randomSup="20"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<objetivos>
+        <objetivo x="6" y="4">
+            <tipo>
+                mover
+            </tipo>
+        </objetivo>
+				<objetivo x="5" y="5">
+            <tipo>
+                mover
+            </tipo>
+        </objetivo>
+    </objetivos>
+
+</agentej>

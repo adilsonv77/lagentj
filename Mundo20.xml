@@ -1,0 +1,12 @@
+<agentej>
+	<mundo>
+		<random limiteInfX="2" limiteSupX="5" 
+		    limiteInfY="2" limiteSupY="5" />
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<random/>
+	</agente>
+
+</agentej>

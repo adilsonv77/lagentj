@@ -19,6 +19,7 @@
  */
 package br.udesc.lagentj.suporte;
 
+import br.udesc.lagentj.MundoVisual;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -227,6 +228,7 @@ public class Exercicio extends GrupoObjetos
         ObjetoDoMundo objMundo = (ObjetoDoMundo)Class.forName(clazz).newInstance();
         ObjetoMundoImpl obj = objMundo.getObjetoMundoImpl();
         obj.setMundo(mundo);
+        obj.setMv(mv);
         obj.setBloqueado(elemento.isBloqueado());
         int x = getX(mundo, elemento);
         int y = getY(mundo, elemento);
@@ -369,6 +371,15 @@ public class Exercicio extends GrupoObjetos
     private int contaAgente;
     private Random sorteio = new Random();
     private List<ObjetivoConfiguracao> configuracoes;
+    private MundoVisual mv;
+
+    public MundoVisual getMv() {
+        return mv;
+    }
+
+    public void setMv(MundoVisual mv) {
+        this.mv = mv;
+    }   
 
     public List<ObjetivoConfiguracao> getConfiguracoes() {
         return configuracoes;

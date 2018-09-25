@@ -1,10 +1,19 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.udesc.lagentj.objetivos;
 
 import java.util.Map;
 
-public class Mover extends Objetivo {
+/**
+ *
+ * @author gabriel
+ */
+public class LerInteiro extends Objetivo {
 
-    public Mover(ObjetivoConfiguracao config) {
+    public LerInteiro(ObjetivoConfiguracao config) {
         super(config);
     }
 
@@ -21,8 +30,9 @@ public class Mover extends Objetivo {
         return false;
     }
 
+    @Override
     public String getDescricao() {
-        return String.format("Voce precisa mover o agente ate a posicao Col %s Lin %s", getConfig().getX(), getConfig().getY());
+        return String.format("Voce precisa ler o numero da posicao Col %s Lin %s", getConfig().getX(), getConfig().getY());
     }
 
 }

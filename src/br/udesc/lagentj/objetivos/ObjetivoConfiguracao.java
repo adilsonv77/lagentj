@@ -20,6 +20,15 @@ public class ObjetivoConfiguracao {
     private int y;
     private String texto;
     private String valor;
+    private String nomeMetodo;
+
+    public String getNomeMetodo() {
+        return nomeMetodo;
+    }
+
+    public void setNomeMetodo(String nome) {
+        this.nomeMetodo = nome;
+    }
 
     public String getTipo() {
         return tipo;
@@ -69,7 +78,8 @@ public class ObjetivoConfiguracao {
         objetivos = new HashMap();
         objetivos.put("mover", Mover.class);
         objetivos.put("dizer", Dizer.class);
-        objetivos.put("naoRepetirPosicoes", NaoRepetirPosicoes.class);
+        objetivos.put("usarMetodo", UsarMetodo.class);
+        objetivos.put("lerInteiro", LerInteiro.class);
     }
 
 }

@@ -1,0 +1,23 @@
+<agentej>
+	<mundo>
+		<qtdadeLin>3</qtdadeLin>
+		<qtdadeCol>3</qtdadeCol>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>1</y>
+	</agente>
+	
+	<objeto class="br.udesc.lagentj.Alien" qtdade="3">
+		<y>0</y>
+		<randomX limiteSup="2"/>
+	</objeto>
+	 
+	<objeto class="br.udesc.lagentj.Alien" qtdade="3">
+		<y>2</y>
+		<randomX limiteSup="2"/>
+	</objeto>
+	 
+</agentej>

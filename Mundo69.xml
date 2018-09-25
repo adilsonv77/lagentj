@@ -1,0 +1,25 @@
+<agentej>
+	<mundo>
+		<qtdadeLin>3</qtdadeLin>
+		<qtdadeCol>3</qtdadeCol>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>1</y>
+	</agente>
+
+	<numero>
+		<y>1</y>
+		<x>1</x>
+		<valor randomInf="1870" randomSup="2018"/>
+	</numero>
+
+	<numero>
+		<y>1</y>
+		<x>2</x>
+		<valor randomInf="1870" randomSup="2018"/>
+	</numero>
+
+</agentej>

@@ -1,0 +1,34 @@
+<agentej>
+	
+	<mundo>
+		<qtdadeLin>3</qtdadeLin>
+		<qtdadeCol>10</qtdadeCol>
+		<explodir>true</explodir>
+	</mundo>
+	
+	<agente>
+		<x>0</x>
+		<y>1</y>
+	</agente>
+	
+	<objeto class="br.udesc.lagentj.Alien">
+		<x>1</x>
+		<y>1</y>
+	</objeto>
+	
+	<numero qtdade="6">
+		<randomX limiteInf="2" limiteSup="8"/>
+		<y>0</y>
+		<valor randomInf="1" randomSup="50"/>
+		<bloqueado>true</bloqueado>
+	</numero>
+	
+
+	<numero qtdade="6">
+		<randomX limiteInf="2" limiteSup="8"/>
+		<y>2</y>
+		<valor randomInf="1" randomSup="50"/>
+		<bloqueado>true</bloqueado>
+	</numero>
+	
+</agentej>

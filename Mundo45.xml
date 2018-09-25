@@ -1,0 +1,17 @@
+<agentej>
+	<mundo>
+		<random limiteInfX="5" limiteInfY="5" limiteSupX="10" limiteSupY="10"/>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>0</y>
+	</agente>
+	
+	<numero qtdade="20">
+		<valor randomInf="1" randomSup="100"/>
+		<random limiteInfX="1" limiteSupX="-2"/>
+	</numero>
+	 
+</agentej>

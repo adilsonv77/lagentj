@@ -1,0 +1,24 @@
+<agentej>
+
+	<mundo>
+		<random limiteInfX="10" limiteInfY="3" limiteSupX="15" limiteSupY="10"/>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>0</y>
+	</agente>
+
+	<objeto class="br.udesc.lagentj.Alien" qtdade="15">
+		<random/>
+		<bloqueado>false</bloqueado>
+	</objeto>
+	
+	<numero qtdade="17">
+		<random/>
+		<valor randomInf="1" randomSup="50"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+</agentej>

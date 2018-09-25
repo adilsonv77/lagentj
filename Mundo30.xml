@@ -1,0 +1,22 @@
+<agentej>
+	
+	<mundo>
+		<qtdadeLin>2</qtdadeLin>
+		<qtdadeCol>20</qtdadeCol>
+		<explodir>true</explodir>
+		<tamanhoCel>P</tamanhoCel>
+	</mundo>
+	
+	<agente>
+		<x>0</x>
+		<y>0</y>
+	</agente>
+	
+	<numero>
+		<x>1</x>
+		<y>0</y>
+		<valor randomInf="1" randomSup="18"/>
+	</numero>
+	
+
+</agentej>

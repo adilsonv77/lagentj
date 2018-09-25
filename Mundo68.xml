@@ -1,0 +1,90 @@
+<agentej>
+
+	<mundo>
+		<qtdadeLin>10</qtdadeLin>
+		<qtdadeCol>10</qtdadeCol>
+		<explodir>true</explodir>
+	</mundo>
+
+
+
+	<numero valor="1">
+		<x>1</x>
+		<y>0</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="7">
+		<x>2</x>
+		<y>0</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="4">
+		<x>1</x>
+		<y>7</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="2">
+		<x>2</x>
+		<y>7</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="6">
+		<x>4</x>
+		<y>2</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="8">
+		<x>5</x>
+		<y>2</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="3">
+		<x>6</x>
+		<y>8</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="4">
+		<x>7</x>
+		<y>8</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="9">
+		<x>3</x>
+		<y>4</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero valor="5">
+		<x>4</x>
+		<y>4</y>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero source="imagens/tesouro.png">
+		<x>9</x>
+		<y>5</y>
+		<bloqueado>false</bloqueado>
+		<valor randomInf="1" randomSup="100"/>
+	</numero>
+
+
+
+	<agente>
+		<x>0</x>
+		<y>0</y>
+	</agente>
+
+
+
+
+
+
+</agentej>

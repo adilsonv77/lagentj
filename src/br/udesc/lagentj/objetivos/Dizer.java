@@ -10,11 +10,15 @@ public class Dizer extends Objetivo {
 
     @Override
     public boolean verificarObjetivo(Object opcoes) {
-        return true;
+        String texto = (String) opcoes;
+        if (texto.equalsIgnoreCase(getConfig().getTexto())){
+            return true;
+        }
+        return false;
     }
 
     public String getDescricao() {
-        return String.format("Voc� precisa dizer '%s'", getConfig().getTexto());
+        return String.format("Voce precisa dizer '%s'", getConfig().getTexto());
     }
 
 }

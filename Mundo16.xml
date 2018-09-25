@@ -1,0 +1,25 @@
+<agentej>
+
+	<mundo>
+		<qtdadeCol>10</qtdadeCol>
+		<qtdadeLin>3</qtdadeLin>
+		<explodir>true</explodir>
+	</mundo>
+
+	<agente>
+		<x>0</x>
+		<y>0</y>
+	</agente>
+
+	<objeto class="br.udesc.lagentj.Alien" qtdade="12">
+		<random/>
+		<bloqueado>false</bloqueado>
+	</objeto>
+	
+	<numero qtdade="12">
+		<random/>
+		<valor randomInf="1" randomSup="50"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+</agentej>

@@ -19,6 +19,7 @@
  */
 package br.udesc.lagentj;
 
+import br.udesc.lagentj.objetivos.Objetivo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,295 +43,318 @@ import br.udesc.lagentj.suporte.Mundo;
 import br.udesc.lagentj.suporte.ObjetoMundoImpl;
 import br.udesc.lagentj.suporte.TamanhoCelula;
 
-public class MundoAgenteJ extends JPanel{
+public class MundoAgenteJ extends JPanel {
 
-	private class MapaModel extends AbstractTableModel implements ListenerMundo {
+    private class MapaModel extends AbstractTableModel implements ListenerMundo {
 
-		public int getColumnCount() {
-			return mundo.getQtdadeCol();
-		}
+        public int getColumnCount() {
+            return mundo.getQtdadeCol();
+        }
 
-		public int getRowCount() {
-			return mundo.getQtdadeLin();
-		}
+        public int getRowCount() {
+            return mundo.getQtdadeLin();
+        }
 
-		public Object getValueAt(int lin, int col) {
-			return mundo.getImagem(lin, col);
-		}
+        public Object getValueAt(int lin, int col) {
+            return mundo.getImagem(lin, col);
+        }
 
-		public void andou(ObjetoMundoImpl objMundo, Direcao direcao, int xAnt,
-				int yAnt) {
-			fireTableCellUpdated(yAnt, xAnt);
-			fireTableCellUpdated(objMundo.getY(), objMundo.getX());
-		}
+        public void andou(ObjetoMundoImpl objMundo, Direcao direcao, int xAnt,
+                int yAnt) {
+            fireTableCellUpdated(yAnt, xAnt);
+            fireTableCellUpdated(objMundo.getY(), objMundo.getX());
+        }
 
-		public void disse(ObjetoMundoImpl objetoMundo, String texto) {
-			
-			for (DisseramListener dl:disseramListeners) {
-				dl.disse(texto);
-			}
-			if (console != null) {
-				console.setText(console.getText()+"\n"+texto);
-			}
-		}
+        public void disse(ObjetoMundoImpl objetoMundo, String texto) {
 
-		public void limparConsole() {
+            for (DisseramListener dl : disseramListeners) {
+                dl.disse(texto);
+            }
+            if (console != null) {
+                console.setText(console.getText() + "\n" + texto);
+            }
+        }
 
-			for (DisseramListener dl:disseramListeners) {
-				dl.limpar();
-			}
-			if (console != null) {
-				console.setText("");
-			}
-		}
+        public void limparConsole() {
 
-		public void runMundo() {
-			mundo.run();
-		}
+            for (DisseramListener dl : disseramListeners) {
+                dl.limpar();
+            }
+            if (console != null) {
+                console.setText("");
+            }
+        }
 
-		public void stopMundo() {
-			mundo.parar();
-		}
-		
-		public void finalizar() {
-			mundo.removeListener(this);
-		}
+        public void runMundo() {
+            mundo.run();
+        }
 
-		public void fimExecucao() {
+        public void stopMundo() {
+            mundo.parar();
+        }
 
-			if (botaoExecutar != null)
-				botaoExecutar.setEnabled(true);
-			
-			if (botaoParar != null)
-				botaoParar.setEnabled(false);
-			
-			for (FinalizouExecucaoListener f:finalizouListeners) {
-				f.finalizouExecucao();
-			}
-		}
+        public void finalizar() {
+            mundo.removeListener(this);
+        }
 
-		public void repintar() {
-			fireTableDataChanged();
-		}
+        public void fimExecucao() {
 
-		private Mundo mundo;
+            if (botaoExecutar != null) {
+                botaoExecutar.setEnabled(true);
+            }
 
-		public MapaModel(int qtasColunas, int qtasLinhas, TamanhoCelula tamanhoCelula) {
-			this.mundo = new Mundo(qtasLinhas, qtasColunas);
-			this.mundo.setTamCell(tamanhoCelula.toString());
-			this.mundo.addListener(this);
-		}
+            if (botaoParar != null) {
+                botaoParar.setEnabled(false);
+            }
 
-		public MapaModel(Exercicio exercicio) throws Exception {
-			
-			this.mundo = exercicio.criarMundo();
-			this.mundo.addListener(this);
-			
-		}
+            for (FinalizouExecucaoListener f : finalizouListeners) {
+                f.finalizouExecucao();
+            }
+            
+            mv.fim();
+        }
 
-	}
+        public void repintar() {
+            fireTableDataChanged();
+        }
 
-	private class MapaRenderer extends DefaultTableCellRenderer {
+        private Mundo mundo;
 
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+        public MapaModel(int qtasColunas, int qtasLinhas, TamanhoCelula tamanhoCelula) {
+            this.mundo = new Mundo(qtasLinhas, qtasColunas);
+            this.mundo.setTamCell(tamanhoCelula.toString());
+            this.mundo.addListener(this);
+        }
 
-			setIcon((ImageIcon) value);
-			setToolTipText(" Col " + column + " Lin " + row);
-			
-			return this;
-		}
+        public MapaModel(Exercicio exercicio) throws Exception {
 
-		public MapaRenderer() {
-			this.setHorizontalAlignment(0);
-		}
-	}
+            this.mundo = exercicio.criarMundo();
+            this.mundo.addListener(this);
 
-	private JTable mapa;
-	private MapaModel mapaModel;
-	private JComponent botaoExecutar;
-	private List<DisseramListener> disseramListeners = new ArrayList<DisseramListener>();
-	private List<FinalizouExecucaoListener> finalizouListeners = new ArrayList<FinalizouExecucaoListener>();
-	private JComponent botaoParar;
-	private Exercicio exercicio;
-	private JTextArea console;
-	
-	public void addDisseramListener(DisseramListener disseramListener) {
-		this.disseramListeners.add(disseramListener);
-	}
-	
-	public void removeDisseramListener(DisseramListener disseramListener) {
-		this.disseramListeners.remove(disseramListener);
-	}
-	
-	public void addFinalizouExecucaoListener(FinalizouExecucaoListener finalizouExecucaoListener) {
-		this.finalizouListeners.add(finalizouExecucaoListener);
-	}
-	
-	public void removeFinalizouExecucaoListener(FinalizouExecucaoListener finalizouExecucaoListener) {
-		this.finalizouListeners.remove(finalizouExecucaoListener);
-	}
-	
-	public MundoAgenteJ(int qtasColunas, int qtasLinhas, TamanhoCelula tamanhoCelula) {
-		constroiGrade(new MapaModel(qtasColunas, qtasLinhas, tamanhoCelula));
-		
-		configKeyListener();
-		
-	}
-	
-	public MundoAgenteJ(Exercicio exercicio) throws Exception {
-		this.exercicio = exercicio;
-		constroiGrade(new MapaModel(exercicio));
-		configKeyListener();
-	}
-	
-	private void configKeyListener() {
-		KeyAdapter keyAdapter = new KeyAdapter(){	
+        }
 
-			@Override
-			public void keyPressed(KeyEvent e) {
-				pressionadaTecla(e.getKeyCode());
-			}
+    }
 
-		};
-		addKeyListener(keyAdapter);
-		mapa.addKeyListener(keyAdapter);
-	}
+    private class MapaRenderer extends DefaultTableCellRenderer {
 
-	private void constroiGrade(MapaModel mapaModel) {
-		this.mapaModel = mapaModel;
-		if (mapa != null) // v 1.7. dava pau na troca de mundo, se eu reaproveitasse a JTable e só mudasse o TableModel. Parece que ele dava um repaint 
-						 //  ... depois que a JTable já tinha trocado a Model. 	
-			remove(mapa);
-		mapa = new JTable();
-		mapa.setModel(mapaModel);
-		mapa.setShowGrid(mapaModel.mundo.isUsarLinhasNaGrade());
-		if (!mapaModel.mundo.isUsarLinhasNaGrade())
-			mapa.setIntercellSpacing(new Dimension(0, 0));
-		mapa.setRowHeight(mapaModel.mundo.getTamCell());
-		mapa.setAutoResizeMode(0);
-		mapa.setDefaultRenderer(Object.class, new MapaRenderer());
-		mapa.setGridColor(new Color(122, 138, 153)); // no Mac a cor padrao das linhas era branco.
-		for (int x = 0; x < mapa.getColumnCount(); x++) {
-			mapa.getColumnModel().getColumn(x).setMaxWidth(mapaModel.mundo.getTamCell());
-			mapa.getColumnModel().getColumn(x).setMinWidth(mapaModel.mundo.getTamCell());
-		}
-		setLayout(new BorderLayout());
-		add(mapa, BorderLayout.CENTER);
-		
-	}
-	
-	public void reiniciar() throws Exception {
-		
-		if (this.exercicio == null) {
-			constroiGrade(new MapaModel(mapaModel.mundo.getQtdadeCol(), 
-									    mapaModel.mundo.getQtdadeLin(), 
-									    TamanhoCelula.pixelsToTamanhoCelula(mapaModel.mundo.getTamCell())
-									   )
-						  );
-		} else {
-			constroiGrade(new MapaModel(exercicio));
-		}
-	}
-	
-	public void addObjeto(ObjetoDoMundo objetoDoMundo, int x, int y) {
-		
-		objetoDoMundo.getObjetoMundoImpl().setX(x);
-		objetoDoMundo.getObjetoMundoImpl().setY(y);
-		objetoDoMundo.getObjetoMundoImpl().setMundo(mapaModel.mundo);
-		
-		mapaModel.mundo.addObjetoMundoImpl(objetoDoMundo.getObjetoMundoImpl());
-		
-	}
-	
-	public void addObjeto(ObjetoDoMundo objetoDoMundo) {
-		
-		Random random = new Random();
-		
-		int x = 0, y = 0;
-		while (true) {
-			
-			x = random.nextInt(mapaModel.mundo.getQtdadeCol());
-			y = random.nextInt(mapaModel.mundo.getQtdadeLin());
-			
-			if (mapaModel.mundo.getObjeto(null, x, y) == null)
-				break;
-			
-		}
-		
-		addObjeto(objetoDoMundo, x, y);
-	}
+        public Component getTableCellRendererComponent(JTable table,
+                Object value, boolean isSelected, boolean hasFocus, int row,
+                int column) {
 
-	public void removerObjeto(int x, int y) {
-		mapaModel.mundo.removerObjeto(mapaModel.mundo.getObjeto(null, x, y));
-	}
-	
-	public void setBotaoExecutar(JComponent botaoExecutar) {
-		this.botaoExecutar = botaoExecutar;
-		
-	}
-	
-	public void executar() {
-	
-		if (botaoExecutar != null)
-			botaoExecutar.setEnabled(false);
-		
-		if (botaoParar != null)
-			botaoParar.setEnabled(true);
-		
-		mapaModel.runMundo();
-		
-	}
-	
-	public void setBotaoParar(JComponent botaoParar) {
-		this.botaoParar = botaoParar;
+            setIcon((ImageIcon) value);
+            setToolTipText(" Col " + column + " Lin " + row);
 
-		if (botaoParar != null)
-			botaoParar.setEnabled(false);
-	}
-	
-	public void parar() {
-		
-		mapaModel.stopMundo();
-	}
+            return this;
+        }
 
-	public void setTempoEspera(int milisegundos) {
-		ObjetoMundoImpl.tempoEspera = milisegundos;
-	}
-	
-	public int getTempoEspera() {
-		return ObjetoMundoImpl.tempoEspera;
-	}
+        public MapaRenderer() {
+            this.setHorizontalAlignment(0);
+        }
+    }
 
-	public void pressionadaTecla(int keyCode) {
-		mapaModel.mundo.pressionadaTecla(keyCode);
-	}
+    private JTable mapa;
+    private MapaModel mapaModel;
+    private JComponent botaoExecutar;
+    private List<DisseramListener> disseramListeners = new ArrayList<DisseramListener>();
+    private List<FinalizouExecucaoListener> finalizouListeners = new ArrayList<FinalizouExecucaoListener>();
+    private JComponent botaoParar;
+    private Exercicio exercicio;
+    private JTextArea console;
+    private List<Objetivo> objetivos;
+    private MundoVisual mv;
 
-	public JTextArea getConsole() {
-		return console;
-	}
+    public MundoVisual getMv() {
+        return mv;
+    }
 
-	public void setConsole(JTextArea console) {
-		this.console = console;
-	}
+    public void setMv(MundoVisual mv) {
+        this.mv = mv;
+    }
 
-	public void executar(final ObjetoDoMundo objetoDoMundo) {
-		Thread t = new Thread() {
-			
-			@Override
-			public void run() {
-				try {
-					objetoDoMundo.executar();
-				} catch (Exception e) {
-				}
-			}
-		};
-		t.start();
-	}
+    public void addDisseramListener(DisseramListener disseramListener) {
+        this.disseramListeners.add(disseramListener);
+    }
 
-	public void setExercicio(Exercicio exercicio) {
-		this.exercicio = exercicio;
-	}
+    public void removeDisseramListener(DisseramListener disseramListener) {
+        this.disseramListeners.remove(disseramListener);
+    }
+
+    public void addFinalizouExecucaoListener(FinalizouExecucaoListener finalizouExecucaoListener) {
+        this.finalizouListeners.add(finalizouExecucaoListener);
+    }
+
+    public void removeFinalizouExecucaoListener(FinalizouExecucaoListener finalizouExecucaoListener) {
+        this.finalizouListeners.remove(finalizouExecucaoListener);
+    }
+
+    public MundoAgenteJ(int qtasColunas, int qtasLinhas, TamanhoCelula tamanhoCelula) {
+        constroiGrade(new MapaModel(qtasColunas, qtasLinhas, tamanhoCelula));
+
+        configKeyListener();
+
+    }
+
+    public MundoAgenteJ(Exercicio exercicio) throws Exception {
+        this.exercicio = exercicio;
+        constroiGrade(new MapaModel(exercicio));
+        configKeyListener();
+    }
+
+    private void configKeyListener() {
+        KeyAdapter keyAdapter = new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                pressionadaTecla(e.getKeyCode());
+            }
+
+        };
+        addKeyListener(keyAdapter);
+        mapa.addKeyListener(keyAdapter);
+    }
+
+    private void constroiGrade(MapaModel mapaModel) {
+        this.mapaModel = mapaModel;
+        if (mapa != null) // v 1.7. dava pau na troca de mundo, se eu reaproveitasse a JTable e sï¿½ mudasse o TableModel. Parece que ele dava um repaint 
+        //  ... depois que a JTable jï¿½ tinha trocado a Model. 	
+        {
+            remove(mapa);
+        }
+        mapa = new JTable();
+        mapa.setModel(mapaModel);
+        mapa.setShowGrid(mapaModel.mundo.isUsarLinhasNaGrade());
+        if (!mapaModel.mundo.isUsarLinhasNaGrade()) {
+            mapa.setIntercellSpacing(new Dimension(0, 0));
+        }
+        mapa.setRowHeight(mapaModel.mundo.getTamCell());
+        mapa.setAutoResizeMode(0);
+        mapa.setDefaultRenderer(Object.class, new MapaRenderer());
+        mapa.setGridColor(new Color(122, 138, 153)); // no Mac a cor padrao das linhas era branco.
+        for (int x = 0; x < mapa.getColumnCount(); x++) {
+            mapa.getColumnModel().getColumn(x).setMaxWidth(mapaModel.mundo.getTamCell());
+            mapa.getColumnModel().getColumn(x).setMinWidth(mapaModel.mundo.getTamCell());
+        }
+        setLayout(new BorderLayout());
+        add(mapa, BorderLayout.CENTER);
+
+    }
+
+    public void reiniciar() throws Exception {
+
+        if (this.exercicio == null) {
+            constroiGrade(new MapaModel(mapaModel.mundo.getQtdadeCol(),
+                    mapaModel.mundo.getQtdadeLin(),
+                    TamanhoCelula.pixelsToTamanhoCelula(mapaModel.mundo.getTamCell())
+            )
+            );
+        } else {
+            constroiGrade(new MapaModel(exercicio));
+        }
+    }
+
+    public void addObjeto(ObjetoDoMundo objetoDoMundo, int x, int y) {
+
+        objetoDoMundo.getObjetoMundoImpl().setX(x);
+        objetoDoMundo.getObjetoMundoImpl().setY(y);
+        objetoDoMundo.getObjetoMundoImpl().setMundo(mapaModel.mundo);
+
+        mapaModel.mundo.addObjetoMundoImpl(objetoDoMundo.getObjetoMundoImpl());
+
+    }
+
+    public void addObjeto(ObjetoDoMundo objetoDoMundo) {
+
+        Random random = new Random();
+
+        int x = 0, y = 0;
+        while (true) {
+
+            x = random.nextInt(mapaModel.mundo.getQtdadeCol());
+            y = random.nextInt(mapaModel.mundo.getQtdadeLin());
+
+            if (mapaModel.mundo.getObjeto(null, x, y) == null) {
+                break;
+            }
+
+        }
+
+        addObjeto(objetoDoMundo, x, y);
+    }
+
+    public void removerObjeto(int x, int y) {
+        mapaModel.mundo.removerObjeto(mapaModel.mundo.getObjeto(null, x, y));
+    }
+
+    public void setBotaoExecutar(JComponent botaoExecutar) {
+        this.botaoExecutar = botaoExecutar;
+
+    }
+
+    public void executar() {
+
+        if (botaoExecutar != null) {
+            botaoExecutar.setEnabled(false);
+        }
+
+        if (botaoParar != null) {
+            botaoParar.setEnabled(true);
+        }
+
+        mapaModel.runMundo();
+
+    }
+
+    public void setBotaoParar(JComponent botaoParar) {
+        this.botaoParar = botaoParar;
+
+        if (botaoParar != null) {
+            botaoParar.setEnabled(false);
+        }
+    }
+
+    public void parar() {
+
+        mapaModel.stopMundo();
+    }
+
+    public void setTempoEspera(int milisegundos) {
+        ObjetoMundoImpl.tempoEspera = milisegundos;
+    }
+
+    public int getTempoEspera() {
+        return ObjetoMundoImpl.tempoEspera;
+    }
+
+    public void pressionadaTecla(int keyCode) {
+        mapaModel.mundo.pressionadaTecla(keyCode);
+    }
+
+    public JTextArea getConsole() {
+        return console;
+    }
+
+    public void setConsole(JTextArea console) {
+        this.console = console;
+    }
+
+    public void executar(final ObjetoDoMundo objetoDoMundo) {
+        Thread t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    objetoDoMundo.executar();
+                } catch (Exception e) {
+                }
+            }
+        };
+        t.start();
+    }
+
+    public void setExercicio(Exercicio exercicio) {
+        this.exercicio = exercicio;
+    }
+
+    
 
 }

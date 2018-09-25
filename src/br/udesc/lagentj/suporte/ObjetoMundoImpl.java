@@ -27,10 +27,13 @@ import javax.swing.ImageIcon;
 
 import br.udesc.lagentj.AgenteJ;
 import br.udesc.lagentj.Direcao;
+import br.udesc.lagentj.MundoVisual;
 import br.udesc.lagentj.ObjetoDoMundo;
 import br.udesc.lagentj.exceptions.AcabouEnergiaException;
 import br.udesc.lagentj.exceptions.MundoEncerradoException;
 import br.udesc.lagentj.exceptions.MundoException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -162,6 +165,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 			gastarEnergia(10);
 			mundo.disse(euMesmo, texto);
 			Thread.sleep(getTempoEspera());
+                        mv.verificarObjetivos("dizer", texto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -212,6 +216,10 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 			
 			gastarEnergia(20);
 			mundo.andar(euMesmo, direcao);
+                        Map<String, Object> opcoes = new HashMap();
+                        opcoes.put("x", getX());
+                        opcoes.put("y", getY());
+                        mv.verificarObjetivos("mover", opcoes);
 			Thread.sleep(getTempoEspera());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -538,5 +546,23 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 	private boolean removido;
 	private boolean executando;
 	private boolean imageChanged;
+        private MundoVisual mv;
+
+    public MundoVisual getMv() {
+        return mv;
+    }
+
+    public void setMv(MundoVisual mv) {
+        this.mv = mv;
+    }
+    
+    public void lerInteiro(){
+        Map<String, Object> opcoes = new HashMap();
+        opcoes.put("x", getX());
+        opcoes.put("y", getY());
+        mv.verificarObjetivos("lerInteiro", opcoes);
+    }
+        
+        
 	
 }

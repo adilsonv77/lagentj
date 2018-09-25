@@ -188,10 +188,13 @@ public class MundoVisual extends JFrame {
                 
 		executou = false;
 		euMesmo = this;
+                
+                exercicio.setMv(euMesmo);
 		
 		setIconImage(LoadImage.getInstance().getIcon("imagens/agentej-icone.gif").getImage());
 		
 		mundoAgenteJ = new MundoAgenteJ(exercicio);
+                mundoAgenteJ.setMv(euMesmo);
 		mundoAgenteJ.addDisseramListener(new DisseramListener(){
 
 			@Override
@@ -219,7 +222,6 @@ public class MundoVisual extends JFrame {
 					}
 				} else {
 					jbExecutar.setEnabled(true);
-					jbValidar.setEnabled(true);
 					jbParar.setEnabled(false);
 					jbRenovar.setEnabled(true);
 				}
@@ -264,6 +266,14 @@ public class MundoVisual extends JFrame {
 		
 		JPanel jp = getControle(exercicio); 
 		getContentPane().add(jp, "North");
+                
+                
+                checkList = new JCheckList();
+		checkList.setTitle("Objetivos:");
+		for (Objetivo obj: objetivos){
+                    checkList.addItem(obj.getDescricao());
+                }		
+		getContentPane().add(checkList, "East");
 		
 		getContentPane().add(mundoAgenteJ, "Center");
 		console = new JTextArea();
@@ -272,7 +282,7 @@ public class MundoVisual extends JFrame {
 		console.setRows(5);
 		
 		DefaultCaret caret = (DefaultCaret)console.getCaret();
-	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
+                caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 	    
 		getContentPane().add(scroll, "South");
 		addWindowListener(new WindowAdapter() {
@@ -286,19 +296,9 @@ public class MundoVisual extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
-		criarPainelObjetivos(exercicio);
 	}
 
-	private void criarPainelObjetivos(Exercicio exercicio) {
-		PainelObjetivos painel = new PainelObjetivos();
-		painel.setVisible(true);
-		for(Objetivo o: objetivos) {
-			JLabel label = new JLabel();
-			String status = " [ ]";
-			label.setText(o.getDescricao() + status);
-			painel.add(label);
-		}
-	}
+	
 
 
 	private JPanel getControle(final Exercicio exercicio) {
@@ -327,7 +327,6 @@ public class MundoVisual extends JFrame {
 		jp.add(jpBotoes, BorderLayout.CENTER);
 
 		jbExecutar = createSimpleButton("imagens/iconplay.png", "Executar");
-		jbValidar = createSimpleButton("imagens/iconplay.png", "Validar");
 		jpBotoes.add(jbExecutar);
 		ActionListener action = new ActionListener() {
 
@@ -340,14 +339,6 @@ public class MundoVisual extends JFrame {
 
 		};
 		jbExecutar.addActionListener(action);
-		jpBotoes.add(jbValidar);
-		jbValidar.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				validarObjetivos(exercicio);
-			}
-
-		});
 		jbRenovar = createSimpleButton("imagens/iconreloadcode.png", "Novo");
 		jpBotoes.add(jbRenovar);
 		jbRenovar.addActionListener(new ActionListener() {
@@ -374,6 +365,7 @@ public class MundoVisual extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 				mundoAgenteJ.parar();
+                                checkList.uncheckAllItems();
 				jbExecutar.setEnabled(true);
 				jbParar.setEnabled(false);
 			}
@@ -382,15 +374,9 @@ public class MundoVisual extends JFrame {
 		return jp;
 	}
 
-	protected void validarObjetivos(Exercicio exercicio) {
-		JOptionPane.showMessageDialog(null, "Voc� est� validando os objetivos", "Parab�ns!", JOptionPane.INFORMATION_MESSAGE);
-		novaSequencia(exercicio);
-		executarInterno(exercicio);
-	}
-
-
 	private void novaSequencia(Exercicio exercicio) {
 		atributos.clear();
+                checkList.uncheckAllItems();
 	}
 
 	private void executarInterno(Exercicio exercicio) {
@@ -410,7 +396,6 @@ public class MundoVisual extends JFrame {
 
 	private void habilitarBotoesExecucao() {
 		jbExecutar.setEnabled(false);
-		jbValidar.setEnabled(false);
 		jbParar.setEnabled(true);
 		jbRenovar.setEnabled(false);
 	}
@@ -532,12 +517,14 @@ public class MundoVisual extends JFrame {
 	private static HashMap<String, Object> atributos = new HashMap<String, Object>();
 	//private JLabel jlEnunciado;
 	private JButton jbExecutar;
-	private JButton jbValidar;
 	private JButton jbParar;
 	private JSlider slider;
 	private JButton jbRenovar;
+        private JCheckList checkList;
 	private static int socket = 57391;
         private List<Objetivo> objetivos = new ArrayList();
+        
+        
         
         private void gerarObjetivos(List<ObjetivoConfiguracao> objetivoConfiguracoes) throws Exception {
 		objetivos.clear();
@@ -548,13 +535,33 @@ public class MundoVisual extends JFrame {
 		}
 	}
         
-        public void verificarObjetivos(String tipo, Object opcoes){
-            for (int i = 0; i < objetivos.size(); i++) {
-                Objetivo objetivo = objetivos.get(i);
-                if (objetivo.isCompleto(tipo, opcoes)){
-                    // objetivo está completo
-                }
+        public void checkObjetivo(int i){
+            checkList.checkItem(i);
+        }
+
+    public List<Objetivo> getObjetivos() {
+        return objetivos;
+    }
+    
+    public void fim(){
+        if (checkList.isAllGoalsAchieved()){
+            JOptionPane.showMessageDialog(null, "Parabéns! Você concluiu todos os objetivos.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Você não conseguiu completar todos os objetivos. Tente novamente.");
+        }
+    }
+    
+    public void verificarObjetivos(String tipo, Object opcoes) {
+        for (int i = 0; i < objetivos.size(); i++) {
+            Objetivo objetivo = objetivos.get(i);
+            if (objetivo.isCompleto(tipo, opcoes)) {
+                checkObjetivo(i);
             }
         }
+    }
+        
+        
+        
+        
 
 }
