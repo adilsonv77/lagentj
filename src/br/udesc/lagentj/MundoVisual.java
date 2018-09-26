@@ -56,6 +56,7 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.text.DefaultCaret;
 
 import br.udesc.lagentj.exceptions.MundoException;
+import br.udesc.lagentj.objetivos.MethodCounter;
 import br.udesc.lagentj.objetivos.Objetivo;
 import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
 import br.udesc.lagentj.suporte.Exercicio;
@@ -184,7 +185,7 @@ public class MundoVisual extends JFrame {
 	private MundoAgenteJ mundoAgenteJ;
 
 	private MundoVisual(Exercicio exercicio, String autor) throws Exception {
-                gerarObjetivos(exercicio.getConfiguracoes());
+                gerarObjetivos(exercicio.getConfiguracoes(), exercicio);
                 
 		executou = false;
 		euMesmo = this;
@@ -526,13 +527,14 @@ public class MundoVisual extends JFrame {
         
         
         
-        private void gerarObjetivos(List<ObjetivoConfiguracao> objetivoConfiguracoes) throws Exception {
+        private void gerarObjetivos(List<ObjetivoConfiguracao> objetivoConfiguracoes, Exercicio e) throws Exception {
 		objetivos.clear();
 		for (ObjetivoConfiguracao oc: objetivoConfiguracoes) {
 			Objetivo obj = oc.gerar();
 			obj.setMundo(this);
 			objetivos.add( obj );
 		}
+                MethodCounter.getInstance().prepare(objetivos, e.getClazz());
 	}
         
         public void checkObjetivo(int i){
@@ -544,10 +546,12 @@ public class MundoVisual extends JFrame {
     }
     
     public void fim(){
-        if (checkList.isAllGoalsAchieved()){
+        if (executou){
+            if (checkList.isAllGoalsAchieved()){
             JOptionPane.showMessageDialog(null, "Parabéns! Você concluiu todos os objetivos.");
-        } else {
-            JOptionPane.showMessageDialog(null, "Você não conseguiu completar todos os objetivos. Tente novamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Você não conseguiu completar todos os objetivos. Tente novamente.");
+            }
         }
     }
     
@@ -559,6 +563,12 @@ public class MundoVisual extends JFrame {
             }
         }
     }
+
+    public MundoAgenteJ getMundoAgenteJ() {
+        return mundoAgenteJ;
+    }
+    
+    
         
         
         

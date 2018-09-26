@@ -2,6 +2,7 @@
 import br.udesc.lagentj.*;
 
 public class Mundo60 extends AgenteJ {
+
     @Override
     public void inteligencia() {
         andar(ABAIXO, 2);

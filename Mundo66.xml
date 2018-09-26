@@ -40,5 +40,37 @@
 		<bloqueado>false</bloqueado>
 	</numero>
 
+	<objetivos>
+        <objetivo x="1" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo x="2" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo x="3" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo x="4" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo nomeMetodo="convertC2F">
+            <tipo>
+                usarMetodo
+            </tipo>
+						<parametros>
+							<parametro nome="celsius" tipo="int"></parametro>
+						</parametros>
+        </objetivo>
+
+    </objetivos>
+
 
 </agentej>

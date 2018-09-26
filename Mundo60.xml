@@ -51,17 +51,13 @@
                 mover
             </tipo>
         </objetivo>
-				<objetivo nomeMetodo="andar">
+				<objetivo nome="andar" retorno="void">
             <tipo>
                 usarMetodo
             </tipo>
 						<parametros>
-							<parametro nome="d">
-								Direcao
-							</parametro>
-							<parametro nome="casas">
-								int
-							</parametro>
+							<parametro tipo="br.udesc.lagentj.Direcao"></parametro>
+							<parametro tipo="int"></parametro>
 						</parametros>
         </objetivo>
     </objetivos>

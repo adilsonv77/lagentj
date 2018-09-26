@@ -98,7 +98,9 @@ public class MundoAgenteJ extends JPanel {
         }
 
         public void fimExecucao() {
-
+            
+            verificarObjetivos();
+            
             if (botaoExecutar != null) {
                 botaoExecutar.setEnabled(true);
             }
@@ -131,6 +133,10 @@ public class MundoAgenteJ extends JPanel {
             this.mundo = exercicio.criarMundo();
             this.mundo.addListener(this);
 
+        }
+
+        private void verificarObjetivos() {
+            mv.verificarObjetivos("usarMetodo", null);
         }
 
     }
@@ -354,6 +360,12 @@ public class MundoAgenteJ extends JPanel {
     public void setExercicio(Exercicio exercicio) {
         this.exercicio = exercicio;
     }
+
+    public Exercicio getExercicio() {
+        return exercicio;
+    }
+    
+    
 
     
 

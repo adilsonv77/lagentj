@@ -32,4 +32,44 @@
 		<bloqueado>false</bloqueado>
 	</numero>
 
+	<objetivos>
+        <objetivo x="1" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo x="2" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo x="3
+					" y="2">
+            <tipo>
+                lerInteiro
+            </tipo>
+        </objetivo>
+				<objetivo nomeMetodo="delta">
+            <tipo>
+                usarMetodo
+            </tipo>
+						<parametros>
+							<parametro nome="a">
+								int
+							</parametro>
+							<parametro nome="b">
+								int
+							</parametro>
+							<parametro nome="c">
+								int
+							</parametro>
+						</parametros>
+        </objetivo>
+				<objetivo texto="a">
+					<tipo>
+						dizer
+					</tipo>
+				</objetivo>
+    </objetivos>
+
 </agentej>

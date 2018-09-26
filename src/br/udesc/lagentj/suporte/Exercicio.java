@@ -365,9 +365,9 @@ public class Exercicio extends GrupoObjetos
     private boolean explodir;
     private String clazz;
     private boolean usarLinhasNaGrade = true;
-	private String tamanhoCel = "G";
+    private String tamanhoCel = "G";
     private AgenteJRandom random = new AgenteJRandom();
-	private HashMap<String, ObjetoMundoImpl> hashObjsMundo = new HashMap<String, ObjetoMundoImpl>();
+    private HashMap<String, ObjetoMundoImpl> hashObjsMundo = new HashMap<String, ObjetoMundoImpl>();
     private int contaAgente;
     private Random sorteio = new Random();
     private List<ObjetivoConfiguracao> configuracoes;
@@ -388,7 +388,7 @@ public class Exercicio extends GrupoObjetos
     public void addObjetivo(ObjetivoConfiguracao o) {
     	configuracoes.add(o);
     }
-
+    
     public String getTamanhoCel() {
             return tamanhoCel;
     }
@@ -396,4 +396,10 @@ public class Exercicio extends GrupoObjetos
     public void setTamanhoCel(String tamanhoCel) {
             this.tamanhoCel = tamanhoCel;
     }
+
+    public String getClazz() {
+        return clazz;
+    }
+    
+    
 }

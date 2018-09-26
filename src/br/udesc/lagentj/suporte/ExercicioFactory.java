@@ -24,9 +24,8 @@ import java.io.IOException;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
-import br.udesc.lagentj.objetivos.Mover;
-import br.udesc.lagentj.objetivos.Objetivo;
 import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
+import br.udesc.lagentj.objetivos.Parametro;
 
 /**
  * 
@@ -93,8 +92,6 @@ public class ExercicioFactory
         d.addSetNext("*/img", "addElemento");
         
         addRuleObjetivo(d);
-        d.addSetNext("*/objetivos/objetivo", "addObjetivo");
-       
         
         File srcfile = new File(nomeArquivoXML);
         d.parse(srcfile);
@@ -112,6 +109,11 @@ public class ExercicioFactory
         d.addObjectCreate("*/objetivos/objetivo", ObjetivoConfiguracao.class);	
         d.addSetProperties("*/objetivos/objetivo");
         d.addBeanPropertySetter("*/objetivos/objetivo/tipo", "tipo");
+        d.addSetNext("*/objetivos/objetivo", "addObjetivo");
+        
+        d.addObjectCreate("*/parametros/parametro", Parametro.class);	
+        d.addSetProperties("*/parametros/parametro");
+        d.addSetNext("*/parametros/parametro", "addParametro");
     }
 
     private static void addRuleObjetoClass(Digester d, String pattern, Class<?> clazz)
