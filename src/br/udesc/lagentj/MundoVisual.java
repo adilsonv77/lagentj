@@ -188,6 +188,7 @@ public class MundoVisual extends JFrame {
                 gerarObjetivos(exercicio.getConfiguracoes(), exercicio);
                 
 		executou = false;
+                interrompido = false;
 		euMesmo = this;
                 
                 exercicio.setMv(euMesmo);
@@ -289,6 +290,7 @@ public class MundoVisual extends JFrame {
 		addWindowListener(new WindowAdapter() {
 
 			public void windowClosing(WindowEvent arg0) {
+                                interrompido = true;
 				mundoAgenteJ.parar();
 			}
 
@@ -345,6 +347,7 @@ public class MundoVisual extends JFrame {
 		jbRenovar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+                                interrompido = true;
 				mundoAgenteJ.parar();
 				novaSequencia(exercicio);
 				try {
@@ -355,6 +358,7 @@ public class MundoVisual extends JFrame {
 					e.printStackTrace();
 				}
 				executou = false;
+                                interrompido = false;
 				mundoAgenteJ.requestFocus();
 			}
 
@@ -365,6 +369,7 @@ public class MundoVisual extends JFrame {
 		jbParar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+                                interrompido = true;
 				mundoAgenteJ.parar();
                                 checkList.uncheckAllItems();
 				jbExecutar.setEnabled(true);
@@ -392,6 +397,7 @@ public class MundoVisual extends JFrame {
 		habilitarBotoesExecucao();
 		mundoAgenteJ.executar();
 		executou = true;
+                interrompido = false;
 		mundoAgenteJ.requestFocus();
 	}
 
@@ -510,6 +516,7 @@ public class MundoVisual extends JFrame {
 
 	private JTextArea console;
 	private boolean executou;
+        private boolean interrompido;
 	private String nomesArquivosXML[];
 	private int mundoAtual;
 	private boolean executarProxMundo;
@@ -546,11 +553,13 @@ public class MundoVisual extends JFrame {
     }
     
     public void fim(){
-        if (executou){
-            if (checkList.isAllGoalsAchieved()){
-            JOptionPane.showMessageDialog(null, "Parabéns! Você concluiu todos os objetivos.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Você não conseguiu completar todos os objetivos. Tente novamente.");
+        if (!interrompido){
+            if (executou){
+                if (checkList.isAllGoalsAchieved()){
+                    JOptionPane.showMessageDialog(null, "Parabéns! Você concluiu todos os objetivos.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Você não conseguiu completar todos os objetivos. Tente novamente.");
+                }
             }
         }
     }

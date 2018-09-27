@@ -98,21 +98,16 @@ public class MundoAgenteJ extends JPanel {
         }
 
         public void fimExecucao() {
-            
             verificarObjetivos();
-            
             if (botaoExecutar != null) {
                 botaoExecutar.setEnabled(true);
             }
-
             if (botaoParar != null) {
                 botaoParar.setEnabled(false);
             }
-
             for (FinalizouExecucaoListener f : finalizouListeners) {
                 f.finalizouExecucao();
             }
-            
             mv.fim();
         }
 
@@ -246,7 +241,7 @@ public class MundoAgenteJ extends JPanel {
     }
 
     public void reiniciar() throws Exception {
-
+        
         if (this.exercicio == null) {
             constroiGrade(new MapaModel(mapaModel.mundo.getQtdadeCol(),
                     mapaModel.mundo.getQtdadeLin(),
@@ -319,7 +314,6 @@ public class MundoAgenteJ extends JPanel {
     }
 
     public void parar() {
-
         mapaModel.stopMundo();
     }
 

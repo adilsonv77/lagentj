@@ -42,7 +42,7 @@ import java.util.Map;
  *
  */
 public class ObjetoMundoImpl implements PosicaoMundo {
-    
+
     public ObjetoMundoImpl(ObjetoDoMundo objetoMundo) {
         podeParar = false;
         executando = false;
@@ -53,12 +53,12 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         this.objetoMundo = objetoMundo;
         objetoMundo.setObjetoMundoImpl(this);
     }
-    
+
     @SuppressWarnings("unchecked")
     public <T extends ObjetoDoMundo> T getObjetoMundo() {
         return (T) objetoMundo;
     }
-    
+
     public void run() {
         podeParar = false;
         try {
@@ -68,49 +68,49 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             e.printStackTrace();
         }
         executando = false;
-        podeParar = false;        
+        podeParar = false;
     }
-    
+
     public void parar() {
         if (executando) {
             podeParar = true;
         }
     }
-    
+
     public boolean isParar() {
         return podeParar;
     }
-    
+
     public int getMaxEnergia() {
         return maxEnergia;
     }
-    
+
     public void setMaxEnergia(int maxEnergia) {
         this.maxEnergia = maxEnergia;
         setEnergia(maxEnergia);
     }
-    
+
     public boolean isBloqueado() {
         return bloqueado;
     }
-    
+
     public boolean isUsarEnergia() {
         return usarEnergia;
     }
-    
+
     public void setUsarEnergia(boolean usarEnergia) {
         this.usarEnergia = usarEnergia;
     }
-    
+
     public int getEnergia() {
         return energia;
     }
-    
+
     public void setEnergia(int energia) {
         setUsarEnergia(true);
         this.energia = energia;
     }
-    
+
     private void gastarEnergia(int qtde) {
         if (!isUsarEnergia()) {
             return;
@@ -124,23 +124,23 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public void setBloqueado(boolean bloqueado) {
         this.bloqueado = bloqueado;
     }
-    
+
     public Mundo getMundo() {
         return mundo;
     }
-    
+
     public void setMundo(Mundo mundo) {
         this.mundo = mundo;
     }
-    
+
     public void inteligencia() throws Exception {
         objetoMundo.executar();
     }
-    
+
     public final void diga(Object object) throws MundoException {
         if (object == null) {
             diga("Vazio");
@@ -148,7 +148,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             diga(object.toString());
         }
     }
-    
+
     public int getTempoEspera() {
         if (meuTempoEspera == -1) {
             return tempoEspera;
@@ -156,11 +156,11 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return meuTempoEspera;
         }
     }
-    
+
     public void setTempoEspera(int milisegundos) {
         meuTempoEspera = milisegundos;
     }
-    
+
     public final void diga(final String texto) throws MundoException {
         inspecionarStackTrace();
         if (isParar()) {
@@ -182,7 +182,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public void limparConsole() throws MundoException {
         inspecionarStackTrace();
         if (isParar()) {
@@ -201,27 +201,27 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public final void andarEsquerda() throws MundoException {
         inspecionarStackTrace();
         doAndar(Direcao.ESQUERDA);
     }
-    
+
     public final void andarDireita() throws MundoException {
         inspecionarStackTrace();
         doAndar(Direcao.DIREITA);
     }
-    
+
     public final void andarAcima() throws MundoException {
         inspecionarStackTrace();
         doAndar(Direcao.ACIMA);
     }
-    
+
     public final void andarAbaixo() throws MundoException {
         inspecionarStackTrace();
         doAndar(Direcao.ABAIXO);
     }
-    
+
     private void doAndar(final Direcao direcao) throws MundoException {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -229,7 +229,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         final ObjetoMundoImpl euMesmo = this;
         final List<MundoException> ex = new ArrayList<MundoException>();
         try {
-            
+
             gastarEnergia(20);
             mundo.andar(euMesmo, direcao);
             Map<String, Object> opcoes = new HashMap();
@@ -246,7 +246,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public boolean ehVazio(final Direcao direcao) throws MundoException {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -266,7 +266,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         }
         return bool.size() > 0 && ((Boolean) bool.get(0)).booleanValue();
     }
-    
+
     public boolean ehFim(final Direcao direcao) throws MundoException {
         inspecionarStackTrace();
         if (isParar()) {
@@ -287,7 +287,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         }
         return bool.size() > 0 && ((Boolean) bool.get(0)).booleanValue();
     }
-    
+
     public ObjetoMundoImpl getObjeto(final Direcao direcao)
             throws MundoException {
         if (isParar()) {
@@ -310,7 +310,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return (ObjetoMundoImpl) objRet.get(0);
         }
     }
-    
+
     public ObjetoMundoImpl getObjeto(final int x, final int y) {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -332,23 +332,23 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return (ObjetoMundoImpl) objRet.get(0);
         }
     }
-    
+
     public int getX() {
         return x;
     }
-    
+
     public int getY() {
         return y;
     }
-    
+
     public void setX(int x) {
         this.x = x;
     }
-    
+
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public final ImageIcon getImage() {
         try {
             if (imagem == null || imageChanged) {
@@ -364,11 +364,11 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         }
         return imagem;
     }
-    
+
     public final void setImage(ImageIcon imagem) {
         this.imagem = imagem;
     }
-    
+
     public void repintar() {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -381,7 +381,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             e.printStackTrace();
         }
     }
-    
+
     public boolean ehVazio(final int x, final int y) {
         inspecionarStackTrace();
         if (isParar()) {
@@ -402,17 +402,17 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         }
         return bool.size() > 0 && ((Boolean) bool.get(0)).booleanValue();
     }
-    
+
     public int getQtdadeLin() {
         inspecionarStackTrace();
         return mundo.getQtdadeLin();
     }
-    
+
     public int getQtdadeCol() {
         inspecionarStackTrace();
         return mundo.getQtdadeCol();
     }
-    
+
     @SuppressWarnings("unchecked")
     public <T extends ObjetoDoMundo> List<T> getObjetos(Class<T> clazz) {
         if (isParar()) {
@@ -438,14 +438,14 @@ public class ObjetoMundoImpl implements PosicaoMundo {
                 objsMundo.add((T) obj.getObjetoMundo());
             }
         }
-        
+
         return objsMundo;
     }
-    
+
     public List<ObjetoMundoImpl> getObjetos() {
         return umaListaComigo;
     }
-    
+
     public void pararMundo() throws MundoException {
         try {
             mundo.parar();
@@ -454,7 +454,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             e.printStackTrace();
         }
     }
-    
+
     public int getUltimaTeclaPress() {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -470,7 +470,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         }
         return ((Integer) ultTeclaPress.get(0)).intValue();
     }
-    
+
     public void esperarAlguem() {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -483,7 +483,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             e.printStackTrace();
         }
     }
-    
+
     private void doAdicionarObjetoNoMundo(
             final ObjetoMundoImpl objetoMundoImpl, final boolean embaixo) {
         if (isParar()) {
@@ -502,17 +502,17 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public void inserirObjetoNoMundo(ObjetoMundoImpl obj) {
         inspecionarStackTrace();
         doAdicionarObjetoNoMundo(obj, true);
     }
-    
+
     public void adicionarObjetoNoMundo(ObjetoMundoImpl obj) {
         inspecionarStackTrace();
         doAdicionarObjetoNoMundo(obj, false);
     }
-    
+
     public void removerMe() {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -531,15 +531,15 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public void setExplodiu(boolean explodiu) {
         this.explodiu = explodiu;
     }
-    
+
     public boolean isExplodiu() {
         return explodiu;
     }
-    
+
     public void mudarPosicao(final int x, final int y) {
         if (isParar()) {
             throw new MundoEncerradoException();
@@ -559,23 +559,23 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             return;
         }
     }
-    
+
     public void setRemovido(boolean removido) {
         this.removido = removido;
     }
-    
+
     public boolean isRemovido() {
         return removido;
     }
-    
+
     public void changeImage() {
         this.imageChanged = true;
     }
-    
+
     public void colidir(ObjetoMundoImpl objetoColidido) {
         objetoMundo.colidido(objetoColidido.objetoMundo);
     }
-    
+
     public static int tempoEspera = 500;
     private boolean podeParar;
     private int meuTempoEspera;
@@ -594,34 +594,39 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     private boolean executando;
     private boolean imageChanged;
     private MundoVisual mv;
-    
+
     public MundoVisual getMv() {
         return mv;
     }
-    
+
     public void setMv(MundoVisual mv) {
         this.mv = mv;
     }
-    
+
     public void lerInteiro() {
         Map<String, Object> opcoes = new HashMap();
         opcoes.put("x", getX());
         opcoes.put("y", getY());
         mv.verificarObjetivos("lerInteiro", opcoes);
     }
-    
+
     public void inspecionarStackTrace() {
+        int line = -1;
+        String foundMethod = null;
         MethodCounter mc = MethodCounter.getInstance();
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
         for (StackTraceElement stackTraceElement : st) {
             for (String methodName : mc.getNomesMetodos()) {
                 if (stackTraceElement.getMethodName().equals(methodName)) {
-                    mc.countMethodCall(methodName, stackTraceElement.getLineNumber());
+                    foundMethod = methodName;
                 }
             }
-            
+            if (stackTraceElement.getMethodName().equals("inteligencia") && stackTraceElement.getClassName().equals(mv.getMundoAgenteJ().getExercicio().getClazz())){
+                line = stackTraceElement.getLineNumber();
+            }
         }
-        
+        if (line != -1 && foundMethod != null){
+            mc.countMethodCall(foundMethod, line);
+        }
     }
-    
 }

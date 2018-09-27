@@ -21,7 +21,6 @@ public class MethodCounter {
     private String clazz;
 
     private MethodCounter() {
-
     }
 
     public static MethodCounter getInstance() {
@@ -39,31 +38,11 @@ public class MethodCounter {
                 objetivos.put(obj.getConfig().getNome(), (UsarMetodo) obj);
             }
         }
-//        injectCalls();
     }
-
-//    private void injectCalls() {
-//        try {
-//            ClassPool pool = ClassPool.getDefault();
-//            CtClass cc = pool.get(clazz);
-//            System.out.println(cc.getPackageName());
-//            for (String key : objetivos.keySet()) {
-//                UsarMetodo um = objetivos.get(key);
-//                CtMethod m = cc.getDeclaredMethod(um.getConfig().getNomeMetodo());
-//                m.insertBefore("br.udesc.lagentj.objetivos.MethodCounter.getInstance().countMethodCall(\"" + um.getConfig().getNomeMetodo() + "\");");
-//            }
-//            cc.toClass();
-//            
-//        } catch (NotFoundException ex) {
-//            Logger.getLogger(MethodCounter.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (CannotCompileException ex) {
-//            Logger.getLogger(MethodCounter.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 
     public void countMethodCall(String method, int line) {
         if (clazz != null && objetivos != null) {
-            objetivos.get(method).call();
+            objetivos.get(method).call(line);
         }
     }
     

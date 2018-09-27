@@ -6,7 +6,8 @@
 package br.udesc.lagentj.objetivos;
 
 import java.lang.reflect.Method;
-import javassist.CtMethod;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,17 +15,17 @@ import javassist.CtMethod;
  */
 public class UsarMetodo extends Objetivo {
 
-    private boolean called;
+    private int calls;
+    private List<Integer> lines;
 
     public UsarMetodo(ObjetivoConfiguracao config) {
         super(config);
+        lines = new ArrayList<Integer>();
     }
 
     @Override
     public boolean verificarObjetivo(Object opcoes) {
-        StackTraceElement[] st = Thread.currentThread().getStackTrace();
-        System.out.println(st);
-        if (hasMethod() && called) {
+        if (hasMethod() && getConfig().eval(Integer.toString(calls))) {
             return true;
         }
         return false;
@@ -40,12 +41,22 @@ public class UsarMetodo extends Objetivo {
                 parametros += ", ";
             }
         }
-        return String.format("Você precisa usar o método com nome %s (%s): %s", getConfig().getNome(), parametros, getConfig().getRetorno());
+        return String.format("Você precisa usar o método %s (%s): %s", getConfig().getNome(), parametros, getConfig().getRetorno());
     }
 
-    public void call() {
-        System.out.println("called counter");
-        called = true;
+    public void call(int line) {
+        boolean has = false;
+        for (Integer l : lines) {
+            if (l == line) {
+                has = true;
+                break;
+            }
+        }
+        if (!has) {
+            calls++;
+            lines.add(line);
+        }
+
     }
 
     public boolean hasMethod() {

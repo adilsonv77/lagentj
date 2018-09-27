@@ -166,6 +166,29 @@ public class ObjetivoConfiguracao {
         }
     }
 
+    public boolean eval(String valor) {
+        if (condicao != null) {
+            if (valor != null) {
+                if (condicao.equals("==")) {
+                    return valor.equals(this.valor);
+                } else if (condicao.equals("<=")) {
+                    return Integer.parseInt(valor) <= Integer.parseInt(this.valor);
+                } else if (condicao.equals(">=")) {
+                    return Integer.parseInt(valor) >= Integer.parseInt(this.valor);
+                } else if (condicao.equals("<")) {
+                    return Integer.parseInt(valor) < Integer.parseInt(this.valor);
+                } else if (condicao.equals(">")) {
+                    return Integer.parseInt(valor) > Integer.parseInt(this.valor);
+                } else if (condicao.equals("!=")) {
+                    return !valor.equals(this.valor);
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
     static {
         objetivos = new HashMap();
         objetivos.put("mover", Mover.class);
