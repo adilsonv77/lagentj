@@ -1,10 +1,12 @@
 
-import br.udesc.lagentj.*;
+
+import br.udesc.lagentj.AgenteJ;
+import br.udesc.lagentj.MundoVisual;
 
 public class Mundo61 extends AgenteJ {
     @Override
-    public void inteligencia() {
-        andarDireita();
+    public void inteligencia() {  	
+    	andarDireita();
         int a = getInt();
         andarDireita();
         int b = getInt();
@@ -19,7 +21,7 @@ public class Mundo61 extends AgenteJ {
             if (b > a){
                 diga(b);
             } else {
-                diga("igual");
+                diga("IGUAIS");
             }
         } 
     }

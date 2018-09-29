@@ -1,75 +1,55 @@
 <agentej>
 
 	<mundo>
-		<qtdadeLin>5</qtdadeLin>
-		<qtdadeCol>5</qtdadeCol>
+		<qtdadeLin>10</qtdadeLin>
+		<qtdadeCol>10</qtdadeCol>
 		<explodir>true</explodir>
 	</mundo>
 
 	<agente>
 		<x>0</x>
-		<y>2</y>
+		<y>1</y>
 	</agente>
 
 	<numero>
-		<x>1</x>
-		<y>2</y>
-		<valor randomInf="1" randomSup="10"/>
-		<bloqueado>false</bloqueado>
-	</numero>
-
-	<numero>
-		<x>2</x>
-		<y>2</y>
-		<valor randomInf="1" randomSup="10"/>
-		<bloqueado>false</bloqueado>
-	</numero>
-
-	<numero>
-		<x>3</x>
+		<x>0</x>
 		<y>0</y>
-		<valor randomInf="1" randomSup="10"/>
+		<valor randomInf="0" randomSup="9"/>
+		<bloqueado>false</bloqueado>
+	</numero>
+
+	<numero>
+		<x>1</x>
+		<y>0</y>
+		<valor randomInf="0" randomSup="9"/>
 		<bloqueado>false</bloqueado>
 	</numero>
 
 	<objetivos>
-        <objetivo x="1" y="2">
+        <objetivo x="0" y="0">
             <tipo>
                 lerInteiro
             </tipo>
         </objetivo>
-				<objetivo x="2" y="2">
+				<objetivo x="1" y="0">
             <tipo>
                 lerInteiro
             </tipo>
         </objetivo>
-				<objetivo x="3
-					" y="2">
-            <tipo>
-                lerInteiro
-            </tipo>
-        </objetivo>
-				<objetivo nomeMetodo="delta">
+				<objetivo nome="andarAte" retorno="void" condicao=">=" valor="1">
             <tipo>
                 usarMetodo
             </tipo>
 						<parametros>
-							<parametro nome="a">
-								int
-							</parametro>
-							<parametro nome="b">
-								int
-							</parametro>
-							<parametro nome="c">
-								int
-							</parametro>
+							<parametro tipo="int"></parametro>
+							<parametro tipo="int"></parametro>
 						</parametros>
         </objetivo>
-				<objetivo texto="a">
-					<tipo>
-						dizer
-					</tipo>
-				</objetivo>
+				<objetivo dx="AgenteJ.getInt(0, 0)" dy="AgenteJ.getInt(1, 0)">
+            <tipo>
+                mover
+            </tipo>
+        </objetivo>
     </objetivos>
 
 </agentej>

@@ -51,6 +51,10 @@ public class JCheckList extends JPanel {
     public void addItem(String item) {
         listModel.addElement(new CheckBoxItem(item));
     }
+    
+    public void clear(){
+        listModel.removeAllElements();
+    }
 
     public void checkItem(int index) {
         listModel.getElementAt(index).checked = true;
@@ -116,5 +120,7 @@ public class JCheckList extends JPanel {
 
         return true;
     }
+    
+    
 
 }

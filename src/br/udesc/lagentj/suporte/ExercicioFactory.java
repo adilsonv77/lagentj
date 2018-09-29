@@ -108,12 +108,13 @@ public class ExercicioFactory
     {       
         d.addObjectCreate("*/objetivos/objetivo", ObjetivoConfiguracao.class);	
         d.addSetProperties("*/objetivos/objetivo");
-        d.addBeanPropertySetter("*/objetivos/objetivo/tipo", "tipo");
-        d.addSetNext("*/objetivos/objetivo", "addObjetivo");
+        d.addBeanPropertySetter("*/objetivos/objetivo/tipo", "tipo");        
+        d.addSetNext("*/objetivos/objetivo", "addObjetivo");        
         
         d.addObjectCreate("*/parametros/parametro", Parametro.class);	
         d.addSetProperties("*/parametros/parametro");
         d.addSetNext("*/parametros/parametro", "addParametro");
+        
     }
 
     private static void addRuleObjetoClass(Digester d, String pattern, Class<?> clazz)

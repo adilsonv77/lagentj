@@ -11,16 +11,16 @@
 		<y>2</y>
 	</agente>
 
-	<numero>
+	<numero id="val1">
 		<x>1</x>
 		<y>2</y>
-		<valor randomInf="1" randomSup="90"/>
+		<valor randomInf="1" randomSup="1"/>
 		<bloqueado>false</bloqueado>
 	</numero>
-	<numero>
+	<numero id="val2">
 		<x>2</x>
 		<y>2</y>
-		<valor randomInf="1" randomSup="90"/>
+		<valor randomInf="1" randomSup="1"/>
 		<bloqueado>false</bloqueado>
 	</numero>
 
@@ -35,24 +35,24 @@
                 lerInteiro
             </tipo>
         </objetivo>
-				<objetivo nomeMetodo="maior">
+				<objetivo nome="maior" retorno="void" condicao=">=" valor="1">
             <tipo>
                 usarMetodo
             </tipo>
 						<parametros>
-							<parametro nome="a">
-								int
-							</parametro>
-							<parametro nome="b">
-								int
-							</parametro>
+							<parametro tipo="int"></parametro>
+							<parametro tipo="int"></parametro>
 						</parametros>
         </objetivo>
-				<objetivo texto="a">
-					<tipo>
-						dizer
-					</tipo>
-				</objetivo>
+				<objetivo formula="AgenteJ.maiorInt(1, 2, 2, 2)" descricao="o valor valor, ou 'IGUAIS'">
+            <tipo>
+                dizer
+            </tipo>
+						<parametros>
+							<parametro tipo="int"></parametro>
+							<parametro tipo="int"></parametro>
+						</parametros>
+        </objetivo>
     </objetivos>
 
 </agentej>

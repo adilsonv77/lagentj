@@ -33,11 +33,11 @@ public class Mundo60 extends AgenteJ {
                 }
                 break;
         }
-
     }
 
     public static void main(String[] args) {
         MundoVisual.iniciar("Mundo60.xml");
+
     }
 
 }

@@ -51,37 +51,7 @@
                 mover
             </tipo>
         </objetivo>
-				<objetivo x="4" y="2">
-            <tipo>
-                mover
-            </tipo>
-        </objetivo>
-				<objetivo x="4" y="2">
-            <tipo>
-                mover
-            </tipo>
-        </objetivo>
-				<objetivo x="4" y="2">
-            <tipo>
-                mover
-            </tipo>
-        </objetivo>
-				<objetivo x="4" y="2">
-            <tipo>
-                mover
-            </tipo>
-        </objetivo>
-				<objetivo x="4" y="2">
-            <tipo>
-                mover
-            </tipo>
-        </objetivo>
-				<objetivo x="4" y="2">
-            <tipo>
-                mover
-            </tipo>
-        </objetivo>
-				<objetivo nome="andar" modificador="private" retorno="void" condicao=">=" valor="1">
+				<objetivo nome="andar" retorno="void" condicao=">=" valor="1" restrito="true" comando="MOVIMENTO">
             <tipo>
                 usarMetodo
             </tipo>

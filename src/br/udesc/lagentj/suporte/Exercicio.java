@@ -39,7 +39,8 @@ import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
 public class Exercicio extends GrupoObjetos
 {
 
-    public AgenteJRandom getRandom()
+    
+	public AgenteJRandom getRandom()
     {
         return random;
     }
@@ -278,6 +279,8 @@ public class Exercicio extends GrupoObjetos
         }
         obj.setX(x);
         obj.setY(y);
+        elemento.setX(x);
+        elemento.setY(y);
         if(elemento.isUsarEnergia())
             obj.setMaxEnergia(elemento.getEnergia());
         hashObjsMundo.put(elemento.getId(), obj);
@@ -347,6 +350,7 @@ public class Exercicio extends GrupoObjetos
                 ((ObjetoMundoImpl)hashObjsMundo.get("agente")).setBloqueado(true);
 
         }
+        
     }
 
     public boolean isUsarLinhasNaGrade()
@@ -400,6 +404,8 @@ public class Exercicio extends GrupoObjetos
     public String getClazz() {
         return clazz;
     }
+    
+    
     
     
 }

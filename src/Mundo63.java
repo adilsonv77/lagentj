@@ -4,14 +4,12 @@ import br.udesc.lagentj.*;
 public class Mundo63 extends AgenteJ {
     @Override
     public void inteligencia() {
+        int x, y;
+        andarAcima();
+        x = getInt();
         andarDireita();
-        int a = getInt();
-        andarDireita();
-        int b = getInt();
-        andarDireita();
-        int c = getInt();
-        andarDireita();
-        delta(a, b, c);
+        y = getInt();
+        andarAte(x, y);
     }
     
     public void delta(int a, int b, int c){
@@ -21,6 +19,27 @@ public class Mundo63 extends AgenteJ {
 
     public static void main(String[] args) {
         MundoVisual.iniciar("Mundo63.xml");
+    }
+
+    public void andarAte(int coluna, int linha) {
+        int c = getColuna();
+        int l = getLinha();
+        int dl = l - linha;
+        int dc = c - coluna;
+        for (int i = 0; i < Math.abs(dc); i++) {
+            if (dc < 0) {
+                andarDireita();
+            } else {
+                andarEsquerda();
+            }
+        }
+        for (int i = 0; i < Math.abs(dl); i++) {
+            if (dl < 0) {
+                andarAbaixo();
+            } else {
+                andarAcima();
+            }
+        }
     }
 
 }

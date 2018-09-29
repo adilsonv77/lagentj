@@ -32,7 +32,9 @@ import br.udesc.lagentj.ObjetoDoMundo;
 import br.udesc.lagentj.exceptions.AcabouEnergiaException;
 import br.udesc.lagentj.exceptions.MundoEncerradoException;
 import br.udesc.lagentj.exceptions.MundoException;
-import br.udesc.lagentj.objetivos.MethodCounter;
+import br.udesc.lagentj.objetivos.Comando;
+import br.udesc.lagentj.objetivos.singletons.MethodManager;
+import br.udesc.lagentj.objetivos.singletons.TabuadaManager;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,7 +164,8 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public final void diga(final String texto) throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.CONSOLE);
+        TabuadaManager.getInstance().storeOutput(texto);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -184,7 +187,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public void limparConsole() throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.CONSOLE);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -203,22 +206,22 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public final void andarEsquerda() throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.MOVIMENTO);
         doAndar(Direcao.ESQUERDA);
     }
 
     public final void andarDireita() throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.MOVIMENTO);
         doAndar(Direcao.DIREITA);
     }
 
     public final void andarAcima() throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.MOVIMENTO);
         doAndar(Direcao.ACIMA);
     }
 
     public final void andarAbaixo() throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.MOVIMENTO);
         doAndar(Direcao.ABAIXO);
     }
 
@@ -248,6 +251,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public boolean ehVazio(final Direcao direcao) throws MundoException {
+        inspecionarStackTrace(Comando.INFO);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -268,7 +272,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public boolean ehFim(final Direcao direcao) throws MundoException {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.INFO);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -290,6 +294,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 
     public ObjetoMundoImpl getObjeto(final Direcao direcao)
             throws MundoException {
+        inspecionarStackTrace(Comando.MUNDO);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -315,6 +320,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         if (isParar()) {
             throw new MundoEncerradoException();
         }
+        inspecionarStackTrace(Comando.MUNDO);
         final List<ObjetoMundoImpl> objRet = new ArrayList<ObjetoMundoImpl>();
         final ObjetoMundoImpl euMesmo = this;
         final List<MundoException> ex = new ArrayList<MundoException>();
@@ -383,7 +389,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public boolean ehVazio(final int x, final int y) {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.INFO);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -404,12 +410,12 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public int getQtdadeLin() {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.INFO);
         return mundo.getQtdadeLin();
     }
 
     public int getQtdadeCol() {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.INFO);
         return mundo.getQtdadeCol();
     }
 
@@ -504,12 +510,12 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     }
 
     public void inserirObjetoNoMundo(ObjetoMundoImpl obj) {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.MUNDO);
         doAdicionarObjetoNoMundo(obj, true);
     }
 
     public void adicionarObjetoNoMundo(ObjetoMundoImpl obj) {
-        inspecionarStackTrace();
+        inspecionarStackTrace(Comando.MUNDO);
         doAdicionarObjetoNoMundo(obj, false);
     }
 
@@ -603,17 +609,18 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         this.mv = mv;
     }
 
-    public void lerInteiro() {
+    public void lerInteiro(int numero) {
         Map<String, Object> opcoes = new HashMap();
         opcoes.put("x", getX());
         opcoes.put("y", getY());
         mv.verificarObjetivos("lerInteiro", opcoes);
+        TabuadaManager.getInstance().setLastInteger(numero);
     }
 
-    public void inspecionarStackTrace() {
+    public void inspecionarStackTrace(Comando tipo) {
         int line = -1;
         String foundMethod = null;
-        MethodCounter mc = MethodCounter.getInstance();
+        MethodManager mc = MethodManager.getInstance();
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
         for (StackTraceElement stackTraceElement : st) {
             for (String methodName : mc.getNomesMetodos()) {
@@ -621,12 +628,15 @@ public class ObjetoMundoImpl implements PosicaoMundo {
                     foundMethod = methodName;
                 }
             }
-            if (stackTraceElement.getMethodName().equals("inteligencia") && stackTraceElement.getClassName().equals(mv.getMundoAgenteJ().getExercicio().getClazz())){
+            if (stackTraceElement.getMethodName().equals("inteligencia") && stackTraceElement.getClassName().equals(mv.getMundoAgenteJ().getExercicio().getClazz())) {
                 line = stackTraceElement.getLineNumber();
             }
         }
-        if (line != -1 && foundMethod != null){
+        if (line != -1 && foundMethod != null) {
             mc.countMethodCall(foundMethod, line);
+        }
+        if (foundMethod == null){
+            mc.invalidateMethodCall(tipo);
         }
     }
 }

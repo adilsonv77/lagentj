@@ -14,14 +14,14 @@
 	<numero>
 		<x>1</x>
 		<y>2</y>
-		<valor randomInf="1" randomSup="90"/>
+		<valor randomInf="1" randomSup="9"/>
 		<bloqueado>false</bloqueado>
 	</numero>
 
 	<numero>
 		<x>2</x>
 		<y>2</y>
-		<valor randomInf="1" randomSup="90"/>
+		<valor randomInf="1" randomSup="9"/>
 		<bloqueado>false</bloqueado>
 	</numero>
 
@@ -36,24 +36,19 @@
                 lerInteiro
             </tipo>
         </objetivo>
-				<objetivo nomeMetodo="menor">
+				<objetivo nome="tabuada" retorno="void" condicao=">=" valor="1">
             <tipo>
                 usarMetodo
             </tipo>
 						<parametros>
-							<parametro nome="a">
-								int
-							</parametro>
-							<parametro nome="b">
-								int
-							</parametro>
+							<parametro tipo="int"></parametro>
 						</parametros>
         </objetivo>
-				<objetivo texto="a">
-					<tipo>
-						dizer
-					</tipo>
-				</objetivo>
+				<objetivo>
+            <tipo>
+                dizerTabuada
+            </tipo>
+        </objetivo>
     </objetivos>
 
 </agentej>

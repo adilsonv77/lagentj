@@ -132,6 +132,7 @@ public class MundoAgenteJ extends JPanel {
 
         private void verificarObjetivos() {
             mv.verificarObjetivos("usarMetodo", null);
+            mv.verificarObjetivos("dizerTabuada", null);
         }
 
     }
@@ -164,6 +165,10 @@ public class MundoAgenteJ extends JPanel {
     private List<Objetivo> objetivos;
     private MundoVisual mv;
 
+    public Mundo getMundo() {
+    	return mapaModel.mundo;
+    }
+    
     public MundoVisual getMv() {
         return mv;
     }

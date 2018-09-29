@@ -16,17 +16,19 @@ import java.util.List;
 public class UsarMetodo extends Objetivo {
 
     private int calls;
+    private boolean invalid;
     private List<Integer> lines;
 
     public UsarMetodo(ObjetivoConfiguracao config) {
         super(config);
         lines = new ArrayList<Integer>();
+        invalid = false;
     }
 
     @Override
     public boolean verificarObjetivo(Object opcoes) {
-        if (hasMethod() && getConfig().eval(Integer.toString(calls))) {
-            return true;
+        if (hasMethod() && config.eval(Integer.toString(calls))) {
+            return !invalid;
         }
         return false;
     }
@@ -34,14 +36,26 @@ public class UsarMetodo extends Objetivo {
     @Override
     public String getDescricao() {
         String parametros = "";
-        for (int i = 0; i < getConfig().getParametros().size(); i++) {
-            Parametro p = getConfig().getParametros().get(i);
-            parametros += p.getTipo();
-            if (i < getConfig().getParametros().size() - 1) {
+        for (int i = 0; i < config.getParametros().size(); i++) {
+            Parametro p = config.getParametros().get(i);
+            String tipo = "";
+            if (p.getTipo().contains(".")) {
+                String a = p.getTipo().replace('.', '-');
+                String[] b = a.split("-");
+                tipo = b[b.length - 1];
+            } else {
+                tipo = p.getTipo();
+            }
+            parametros += tipo;
+            if (i < config.getParametros().size() - 1) {
                 parametros += ", ";
             }
         }
-        return String.format("Você precisa usar o método %s (%s): %s", getConfig().getNome(), parametros, getConfig().getRetorno());
+        String descricao = String.format("Você precisa usar o método %s (%s): %s. ", config.getNome(), parametros, config.getRetorno());
+        if (config.isRestrito()){
+            descricao += "Os " + config.getTipoComando().descricao + " só podem ser chamados de dentro deste método.";
+        }
+        return descricao;
     }
 
     public void call(int line) {
@@ -56,7 +70,6 @@ public class UsarMetodo extends Objetivo {
             calls++;
             lines.add(line);
         }
-
     }
 
     public boolean hasMethod() {
@@ -65,11 +78,11 @@ public class UsarMetodo extends Objetivo {
         try {
             obj = Class.forName(getMundo().getMundoAgenteJ().getExercicio().getClazz());
             for (Method m : obj.getDeclaredMethods()) {
-                if (m.getName().equals(getConfig().getNome())) {
+                if (m.getName().equals(config.getNome())) {
                     boolean hasAllParamTypes = true;
                     for (Class param : m.getParameterTypes()) {
                         boolean found = false;
-                        for (Class param2 : getConfig().getParametrosTypes()) {
+                        for (Class param2 : config.getParametrosTypes()) {
                             if (param.equals(param2)) {
                                 found = true;
                                 break;
@@ -80,7 +93,9 @@ public class UsarMetodo extends Objetivo {
                         }
                     }
                     if (hasAllParamTypes) {
-                        hasMethod = true;
+                        if (config.getRetornoType() == m.getReturnType()){
+                            hasMethod = true;
+                        }
                     }
                 }
             }
@@ -88,6 +103,18 @@ public class UsarMetodo extends Objetivo {
             e.printStackTrace();
         }
         return hasMethod;
+    }
+    
+    public void invalidate(){
+        invalid = true;
+    }
+    
+    public boolean isRestrito(){
+        return config.isRestrito();
+    }
+    
+    public Comando getTipoComando(){
+        return config.getTipoComando();
     }
 
 }

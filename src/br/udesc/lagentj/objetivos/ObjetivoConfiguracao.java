@@ -5,8 +5,6 @@
  */
 package br.udesc.lagentj.objetivos;
 
-import java.lang.reflect.Executable;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,14 +18,44 @@ public class ObjetivoConfiguracao {
 
     private int x;
     private int y;
+    private String dx;
+    private String dy;
     private String tipo;
     private String texto;
     private String valor;
     private String nome;
     private String retorno;
     private String condicao;
+    private boolean restrito;
+    private String comando;
+    private String formula;
+    private String descricao;
     private List<Parametro> parametros = new ArrayList();
     private static Map<String, Class<? extends Objetivo>> objetivos;
+
+    public String getFormula() {
+        return formula;
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getComando() {
+        return comando;
+    }
+
+    public void setComando(String comando) {
+        this.comando = comando;
+    }
 
     public String getNome() {
         return nome;
@@ -102,12 +130,42 @@ public class ObjetivoConfiguracao {
     }
 
     public void addParametro(Parametro p) {
-        System.out.println("addParametro");
         parametros.add(p);
     }
 
     public Objetivo gerar() throws Exception {
         return objetivos.get(this.tipo).getConstructor(new Class[]{ObjetivoConfiguracao.class}).newInstance(this);
+    }
+
+    public String getDx() {
+        return dx;
+    }
+
+    public void setDx(String dx) {
+        this.dx = dx;
+    }
+
+    public String getDy() {
+        return dy;
+    }
+
+    public void setDy(String dy) {
+        this.dy = dy;
+    }
+
+    public Comando getTipoComando() {
+        switch (comando) {
+            case "MOVIMENTO":
+                return Comando.MOVIMENTO;
+            case "INFO":
+                return Comando.INFO;
+            case "MUNDO":
+                return Comando.MUNDO;
+            case "CONSOLE":
+                return Comando.CONSOLE;
+            default:
+                return Comando.DEFAULT;
+        }
     }
 
     public Class[] getParametrosTypes() throws ClassNotFoundException {
@@ -141,48 +199,59 @@ public class ObjetivoConfiguracao {
         return params;
     }
 
+    public boolean isRestrito() {
+        return restrito;
+    }
+
+    public void setRestrito(boolean restrito) {
+        this.restrito = restrito;
+    }
+
     public Class getRetornoType() throws ClassNotFoundException {
-        if (retorno.equals("boolean")) {
-            return boolean.class;
-        } else if (retorno.equals("byte")) {
-            return byte.class;
-        } else if (retorno.equals("short")) {
-            return short.class;
-        } else if (retorno.equals("int")) {
-            return int.class;
-        } else if (retorno.equals("long")) {
-            return long.class;
-        } else if (retorno.equals("float")) {
-            return float.class;
-        } else if (retorno.equals("double")) {
-            return double.class;
-        } else if (retorno.equals("char")) {
-            return char.class;
-        } else if (retorno.equals("void")) {
-            return void.class;
-        } else {
-            String fqn = retorno.contains(".") ? retorno : "java.lang.".concat(retorno);
-            return Class.forName(fqn);
+        switch (retorno) {
+            case "boolean":
+                return boolean.class;
+            case "byte":
+                return byte.class;
+            case "short":
+                return short.class;
+            case "int":
+                return int.class;
+            case "long":
+                return long.class;
+            case "float":
+                return float.class;
+            case "double":
+                return double.class;
+            case "char":
+                return char.class;
+            case "void":
+                return void.class;
+            default:
+                String fqn = retorno.contains(".") ? retorno : "java.lang.".concat(retorno);
+                return Class.forName(fqn);
         }
     }
 
     public boolean eval(String valor) {
+        List<String> list = new ArrayList<>();
         if (condicao != null) {
             if (valor != null) {
-                if (condicao.equals("==")) {
-                    return valor.equals(this.valor);
-                } else if (condicao.equals("<=")) {
-                    return Integer.parseInt(valor) <= Integer.parseInt(this.valor);
-                } else if (condicao.equals(">=")) {
-                    return Integer.parseInt(valor) >= Integer.parseInt(this.valor);
-                } else if (condicao.equals("<")) {
-                    return Integer.parseInt(valor) < Integer.parseInt(this.valor);
-                } else if (condicao.equals(">")) {
-                    return Integer.parseInt(valor) > Integer.parseInt(this.valor);
-                } else if (condicao.equals("!=")) {
-                    return !valor.equals(this.valor);
-                } else {
-                    return false;
+                switch (condicao) {
+                    case "==":
+                        return valor.equals(this.valor);
+                    case "<=":
+                        return Integer.parseInt(valor) <= Integer.parseInt(this.valor);
+                    case ">=":
+                        return Integer.parseInt(valor) >= Integer.parseInt(this.valor);
+                    case "<":
+                        return Integer.parseInt(valor) < Integer.parseInt(this.valor);
+                    case ">":
+                        return Integer.parseInt(valor) > Integer.parseInt(this.valor);
+                    case "!=":
+                        return !valor.equals(this.valor);
+                    default:
+                        return false;
                 }
             }
         }
@@ -193,6 +262,7 @@ public class ObjetivoConfiguracao {
         objetivos = new HashMap();
         objetivos.put("mover", Mover.class);
         objetivos.put("dizer", Dizer.class);
+        objetivos.put("dizerTabuada", DizerTabuada.class);
         objetivos.put("usarMetodo", UsarMetodo.class);
         objetivos.put("lerInteiro", LerInteiro.class);
     }

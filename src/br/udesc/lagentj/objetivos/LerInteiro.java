@@ -22,8 +22,8 @@ public class LerInteiro extends Objetivo {
         Map<String, Object> coords = (Map) opcoes;
         int x = (Integer) coords.get("x");
         int y = (Integer) coords.get("y");
-        if (getConfig().getX() == x) {
-            if (getConfig().getY() == y) {
+        if (config.getX() == x) {
+            if (config.getY() == y) {
                 return true;
             }
         }
@@ -32,7 +32,7 @@ public class LerInteiro extends Objetivo {
 
     @Override
     public String getDescricao() {
-        return String.format("Voce precisa ler o numero da posicao Col %s Lin %s", getConfig().getX(), getConfig().getY());
+        return String.format("Voce precisa ler o numero da posicao Col %s Lin %s", config.getX(), config.getY());
     }
 
 }

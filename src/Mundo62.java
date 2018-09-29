@@ -2,30 +2,24 @@
 import br.udesc.lagentj.*;
 
 public class Mundo62 extends AgenteJ {
+
     @Override
     public void inteligencia() {
         andarDireita();
-        int a = getInt();
+        tabuada(getInt());
         andarDireita();
-        int b = getInt();
-        andarDireita();
-        menor(a, b);
-    }
-    
-    public void menor(int a, int b){
-        if (a < b){
-            diga(a);
-        } else {
-            if (b < a){
-                diga(b);
-            } else {
-                diga("igual");
-            }
-        } 
+        tabuada(getInt());
     }
 
     public static void main(String[] args) {
         MundoVisual.iniciar("Mundo62.xml");
+    }
+
+    private void tabuada(int a) {
+        for (int i = 1; i <= 10; i++) {
+            String output = "%s = %s";
+            diga(String.format(output, i, a * i));
+        }
     }
 
 }

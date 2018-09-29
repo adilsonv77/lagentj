@@ -308,8 +308,8 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 	
 	public int getInt() throws MundoException {
 		if (objetoMundoImpl.getObjeto(AQUIMESMO) != null && ehObjetoDoMundoTipo("Numero", AQUIMESMO)) {
-                        objetoMundoImpl.lerInteiro();
 			Numero n = getObjeto(AQUIMESMO);
+                        objetoMundoImpl.lerInteiro(n.getValor());
 			return n.getValor();
 		}
 		return 0;

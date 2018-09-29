@@ -5,7 +5,7 @@ import java.util.Map;
 
 public abstract class Objetivo {
 
-    private ObjetivoConfiguracao config;
+    protected ObjetivoConfiguracao config;
     private MundoVisual mundo;
 
     public Objetivo(ObjetivoConfiguracao config) {
@@ -20,13 +20,13 @@ public abstract class Objetivo {
         this.config = config;
     }
 
-    public boolean isCompleto(String tipo, Object opcoes){
-        if (tipo.equals(config.getTipo())){
+    public boolean isCompleto(String tipo, Object opcoes) {
+        if (tipo.equals(config.getTipo())) {
             return verificarObjetivo(opcoes);
         }
         return false;
     }
-    
+
     public abstract boolean verificarObjetivo(Object opcoes);
 
     public abstract String getDescricao();
