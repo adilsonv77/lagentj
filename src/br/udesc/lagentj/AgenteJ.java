@@ -130,7 +130,5 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 		super.andarEsquerda();
 	}
 
-	public static final double VERSAO = 1.04;
-	
-	
+	public static final double VERSAO = 1.05;
 }

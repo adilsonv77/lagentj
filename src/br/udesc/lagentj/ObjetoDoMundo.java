@@ -102,5 +102,9 @@ public interface ObjetoDoMundo {
 
 	void colidido(ObjetoDoMundo objetoMundo);
 	
+	int getInt() throws MundoException;
+	
+	int getInt(Direcao direcao) throws MundoException;
+	
 	
 }

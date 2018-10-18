@@ -146,6 +146,11 @@ public class Exercicio extends GrupoObjetos
         for(ElementoExercicio elemExerc:elemsAUsar)
         {
             int qtosObjs = sorteio.nextInt(elemExerc.getQtdade());
+            if (qtosObjs > (qtdadeCol-2)*(qtdadeLin-1)) {
+            	qtosObjs = (qtdadeCol-2)*(qtdadeLin-2);
+            	if (qtosObjs <= 0)
+            		qtosObjs = 1;
+            }
             for(int x = 0; x < qtosObjs; x++)
                 novosElems.add(elemExerc.clonar());
 
@@ -240,24 +245,38 @@ public class Exercicio extends GrupoObjetos
             int limiteSupLin = random.getLimiteSupRandomY() + 1;
             int limiteInfCol = random.getLimiteInfRandomX();
             int limiteInfLin = random.getLimiteInfRandomY();
-            if(limiteSupCol == 0 || limiteSupCol > qtdadeCol)
+            if(limiteSupCol == 0 || limiteSupCol > qtdadeCol) 
                 limiteSupCol = qtdadeCol;
+            else 
+            	if (limiteSupCol == -1)
+            		limiteSupCol = qtdadeCol-1;
+            
             if(limiteSupLin == 0 || limiteSupLin > qtdadeLin)
                 limiteSupLin = qtdadeLin;
+            else
+            	if (limiteSupLin == -1)
+            		limiteSupLin = qtdadeLin-1;
+            	
+        	if (limiteInfLin == -1)
+        		limiteInfLin = qtdadeLin;
+        	
+        	if (limiteInfCol == -1)
+        		limiteInfCol = qtdadeCol;
+        	
             limiteSupLin -= limiteInfLin;
             limiteSupCol -= limiteInfCol;
             do
             {
                 if(random.isRandomX())
-                    x = sorteio.nextInt(limiteSupCol);
+                    x = (limiteSupCol==0?-1:sorteio.nextInt(limiteSupCol));
                 else
                 if(random.isRandomY())
                 {
-                    y = sorteio.nextInt(limiteSupLin);
+                    y = (limiteSupLin==0?-1:sorteio.nextInt(limiteSupLin));
                 } else
                 {
-                    x = sorteio.nextInt(limiteSupCol);
-                    y = sorteio.nextInt(limiteSupLin);
+                    x = (limiteSupCol==0?-1:sorteio.nextInt(limiteSupCol));
+                    y = (limiteSupLin==0?-1:sorteio.nextInt(limiteSupLin));
                 }
                 x += limiteInfCol;
                 y += limiteInfLin;

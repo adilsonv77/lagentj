@@ -170,7 +170,7 @@ public class ElementoExercicio
     {
         return random;
     }
-
+    
     public ElementoExercicio clonar()
         throws InstantiationException, IllegalAccessException
     {

@@ -1,5 +1,13 @@
+1.05 (22/09/2018)
+- Faltou colocar os métodos getInt() e getInt(Direcao) em ObjetoDoMundo
+- Pode-se estipular o valor -1 aos limites para calcular 
+automaticamente ficar nas laterais de mundos variáveis
+- Pode-se estipular o valor -2 ao limiteSupX e limiteSupY para calcular 
+automaticamente não estar nas laterais de mundos variáveis
+
 1.04 (22/08/2018)
-- Transferidos os métodos getInt() e getInt(Direcao) do AgenteJ para ObjetoDoMundoAdapter
+- Transferidos os métodos getInt() e getInt(Direcao) do AgenteJ para 
+ObjetoDoMundoAdapter
 
 1.03 (16/08/2018)
 - Novo método iniciar que permite informar o número do socket
@@ -20,5 +28,6 @@
 - Novo método invocarApos(segundos, nome do metodo)
 - Novo método colidido(ObjetoDoMundo)
 - Novo método MundoVisual.iniciarImediatamente
-- Novo método trocarImagem() para avisar que a imagem precisa mudar, e então chama novamente buildImage().
+- Novo método trocarImagem() para avisar que a imagem precisa mudar, e então ~
+chama novamente buildImage().
 - Quando usarLinhasNaGrade=false já elimina de uma vez as linhas.
