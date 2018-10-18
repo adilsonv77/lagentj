@@ -5,6 +5,7 @@
  */
 package br.udesc.lagentj.objetivos;
 
+import br.udesc.lagentj.objetivos.singletons.RestartInterface;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +14,22 @@ import java.util.List;
  *
  * @author gabriel
  */
-public class UsarMetodo extends Objetivo {
+public class UsarMetodo extends Objetivo implements RestartInterface {
 
     private int calls;
+    private List<Object> returns;
     private boolean invalid;
-    private List<Integer> lines;
 
     public UsarMetodo(ObjetivoConfiguracao config) {
         super(config);
-        lines = new ArrayList<Integer>();
         invalid = false;
+        returns = new ArrayList();
     }
 
     @Override
     public boolean verificarObjetivo(Object opcoes) {
-        if (hasMethod() && config.eval(Integer.toString(calls))) {
-            return !invalid;
+        if (hasMethod() && calls > 0) {
+            return !invalid && isReturnsOK();
         }
         return false;
     }
@@ -46,30 +47,26 @@ public class UsarMetodo extends Objetivo {
             } else {
                 tipo = p.getTipo();
             }
+            tipo = tipo.replace(";", "");
             parametros += tipo;
             if (i < config.getParametros().size() - 1) {
                 parametros += ", ";
             }
         }
-        String descricao = String.format("Você precisa usar o método %s (%s): %s. ", config.getNome(), parametros, config.getRetorno());
-        if (config.isRestrito()){
-            descricao += "Os " + config.getTipoComando().descricao + " só podem ser chamados de dentro deste método.";
+        String extra = config.getDescricao() != null ? "Voc\352 precisa retornar (" + config.getValor() + ") " + config.getDescricao() : "";
+        String descricao = String.format("Voc\352 precisa usar o m\351todo: public %s %s (%s) throws Exception. %s", config.getRetorno(), config.getNome(), parametros, extra);
+        if (config.isRestrito()) {
+            descricao += "Os " + config.getTipoComando().descricao + " s\363 podem ser chamados de dentro deste m\352todo.";
         }
         return descricao;
     }
 
-    public void call(int line) {
-        boolean has = false;
-        for (Integer l : lines) {
-            if (l == line) {
-                has = true;
-                break;
-            }
-        }
-        if (!has) {
-            calls++;
-            lines.add(line);
-        }
+    public void call() {
+        calls++;
+    }
+
+    public void retorno(Object info) {
+        returns.add(info);
     }
 
     public boolean hasMethod() {
@@ -93,7 +90,7 @@ public class UsarMetodo extends Objetivo {
                         }
                     }
                     if (hasAllParamTypes) {
-                        if (config.getRetornoType() == m.getReturnType()){
+                        if (config.getRetornoType() == m.getReturnType()) {
                             hasMethod = true;
                         }
                     }
@@ -104,17 +101,43 @@ public class UsarMetodo extends Objetivo {
         }
         return hasMethod;
     }
-    
-    public void invalidate(){
+
+    public void invalidate() {
         invalid = true;
     }
-    
-    public boolean isRestrito(){
+
+    public boolean isRestrito() {
         return config.isRestrito();
     }
-    
-    public Comando getTipoComando(){
+
+    public Comando getTipoComando() {
         return config.getTipoComando();
+    }
+
+    private boolean isReturnsOK() {
+        String className = getMundo().getMundoAgenteJ().getExercicio().getClazz();
+        try {
+            if (!returns.isEmpty()) {
+                Object value = config.getValor();
+                Object real = returns.get(returns.size() - 1);
+                if (!value.equals(real)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public void restart() {
+        invalid = false;
+        calls = 0;
+        returns.clear();
     }
 
 }

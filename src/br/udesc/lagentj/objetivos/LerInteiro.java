@@ -20,10 +20,10 @@ public class LerInteiro extends Objetivo {
     @Override
     public boolean verificarObjetivo(Object opcoes) {
         Map<String, Object> coords = (Map) opcoes;
-        int x = (Integer) coords.get("x");
-        int y = (Integer) coords.get("y");
-        if (config.getX() == x) {
-            if (config.getY() == y) {
+        String x = Integer.toString((Integer) coords.get("x"));
+        String y = Integer.toString((Integer) coords.get("y"));
+        if (config.getX().equals(x)) {
+            if (config.getY().equals(y)) {
                 return true;
             }
         }
@@ -32,7 +32,7 @@ public class LerInteiro extends Objetivo {
 
     @Override
     public String getDescricao() {
-        return String.format("Voce precisa ler o numero da posicao Col %s Lin %s", config.getX(), config.getY());
+        return String.format("Voc\352 precisa ler o numero da posi\347\343o Col %s Lin %s", config.getX(), config.getY());
     }
 
 }

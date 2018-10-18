@@ -1,7 +1,6 @@
 package br.udesc.lagentj.objetivos;
 
 import br.udesc.lagentj.MundoVisual;
-import java.util.Map;
 
 public abstract class Objetivo {
 

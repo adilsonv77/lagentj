@@ -133,6 +133,7 @@ public class MundoAgenteJ extends JPanel {
         private void verificarObjetivos() {
             mv.verificarObjetivos("usarMetodo", null);
             mv.verificarObjetivos("dizerTabuada", null);
+            mv.verificarObjetivos("percorrerMundo", null);
         }
 
     }
@@ -350,6 +351,7 @@ public class MundoAgenteJ extends JPanel {
                 try {
                     objetoDoMundo.executar();
                 } catch (Exception e) {
+                    
                 }
             }
         };

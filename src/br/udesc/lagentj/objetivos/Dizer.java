@@ -1,8 +1,5 @@
 package br.udesc.lagentj.objetivos;
 
-import br.udesc.lagentj.suporte.Scripts;
-import javax.script.ScriptException;
-
 public class Dizer extends Objetivo {
 
     public Dizer(ObjetivoConfiguracao config) {
@@ -11,30 +8,21 @@ public class Dizer extends Objetivo {
 
     @Override
     public boolean verificarObjetivo(Object opcoes) {
-        String expectedText = null;
-        if (config.getTexto() != null){
-            expectedText = config.getTexto();
-        } else {
-            try {
-                expectedText = Scripts.eval(config.getFormula()).toString();
-            } catch (ScriptException ex) {
-            }
-        }
+        String expectedText = config.getValor().toString();
         String texto = (String) opcoes;
-        if (texto.equalsIgnoreCase(expectedText)){
+        if (texto.equalsIgnoreCase(expectedText)) {
             return true;
         }
         return false;
     }
 
     public String getDescricao() {
-        String expectedText = "";
-        if (config.getTexto() != null){
-            expectedText = config.getTexto();
-        } else {
-            expectedText = config.getDescricao();
+        String extra = "";
+        if (config.getDescricao() != null) {
+            extra = ", ou seja, " + config.getDescricao();
         }
-        return String.format("Voce precisa dizer: '%s'", expectedText);
+        String expectedText = config.getValor().toString();
+        return String.format("Voc\352 precisa dizer %s %s", expectedText, extra);
     }
 
 }

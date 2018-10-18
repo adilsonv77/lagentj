@@ -61,9 +61,17 @@ import br.udesc.lagentj.objetivos.GoalManager;
 import br.udesc.lagentj.objetivos.singletons.MethodManager;
 import br.udesc.lagentj.objetivos.Objetivo;
 import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
+import br.udesc.lagentj.objetivos.UsarMetodo;
+import br.udesc.lagentj.objetivos.singletons.MundoManager;
+import br.udesc.lagentj.objetivos.singletons.RestartInterface;
 import br.udesc.lagentj.suporte.Exercicio;
 import br.udesc.lagentj.suporte.ExercicioFactory;
 import br.udesc.lagentj.suporte.LoadImage;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.NotFoundException;
+import javassist.util.HotSwapper;
 
 /**
  *
@@ -71,14 +79,6 @@ import br.udesc.lagentj.suporte.LoadImage;
  */
 @SuppressWarnings("serial")
 public class MundoVisual extends JFrame {
-
-    private void drawCheckList() {
-        checkList.clear();
-        for (Objetivo obj : objetivos) {
-            checkList.addItem(obj.getDescricao());
-        }
-        
-    }
 
     private static class MySlider extends BasicSliderUI {
 
@@ -192,7 +192,7 @@ public class MundoVisual extends JFrame {
     private MundoAgenteJ mundoAgenteJ;
 
     private MundoVisual(Exercicio exercicio, String autor) throws Exception {
-        gerarObjetivos(exercicio.getConfiguracoes(), exercicio);
+        
 
         executou = false;
         interrompido = false;
@@ -205,6 +205,7 @@ public class MundoVisual extends JFrame {
 
         mundoAgenteJ = new MundoAgenteJ(exercicio);
         mundoAgenteJ.setMv(euMesmo);
+        
         mundoAgenteJ.addDisseramListener(new DisseramListener() {
 
             @Override
@@ -239,6 +240,7 @@ public class MundoVisual extends JFrame {
             }
         });
 
+        gerarObjetivos(exercicio.getConfiguracoes(), exercicio);
         initComponents(exercicio, autor);
     }
 
@@ -358,6 +360,7 @@ public class MundoVisual extends JFrame {
                     mundoAgenteJ.reiniciar();
                     pack();
                     drawCheckList();
+                    restart(exercicio);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -544,7 +547,9 @@ public class MundoVisual extends JFrame {
             obj.setMundo(this);
             objetivos.add(obj);
         }
-        MethodManager.getInstance().prepare(objetivos, e.getClazz());
+        MethodManager.getInstance().prepare(objetivos, e.getClazz());     
+        alterarMetodos(objetivos, e.getClazz());
+        MundoManager.getInstance();
     }
 
     public void checkObjetivo(int i) {
@@ -578,6 +583,53 @@ public class MundoVisual extends JFrame {
 
     public MundoAgenteJ getMundoAgenteJ() {
         return mundoAgenteJ;
+    }
+    
+    private void alterarMetodos(List<Objetivo> objs, String clazz) {
+        try {
+            ClassPool pool = ClassPool.getDefault();
+            CtClass cc = pool.get(clazz);
+            for (Objetivo obj : objs) {
+                 if (obj.getConfig().getTipo().equals("usarMetodo")) {
+                    String nomeMetodo = obj.getConfig().getNome();
+                    try {
+                        CtMethod m = cc.getDeclaredMethod(nomeMetodo);
+                        String comando = "br.udesc.lagentj.objetivos.singletons.MethodManager.getInstance().countMethodCall(\"%s\");";
+                        String fcmd = String.format(comando, nomeMetodo);
+                        m.insertBefore(fcmd);
+                        String after = "{br.udesc.lagentj.objetivos.singletons.MethodManager.getInstance().storeReturn(\"%s\", ($w)$_); }";
+                        String acmd = String.format(after, nomeMetodo);
+                        m.insertAfter(acmd);
+                    } catch (NotFoundException nfe){
+                        
+                    }
+                }
+            }          
+            byte[] classFile = cc.toBytecode();            
+            HotSwapper hs = new HotSwapper(8000);
+            hs.reload(clazz, classFile);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void drawCheckList() {
+        checkList.clear();
+        for (Objetivo obj : objetivos) {
+            checkList.addItem(obj.getDescricao());
+        }
+    }
+    
+    private void restart(Exercicio e) {
+        MundoManager.getInstance().restart();
+        MethodManager.getInstance().restart();
+        MethodManager.getInstance().prepare(objetivos, e.getClazz());
+        for (Objetivo objetivo : objetivos) {
+            if (objetivo.getConfig().getTipo().equals("usarMetodo")){
+                RestartInterface ri = (UsarMetodo) objetivo;
+                ri.restart();
+            }
+        }
     }
 
 }

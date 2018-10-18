@@ -229,7 +229,7 @@ public class Exercicio extends GrupoObjetos
         ObjetoDoMundo objMundo = (ObjetoDoMundo)Class.forName(clazz).newInstance();
         ObjetoMundoImpl obj = objMundo.getObjetoMundoImpl();
         obj.setMundo(mundo);
-        obj.setMv(mv);
+        obj.setMundoVisual(mv);
         obj.setBloqueado(elemento.isBloqueado());
         int x = getX(mundo, elemento);
         int y = getY(mundo, elemento);

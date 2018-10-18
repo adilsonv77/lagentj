@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author gabriel
  */
-public class MethodManager {
+public class MethodManager implements RestartInterface {
 
     private static MethodManager self;
     private Map<String, UsarMetodo> objetivos;
@@ -38,14 +38,21 @@ public class MethodManager {
         objetivos = new HashMap();
         for (Objetivo obj : objs) {
             if (obj.getConfig().getTipo().equals("usarMetodo")) {
-                objetivos.put(obj.getConfig().getNome(), (UsarMetodo) obj);
+                String nomeMetodo = obj.getConfig().getNome();
+                objetivos.put(nomeMetodo, (UsarMetodo) obj);
             }
         }
     }
 
-    public void countMethodCall(String method, int line) {
+    public void countMethodCall(String method) {
         if (clazz != null && objetivos != null) {
-            objetivos.get(method).call(line);
+            objetivos.get(method).call();
+        }
+    }
+
+    public void storeReturn(String method, Object info) {
+        if (clazz != null && objetivos != null) {
+            objetivos.get(method).retorno(info);
         }
     }
 
@@ -61,6 +68,13 @@ public class MethodManager {
 
     public Set<String> getNomesMetodos() {
         return objetivos.keySet();
+    }
+
+    @Override
+    public void restart() {
+        self = new MethodManager();
+        objetivos.clear();
+        clazz = null;
     }
 
 }

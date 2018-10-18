@@ -12,10 +12,10 @@ package br.udesc.lagentj.objetivos;
 public enum Comando {
 
     CONSOLE("comandos de console"),
-    INFO("comandos informação"),
+    INFO("comandos informa\347\343o"),
     MOVIMENTO("comandos de movimento"),
     MUNDO("comandos do mundo"),
-    DEFAULT("comandos padrão");
+    DEFAULT("comandos padr\343o");
 
     String descricao;
 

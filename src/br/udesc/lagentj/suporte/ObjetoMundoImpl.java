@@ -34,7 +34,7 @@ import br.udesc.lagentj.exceptions.MundoEncerradoException;
 import br.udesc.lagentj.exceptions.MundoException;
 import br.udesc.lagentj.objetivos.Comando;
 import br.udesc.lagentj.objetivos.singletons.MethodManager;
-import br.udesc.lagentj.objetivos.singletons.TabuadaManager;
+import br.udesc.lagentj.objetivos.singletons.MundoManager;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,7 +165,6 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 
     public final void diga(final String texto) throws MundoException {
         inspecionarStackTrace(Comando.CONSOLE);
-        TabuadaManager.getInstance().storeOutput(texto);
         if (isParar()) {
             throw new MundoEncerradoException();
         }
@@ -175,7 +174,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             gastarEnergia(10);
             mundo.disse(euMesmo, texto);
             Thread.sleep(getTempoEspera());
-            mv.verificarObjetivos("dizer", texto);
+            mundoVisual.verificarObjetivos("dizer", texto);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -232,13 +231,16 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         final ObjetoMundoImpl euMesmo = this;
         final List<MundoException> ex = new ArrayList<MundoException>();
         try {
-
+            pegarObjeto();
             gastarEnergia(20);
             mundo.andar(euMesmo, direcao);
-            Map<String, Object> opcoes = new HashMap();
-            opcoes.put("x", getX());
-            opcoes.put("y", getY());
-            mv.verificarObjetivos("mover", opcoes);
+            if (euMesmo.getObjetoMundo().getSouDoTipo().equals(getMundoVisual().getMundoAgenteJ().getExercicio().getClazz())) {
+                Map<String, Object> opcoes = new HashMap();
+                opcoes.put("x", getX());
+                opcoes.put("y", getY());
+                mundoVisual.verificarObjetivos("mover", opcoes);
+                MundoManager.getInstance().visit(getX(), getY());
+            }
             Thread.sleep(getTempoEspera());
         } catch (Exception e) {
             e.printStackTrace();
@@ -302,6 +304,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         final ObjetoMundoImpl euMesmo = this;
         final List<MundoException> ex = new ArrayList<MundoException>();
         try {
+            
             gastarEnergia(15);
             objRet.add(mundo.getObjeto(euMesmo, direcao));
             Thread.sleep(getTempoEspera());
@@ -599,26 +602,31 @@ public class ObjetoMundoImpl implements PosicaoMundo {
     private boolean removido;
     private boolean executando;
     private boolean imageChanged;
-    private MundoVisual mv;
+    private MundoVisual mundoVisual;
 
-    public MundoVisual getMv() {
-        return mv;
+    public MundoVisual getMundoVisual() {
+        return mundoVisual;
     }
 
-    public void setMv(MundoVisual mv) {
-        this.mv = mv;
+    public void setMundoVisual(MundoVisual mundoVisual) {
+        this.mundoVisual = mundoVisual;
+    }
+    
+    public void pegarObjeto(){
+        Map<String, Object> opcoes = new HashMap();
+        opcoes.put("x", getX());
+        opcoes.put("y", getY());
+        mundoVisual.verificarObjetivos("pegarObjeto", opcoes);
     }
 
     public void lerInteiro(int numero) {
         Map<String, Object> opcoes = new HashMap();
         opcoes.put("x", getX());
         opcoes.put("y", getY());
-        mv.verificarObjetivos("lerInteiro", opcoes);
-        TabuadaManager.getInstance().setLastInteger(numero);
+        mundoVisual.verificarObjetivos("lerInteiro", opcoes);
     }
 
     public void inspecionarStackTrace(Comando tipo) {
-        int line = -1;
         String foundMethod = null;
         MethodManager mc = MethodManager.getInstance();
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
@@ -628,14 +636,8 @@ public class ObjetoMundoImpl implements PosicaoMundo {
                     foundMethod = methodName;
                 }
             }
-            if (stackTraceElement.getMethodName().equals("inteligencia") && stackTraceElement.getClassName().equals(mv.getMundoAgenteJ().getExercicio().getClazz())) {
-                line = stackTraceElement.getLineNumber();
-            }
         }
-        if (line != -1 && foundMethod != null) {
-            mc.countMethodCall(foundMethod, line);
-        }
-        if (foundMethod == null){
+        if (foundMethod == null) {
             mc.invalidateMethodCall(tipo);
         }
     }
