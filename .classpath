@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="commons-digester-1.8.jar"/>
 	<classpathentry kind="lib" path="commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="javassist.jar"/>
+	<classpathentry kind="lib" path="tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

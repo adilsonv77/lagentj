@@ -14,7 +14,7 @@ public class PercorrerMundo extends Objetivo {
     }
 
     public String getDescricao() {
-        return "Voc\352 precisa percorrer todas as posi\347\365es poss\355veis do mundo.";
+        return "O agente precisa percorrer todas as posi\347\365es poss\355veis do mundo.";
     }
 
 }

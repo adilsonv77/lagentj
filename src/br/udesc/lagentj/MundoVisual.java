@@ -67,11 +67,7 @@ import br.udesc.lagentj.objetivos.singletons.RestartInterface;
 import br.udesc.lagentj.suporte.Exercicio;
 import br.udesc.lagentj.suporte.ExercicioFactory;
 import br.udesc.lagentj.suporte.LoadImage;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.NotFoundException;
-import javassist.util.HotSwapper;
+
 
 /**
  *
@@ -281,10 +277,13 @@ public class MundoVisual extends JFrame {
         JPanel jp = getControle(exercicio);
         getContentPane().add(jp, "North");
 
-        checkList = new JCheckList();
-        checkList.setTitle("Objetivos:");
-        drawCheckList();
-        getContentPane().add(checkList, "East");
+        
+        if (validarObjetivos){
+            checkList = new JCheckList();
+            checkList.setTitle("Objetivos:");
+            drawCheckList();
+            getContentPane().add(checkList, "East");
+        }
 
         getContentPane().add(mundoAgenteJ, "Center");
         console = new JTextArea();
@@ -378,7 +377,9 @@ public class MundoVisual extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 interrompido = true;
                 mundoAgenteJ.parar();
-                checkList.uncheckAllItems();
+                if (validarObjetivos){
+                    checkList.uncheckAllItems();
+                }
                 jbExecutar.setEnabled(true);
                 jbParar.setEnabled(false);
             }
@@ -389,7 +390,9 @@ public class MundoVisual extends JFrame {
 
     private void novaSequencia(Exercicio exercicio) {
         atributos.clear();
-        checkList.uncheckAllItems();
+        if (validarObjetivos){
+            checkList.uncheckAllItems();
+        }
     }
 
     private void executarInterno(Exercicio exercicio) {
@@ -538,6 +541,7 @@ public class MundoVisual extends JFrame {
     private JButton jbRenovar;
     private JCheckList checkList;
     private static int socket = 57391;
+    private boolean validarObjetivos = true;
     private List<Objetivo> objetivos = new ArrayList();
 
     private void gerarObjetivos(List<ObjetivoConfiguracao> objetivoConfiguracoes, Exercicio e) throws Exception {
@@ -561,22 +565,26 @@ public class MundoVisual extends JFrame {
     }
 
     public void fim() {
-        if (!interrompido) {
-            if (executou) {
-                if (checkList.isAllGoalsAchieved()) {
-                    JOptionPane.showMessageDialog(null, "Parabéns! Você concluiu todos os objetivos.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Você não conseguiu completar todos os objetivos. Tente novamente.");
+        if (validarObjetivos){
+            if (!interrompido) {
+                if (executou) {
+                    if (checkList.isAllGoalsAchieved()) {
+                        JOptionPane.showMessageDialog(null, "Parab\351ns! Todos os objetivos foram conclu\355dos.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Um ou mais objetivos n\343o foram alcan\347ados. Tente novamente.");
+                    }
                 }
             }
         }
     }
 
     public void verificarObjetivos(String tipo, Object opcoes) {
-        for (int i = 0; i < objetivos.size(); i++) {
-            Objetivo objetivo = objetivos.get(i);
-            if (objetivo.isCompleto(tipo, opcoes)) {
-                checkObjetivo(i);
+        if (validarObjetivos){
+            for (int i = 0; i < objetivos.size(); i++) {
+                Objetivo objetivo = objetivos.get(i);
+                if (objetivo.isCompleto(tipo, opcoes)) {
+                    checkObjetivo(i);
+                }
             }
         }
     }
@@ -587,36 +595,45 @@ public class MundoVisual extends JFrame {
     
     private void alterarMetodos(List<Objetivo> objs, String clazz) {
         try {
-            ClassPool pool = ClassPool.getDefault();
-            CtClass cc = pool.get(clazz);
+            javassist.ClassPool pool = javassist.ClassPool.getDefault();
+            javassist.CtClass cc = pool.get(clazz);
             for (Objetivo obj : objs) {
                  if (obj.getConfig().getTipo().equals("usarMetodo")) {
                     String nomeMetodo = obj.getConfig().getNome();
                     try {
-                        CtMethod m = cc.getDeclaredMethod(nomeMetodo);
+                        javassist.CtMethod m = cc.getDeclaredMethod(nomeMetodo);
                         String comando = "br.udesc.lagentj.objetivos.singletons.MethodManager.getInstance().countMethodCall(\"%s\");";
                         String fcmd = String.format(comando, nomeMetodo);
                         m.insertBefore(fcmd);
                         String after = "{br.udesc.lagentj.objetivos.singletons.MethodManager.getInstance().storeReturn(\"%s\", ($w)$_); }";
                         String acmd = String.format(after, nomeMetodo);
                         m.insertAfter(acmd);
-                    } catch (NotFoundException nfe){
+                    } catch (Exception e){
                         
-                    }
+                    } 
                 }
             }          
             byte[] classFile = cc.toBytecode();            
-            HotSwapper hs = new HotSwapper(8000);
+            javassist.util.HotSwapper hs = new javassist.util.HotSwapper(8000);
             hs.reload(clazz, classFile);
-        } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("O Mundo do AgentJ est\341 validando objetivos.");
+        } catch(NoClassDefFoundError | Exception e) {
+            validarObjetivos = false;
+            String message = "O Mundo do AgentJ est\341 sendo executado sem a valida\347\343o de objetivos.\n"
+                    + "Para habilitar a verifica\347\343o de objetivos confira os arquivos neces\341rios no build path como:\n"
+                    + " - tools.jar\n"
+                    + " - javasssit.jar\n"
+                    + "E tamb\351m verifique existem os argumentos necess\341rios na VM.";
+            System.out.println(message);
         }
     }
     
     private void drawCheckList() {
-        checkList.clear();
-        for (Objetivo obj : objetivos) {
-            checkList.addItem(obj.getDescricao());
+        if (validarObjetivos){
+            checkList.clear();
+            for (Objetivo obj : objetivos) {
+                checkList.addItem(obj.getDescricao());
+            }
         }
     }
     

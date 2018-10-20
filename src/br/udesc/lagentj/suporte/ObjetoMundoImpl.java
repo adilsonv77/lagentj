@@ -619,10 +619,10 @@ public class ObjetoMundoImpl implements PosicaoMundo {
         mundoVisual.verificarObjetivos("pegarObjeto", opcoes);
     }
 
-    public void lerInteiro(int numero) {
+    public void lerInteiro(int numero, int x, int y) {
         Map<String, Object> opcoes = new HashMap();
-        opcoes.put("x", getX());
-        opcoes.put("y", getY());
+        opcoes.put("x", getX() + x);
+        opcoes.put("y", getY() + y);
         mundoVisual.verificarObjetivos("lerInteiro", opcoes);
     }
 

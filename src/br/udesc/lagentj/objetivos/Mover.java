@@ -22,7 +22,7 @@ public class Mover extends Objetivo {
     }
 
     public String getDescricao() {
-        return String.format("Voc\352 precisa mover o agente at\351 a posi\347\343o Col %s Lin %s", config.getX(), config.getY());
+        return String.format("O agente precisa andar at\351 a posi\347\343o Col %s Lin %s", config.getX(), config.getY());
     }
 
 }

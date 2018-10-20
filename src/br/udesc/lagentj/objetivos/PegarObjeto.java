@@ -32,7 +32,7 @@ public class PegarObjeto extends Objetivo {
 
     @Override
     public String getDescricao() {
-        return String.format("Voc\352 pegar o objeto da posi\347\343o Col %s Lin %s", config.getX(), config.getY());
+        return String.format("O agente precisa pegar o objeto da posi\347\343o Col %s Lin %s", config.getX(), config.getY());
     }
 
 }
