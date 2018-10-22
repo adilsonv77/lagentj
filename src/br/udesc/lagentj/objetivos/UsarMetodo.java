@@ -53,8 +53,8 @@ public class UsarMetodo extends Objetivo implements RestartInterface {
                 parametros += ", ";
             }
         }
-        String extra = config.getDescricao() != null ? "O resultado do m\351todo dever\341 ser: '" + config.getValor() + "', ou seja, " + config.getDescricao() : "";
-        String descricao = String.format("O agente precisa usar o m\351todo com a seguinte assinatura: 'private %s %s (%s)'. %s", config.getRetorno(), config.getNome(), parametros, extra);
+        String extra = config.getDescricao() != null ? "O resultado do m\351todo dever\341 ser: \"" + config.getValor() + "\", ou seja, " + config.getDescricao() : "";
+        String descricao = String.format("O agente precisa usar o m\351todo com a seguinte assinatura: private %s %s (%s). %s", config.getRetorno(), config.getNome(), parametros, extra);
         if (config.isRestrito()) {
             descricao += "Os " + config.getTipoComando().descricao + " s\363 podem ser chamados de dentro deste m\352todo.";
         }

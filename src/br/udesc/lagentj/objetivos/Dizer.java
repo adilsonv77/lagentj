@@ -22,7 +22,7 @@ public class Dizer extends Objetivo {
             extra = ", ou seja, " + config.getDescricao();
         }
         String expectedText = config.getValor().toString();
-        return String.format("O agente precisa dizer '%s' %s", expectedText, extra);
+        return String.format("O agente precisa dizer \"%s\" %s", expectedText, extra);
     }
 
 }

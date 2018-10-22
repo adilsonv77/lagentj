@@ -330,10 +330,10 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
                                 objetoMundoImpl.lerInteiro(n.getValor(), 1, 0);
                                 break;
                             case ACIMA:
-                              objetoMundoImpl.lerInteiro(n.getValor(), 0, 1);
+                              objetoMundoImpl.lerInteiro(n.getValor(), 0, -1);
                               break;
                             case ABAIXO:
-                                objetoMundoImpl.lerInteiro(n.getValor(), 0, -1);
+                                objetoMundoImpl.lerInteiro(n.getValor(), 0, 1);
                                 break;
                             default:
                                 objetoMundoImpl.lerInteiro(n.getValor(), 0, 0);

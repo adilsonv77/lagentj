@@ -552,8 +552,8 @@ public class MundoVisual extends JFrame {
             objetivos.add(obj);
         }
         MethodManager.getInstance().prepare(objetivos, e.getClazz());     
-        alterarMetodos(objetivos, e.getClazz());
         MundoManager.getInstance();
+        alterarMetodos(objetivos, e.getClazz());
     }
 
     public void checkObjetivo(int i) {
@@ -617,7 +617,15 @@ public class MundoVisual extends JFrame {
             javassist.util.HotSwapper hs = new javassist.util.HotSwapper(8000);
             hs.reload(clazz, classFile);
             System.out.println("O Mundo do AgentJ est\341 validando objetivos.");
-        } catch(NoClassDefFoundError | Exception e) {
+        } catch(NoClassDefFoundError e) {
+            validarObjetivos = false;
+            String message = "O Mundo do AgentJ est\341 sendo executado sem a valida\347\343o de objetivos.\n"
+                    + "Para habilitar a verifica\347\343o de objetivos confira os arquivos neces\341rios no build path como:\n"
+                    + " - tools.jar\n"
+                    + " - javasssit.jar\n"
+                    + "E tamb\351m verifique existem os argumentos necess\341rios na VM.";
+            System.out.println(message);
+        } catch(Exception e){
             validarObjetivos = false;
             String message = "O Mundo do AgentJ est\341 sendo executado sem a valida\347\343o de objetivos.\n"
                     + "Para habilitar a verifica\347\343o de objetivos confira os arquivos neces\341rios no build path como:\n"

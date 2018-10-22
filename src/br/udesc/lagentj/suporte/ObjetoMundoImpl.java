@@ -234,7 +234,7 @@ public class ObjetoMundoImpl implements PosicaoMundo {
             pegarObjeto();
             gastarEnergia(20);
             mundo.andar(euMesmo, direcao);
-            if (euMesmo.getObjetoMundo().getSouDoTipo().equals(getMundoVisual().getMundoAgenteJ().getExercicio().getClazz())) {
+            if (euMesmo.getObjetoMundo().getSouDoTipo().equals(getMundoVisual().getMundoAgenteJ().getExercicio().getClazzSimpleName())) {
                 Map<String, Object> opcoes = new HashMap();
                 opcoes.put("x", getX());
                 opcoes.put("y", getY());
@@ -621,8 +621,10 @@ public class ObjetoMundoImpl implements PosicaoMundo {
 
     public void lerInteiro(int numero, int x, int y) {
         Map<String, Object> opcoes = new HashMap();
-        opcoes.put("x", getX() + x);
-        opcoes.put("y", getY() + y);
+        int dx = getX() + x;
+        int dy = getY() + y;
+        opcoes.put("x", dx);
+        opcoes.put("y", dy);
         mundoVisual.verificarObjetivos("lerInteiro", opcoes);
     }
 

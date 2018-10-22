@@ -11,7 +11,7 @@ AgenteJ.maiorInt = function (x1, y1, x2, y2) {
 };
 
 AgenteJ.nomeDoMes = function (mes) {
-    var meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+    var meses = ['janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
     return meses[mes - 1];
 };
 

@@ -39,11 +39,11 @@ public class MundoManager implements RestartInterface {
                 String key = String.format(pattern, ox, oy);
                 posicoes.remove(key);
             }
-            if (objeto.getObjetoMundo().getSouDoTipo().equals(objeto.getMundoVisual().getMundoAgenteJ().getExercicio().getClazz())) {
+            if (objeto.getObjetoMundo().getSouDoTipo().equals(objeto.getMundoVisual().getMundoAgenteJ().getExercicio().getClazzSimpleName())) {
                 int ox = objeto.getX();
                 int oy = objeto.getY();
                 String pattern = "%s,%s";
-                String key = String.format(pattern, ox, oy);
+                String key = String.format(pattern, ox, oy);                
                 posicoes.get(key).visit();
             }
         }

@@ -64,7 +64,6 @@ public class Exercicio extends GrupoObjetos
 	public Exercicio(String nomeArquivoXML) {
 		
 		String[] pedacos = nomeArquivoXML.split("[.]");
-		
 		this.clazz = "";
 		for (int x=0;x<pedacos.length-1;x++) {
 			this.clazz += pedacos[x];
@@ -422,6 +421,15 @@ public class Exercicio extends GrupoObjetos
 
     public String getClazz() {
         return clazz;
+    }
+    
+    public String getClazzSimpleName() {
+        String[] parts = clazz.split("[.]");
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+        }
+        return parts[parts.length -1];
+        
     }
     
     

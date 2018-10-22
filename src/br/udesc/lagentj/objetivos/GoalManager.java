@@ -125,7 +125,7 @@ public class GoalManager {
     }
 
     public static List<ObjetoDoMundo> getQuadrantElements(int quadrante, String tipo, int xd, int yd) {
-        List<ObjetoDoMundo> objetos = new ArrayList<>();
+        List<ObjetoDoMundo> objetos = new ArrayList();
         for (ObjetoMundoImpl objeto : mundoVisual.getMundoAgenteJ().getMundo().getObjetos()) {
             ObjetoDoMundo adapter = objeto.getObjetoMundo();
             if (adapter.getSouDoTipo().equals(tipo)) {
