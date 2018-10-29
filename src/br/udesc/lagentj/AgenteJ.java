@@ -28,6 +28,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import br.udesc.lagentj.exceptions.MundoException;
+import br.udesc.lagentj.objetivos.Objetivo;
 import br.udesc.lagentj.suporte.LoadImage;
 
 /**
@@ -129,5 +130,5 @@ public abstract class AgenteJ extends ObjetoDoMundoAdapter {
 		super.andarEsquerda();
 	}
 
-	public static final double VERSAO = 1.05;
+	public static final double VERSAO = 1.06;
 }

@@ -24,6 +24,9 @@ import java.io.IOException;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
+import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
+import br.udesc.lagentj.objetivos.Parametro;
+
 /**
  * 
  * @author Adilson Vahldick
@@ -88,6 +91,8 @@ public class ExercicioFactory
         d.addSetProperties("*/img");
         d.addSetNext("*/img", "addElemento");
         
+        addRuleObjetivo(d);
+        
         File srcfile = new File(nomeArquivoXML);
         d.parse(srcfile);
         exercicio.finalizar();
@@ -97,6 +102,19 @@ public class ExercicioFactory
     private static void addRuleObjeto(Digester d, String pattern)
     {
         addRuleObjetoClass(d, pattern, ElementoExercicio.class);
+    }
+    
+    private static void addRuleObjetivo(Digester d)
+    {       
+        d.addObjectCreate("*/objetivos/objetivo", ObjetivoConfiguracao.class);	
+        d.addSetProperties("*/objetivos/objetivo");
+        d.addBeanPropertySetter("*/objetivos/objetivo/tipo", "tipo");        
+        d.addSetNext("*/objetivos/objetivo", "addObjetivo");        
+        
+        d.addObjectCreate("*/parametros/parametro", Parametro.class);	
+        d.addSetProperties("*/parametros/parametro");
+        d.addSetNext("*/parametros/parametro", "addParametro");
+        
     }
 
     private static void addRuleObjetoClass(Digester d, String pattern, Class<?> clazz)
@@ -123,6 +141,8 @@ public class ExercicioFactory
         d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/bloqueado").toString());
         d.addBeanPropertySetter((new StringBuilder(String.valueOf(pattern))).append("/laterais").toString());
     }
+    
+    
 
     private static void addRulesRandom(Digester d, String pattern)
     {

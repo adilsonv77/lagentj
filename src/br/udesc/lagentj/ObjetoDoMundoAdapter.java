@@ -288,8 +288,8 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 		// aguardar que os descendentes implementem
 	}
 
-	public void invoqueApos(int segundos, String nomeMetodo) {
-		ObjetoDoMundoAdapter me = this;
+	public void invoqueApos(final int segundos, final String nomeMetodo) {
+		final ObjetoDoMundoAdapter me = this;
 		Thread t = new Thread() {
 			@Override
 			public void run() {
@@ -309,6 +309,7 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 	public int getInt() throws MundoException {
 		if (objetoMundoImpl.getObjeto(AQUIMESMO) != null && ehObjetoDoMundoTipo("Numero", AQUIMESMO)) {
 			Numero n = getObjeto(AQUIMESMO);
+                        objetoMundoImpl.lerInteiro(n.getValor(), 0, 0);
 			return n.getValor();
 		}
 		return 0;
@@ -321,6 +322,23 @@ public abstract class ObjetoDoMundoAdapter implements ObjetoDoMundo {
 		
 		if (ehObjetoDoMundoTipo("Numero", direcao)) {
 			Numero n = getObjeto(direcao);
+                        switch(direcao){
+                            case ESQUERDA:
+                                objetoMundoImpl.lerInteiro(n.getValor(), -1, 0);
+                                break;
+                            case DIREITA:
+                                objetoMundoImpl.lerInteiro(n.getValor(), 1, 0);
+                                break;
+                            case ACIMA:
+                              objetoMundoImpl.lerInteiro(n.getValor(), 0, -1);
+                              break;
+                            case ABAIXO:
+                                objetoMundoImpl.lerInteiro(n.getValor(), 0, 1);
+                                break;
+                            default:
+                                objetoMundoImpl.lerInteiro(n.getValor(), 0, 0);
+                        }                                
+                        
 			return n.getValor();
 		}
 		return 0;

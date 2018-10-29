@@ -37,7 +37,9 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.GeneralPath;
 import java.net.BindException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -55,449 +57,604 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.text.DefaultCaret;
 
 import br.udesc.lagentj.exceptions.MundoException;
+import br.udesc.lagentj.objetivos.GoalManager;
+import br.udesc.lagentj.objetivos.singletons.MethodManager;
+import br.udesc.lagentj.objetivos.Objetivo;
+import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
+import br.udesc.lagentj.objetivos.UsarMetodo;
+import br.udesc.lagentj.objetivos.singletons.MundoManager;
+import br.udesc.lagentj.objetivos.singletons.RestartInterface;
 import br.udesc.lagentj.suporte.Exercicio;
 import br.udesc.lagentj.suporte.ExercicioFactory;
 import br.udesc.lagentj.suporte.LoadImage;
 
+
 /**
- * 
- * @author Adilson Vahldick 
+ *
+ * @author Adilson Vahldick
  */
 @SuppressWarnings("serial")
 public class MundoVisual extends JFrame {
 
-	private static class MySlider extends BasicSliderUI {
+    private static class MySlider extends BasicSliderUI {
 
-	    private BasicStroke stroke = new BasicStroke(1f, BasicStroke.CAP_ROUND, 
-	            BasicStroke.JOIN_ROUND, 0f, new float[]{1f, 2f}, 0f);
-	    
-		private Image tartaruga;
-		private Image lebre;
+        private BasicStroke stroke = new BasicStroke(1f, BasicStroke.CAP_ROUND,
+                BasicStroke.JOIN_ROUND, 0f, new float[]{1f, 2f}, 0f);
 
-	    public MySlider(JSlider b) {
-	       super(b);
-	       b.setBackground(Color.white);
-	       b.setFocusable(false);
-	       
-	       this.tartaruga = LoadImage.getInstance().getIcon("imagens/tartaruga.png").getImage();
-	       this.lebre = LoadImage.getInstance().getIcon("imagens/lebre.png").getImage();
-	    }
+        private Image tartaruga;
+        private Image lebre;
 
-	    @Override
-	    public void paint(Graphics g, JComponent c) {
-	        Graphics2D g2d = (Graphics2D) g;
-	        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-	                RenderingHints.VALUE_ANTIALIAS_ON);
-	        
-	        g.drawImage(tartaruga, 0, 20, null);
-	        g.drawImage(lebre, slider.getWidth()-25, 20, null);
-	        super.paint(g, c);
-	    }
+        public MySlider(JSlider b) {
+            super(b);
+            b.setBackground(Color.white);
+            b.setFocusable(false);
 
-	    @Override
-	    protected Dimension getThumbSize() {
-	        return new Dimension(12, 16);
-	    }
+            this.tartaruga = LoadImage.getInstance().getIcon("imagens/tartaruga.png").getImage();
+            this.lebre = LoadImage.getInstance().getIcon("imagens/lebre.png").getImage();
+        }
 
-	    @Override
-	    public void paintTrack(Graphics g) {
-	        Graphics2D g2d = (Graphics2D) g;
-	        Stroke old = g2d.getStroke();
-	        g2d.setStroke(stroke);
-	        g2d.setPaint(Color.BLACK);
-	        if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
-	            g2d.drawLine(trackRect.x, trackRect.y + trackRect.height / 2, 
-	                    trackRect.x + trackRect.width, trackRect.y + trackRect.height / 2);
-	        } else {
-	            g2d.drawLine(trackRect.x + trackRect.width / 2, trackRect.y, 
-	                    trackRect.x + trackRect.width / 2, trackRect.y + trackRect.height);
-	        }
-	        g2d.setStroke(old);
-	    }
+        @Override
+        public void paint(Graphics g, JComponent c) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
 
-	    @Override
-	    public void paintThumb(Graphics g) { // eh o botao que o usuario clica para acertar a posicao
-	        Graphics2D g2d = (Graphics2D) g;
-	        int x1 = thumbRect.x + 2;
-	        int x2 = thumbRect.x + thumbRect.width - 2;
-	        int width = thumbRect.width - 4;
-	        int topY = thumbRect.y + thumbRect.height / 2 - thumbRect.width / 3;
-	        GeneralPath shape = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-	        shape.moveTo(x1, topY);
-	        shape.lineTo(x2, topY);
-	        shape.lineTo((x1 + x2) / 2, topY + width);
-	        shape.closePath();
-	        g2d.setPaint(Color.black); // new Color(81, 83, 186));
-	        g2d.fill(shape);
-	        Stroke old = g2d.getStroke();
-	        g2d.setStroke(new BasicStroke(2f));
-	        g2d.setPaint(new Color(125, 125, 125));
-	        g2d.draw(shape);
-	        g2d.setStroke(old);
-	    }
+            g.drawImage(tartaruga, 0, 20, null);
+            g.drawImage(lebre, slider.getWidth() - 25, 20, null);
+            super.paint(g, c);
+        }
 
-	}
-	
-	public static void proxMundo() {
-		if (euMesmo.mundoAtual < euMesmo.nomesArquivosXML.length-1) {
-			euMesmo.mundoAtual++;
-			euMesmo.executarProxMundo = true;
-		}
-	}
-	
-	
-	public static void proxMundo(int indiceMundo) {
-		if (indiceMundo >= euMesmo.nomesArquivosXML.length) {
-			throw new MundoException("\315ndice do mundo fora da faixa.");
-		} else {
-			euMesmo.mundoAtual = indiceMundo;
-			euMesmo.executarProxMundo = true;
-		}
-	}
+        @Override
+        protected Dimension getThumbSize() {
+            return new Dimension(12, 16);
+        }
 
-	public static int getMundo() {
-		return euMesmo.mundoAtual;
-	}
+        @Override
+        public void paintTrack(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g;
+            Stroke old = g2d.getStroke();
+            g2d.setStroke(stroke);
+            g2d.setPaint(Color.BLACK);
+            if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
+                g2d.drawLine(trackRect.x, trackRect.y + trackRect.height / 2,
+                        trackRect.x + trackRect.width, trackRect.y + trackRect.height / 2);
+            } else {
+                g2d.drawLine(trackRect.x + trackRect.width / 2, trackRect.y,
+                        trackRect.x + trackRect.width / 2, trackRect.y + trackRect.height);
+            }
+            g2d.setStroke(old);
+        }
 
-	public static <T> void setAtributo(String nome, T valor) {
-		atributos.put(nome, valor);
-	}
+        @Override
+        public void paintThumb(Graphics g) { // eh o botao que o usuario clica para acertar a posicao
+            Graphics2D g2d = (Graphics2D) g;
+            int x1 = thumbRect.x + 2;
+            int x2 = thumbRect.x + thumbRect.width - 2;
+            int width = thumbRect.width - 4;
+            int topY = thumbRect.y + thumbRect.height / 2 - thumbRect.width / 3;
+            GeneralPath shape = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+            shape.moveTo(x1, topY);
+            shape.lineTo(x2, topY);
+            shape.lineTo((x1 + x2) / 2, topY + width);
+            shape.closePath();
+            g2d.setPaint(Color.black); // new Color(81, 83, 186));
+            g2d.fill(shape);
+            Stroke old = g2d.getStroke();
+            g2d.setStroke(new BasicStroke(2f));
+            g2d.setPaint(new Color(125, 125, 125));
+            g2d.draw(shape);
+            g2d.setStroke(old);
+        }
 
-	@SuppressWarnings("unchecked")
-	public static <T> T getAtributo(String nome) {
-		return (T) atributos.get(nome);
-	}
+    }
 
-	public static boolean temAtributo(String nome) {
-		return atributos.containsKey(nome);
-	}
+    public static void proxMundo() {
+        if (euMesmo.mundoAtual < euMesmo.nomesArquivosXML.length - 1) {
+            euMesmo.mundoAtual++;
+            euMesmo.executarProxMundo = true;
+        }
+    }
 
-	public static void removerAtributo(String nome) {
-		atributos.remove(nome);
-	}
-	
-	private MundoAgenteJ mundoAgenteJ;
+    public static void proxMundo(int indiceMundo) {
+        if (indiceMundo >= euMesmo.nomesArquivosXML.length) {
+            throw new MundoException("\315ndice do mundo fora da faixa.");
+        } else {
+            euMesmo.mundoAtual = indiceMundo;
+            euMesmo.executarProxMundo = true;
+        }
+    }
 
-	private MundoVisual(Exercicio exercicio, String autor) throws Exception {
-		executou = false;
-		euMesmo = this;
-		
-		setIconImage(LoadImage.getInstance().getIcon("imagens/agentej-icone.gif").getImage());
-		
-		mundoAgenteJ = new MundoAgenteJ(exercicio);
-		mundoAgenteJ.addDisseramListener(new DisseramListener(){
+    public static int getMundo() {
+        return euMesmo.mundoAtual;
+    }
 
-			@Override
-			public void disse(String texto) {
-				console.setText((new StringBuilder(String
-						.valueOf(console.getText()))).append(texto).append("\n")
-						.toString());
-			}
+    public static <T> void setAtributo(String nome, T valor) {
+        atributos.put(nome, valor);
+    }
 
-			@Override
-			public void limpar() {
-				console.setText("");
-			}});
+    @SuppressWarnings("unchecked")
+    public static <T> T getAtributo(String nome) {
+        return (T) atributos.get(nome);
+    }
 
-		mundoAgenteJ.addFinalizouExecucaoListener(new FinalizouExecucaoListener(){
+    public static boolean temAtributo(String nome) {
+        return atributos.containsKey(nome);
+    }
 
-			@Override
-			public void finalizouExecucao() {
-				if (executarProxMundo) {
-					executarProxMundo = false;
-					try {
-						executarInterno(ExercicioFactory.create(nomesArquivosXML[mundoAtual], clazz));
-					} catch (Exception e) {
-						throw new MundoException(e.getMessage());
-					}
-				} else {
-					jbExecutar.setEnabled(true);
-					jbParar.setEnabled(false);
-					jbRenovar.setEnabled(true);
-				}
-			}});
-		
-		initComponents(exercicio, autor);
-	}
+    public static void removerAtributo(String nome) {
+        atributos.remove(nome);
+    }
 
-	public MundoVisual(String autor, Exercicio exercicio, Class<?> clazz,
-			String nomesArquivosXML[]) throws Exception {
-		this(exercicio, autor);
-		this.nomesArquivosXML = nomesArquivosXML;
-		this.clazz = clazz;
-	}
+    private MundoAgenteJ mundoAgenteJ;
 
-	private static JButton createSimpleButton(String image, String tooltip) {
-		  JButton button = new JButton();
-		  button.setIcon(LoadImage.getInstance().getIcon(image));
-		  button.setToolTipText(tooltip);
-		  button.setForeground(Color.BLACK);
-		  button.setBackground(Color.WHITE);
-		  button.setFocusable(false);
-		  button.setBorder(null);
-		  return button;
-	}
-	
-	private static JSlider createSimpleSlider() {
-		JSlider slider = new JSlider();
-		slider.setUI(new MySlider(slider));
-		return slider;
-	}	
-	
-	private void initComponents(Exercicio exercicio, String autor) {
-		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(300, 100));
-		String title = "Mundo do AgenteJ v " + AgenteJ.VERSAO; 
-		if (autor != null) {
-			title = title + " ["+autor+"]";
-		}
-		setTitle(title);
-		
-		JPanel jp = getControle(exercicio); 
-		getContentPane().add(jp, "North");
-		
-		getContentPane().add(mundoAgenteJ, "Center");
-		console = new JTextArea();
-		JScrollPane scroll = new JScrollPane(console);
-		console.setEditable(false);
-		console.setRows(5);
-		
-		DefaultCaret caret = (DefaultCaret)console.getCaret();
-	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
-	    
-		getContentPane().add(scroll, "South");
-		addWindowListener(new WindowAdapter() {
+    private MundoVisual(Exercicio exercicio, String autor) throws Exception {
+        
 
-			public void windowClosing(WindowEvent arg0) {
-				mundoAgenteJ.parar();
-			}
+        executou = false;
+        interrompido = false;
+        euMesmo = this;
+        GoalManager.setMundoVisual(this);
 
-		});
-		
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
-	}
+        exercicio.setMv(euMesmo);
 
-	private JPanel getControle(final Exercicio exercicio) {
-		JPanel jp = new JPanel(new BorderLayout());
-		jp.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.black));
+        setIconImage(LoadImage.getInstance().getIcon("imagens/agentej-icone.gif").getImage());
 
-		slider = createSimpleSlider();
-		jp.add(slider, BorderLayout.WEST);
-		
+        mundoAgenteJ = new MundoAgenteJ(exercicio);
+        mundoAgenteJ.setMv(euMesmo);
+        
+        mundoAgenteJ.addDisseramListener(new DisseramListener() {
 
-		slider.setMaximum(1000);
-		slider.setInverted(true);
-		slider.setMinimumSize(new Dimension(10, 10));
-		slider.setValue(mundoAgenteJ.getTempoEspera());
-		slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void disse(String texto) {
+                console.setText((new StringBuilder(String
+                        .valueOf(console.getText()))).append(texto).append("\n")
+                        .toString());
+            }
 
-			public void stateChanged(ChangeEvent ev) {
-				mundoAgenteJ.setTempoEspera(slider.getValue());
-				mundoAgenteJ.requestFocus();
-			}
+            @Override
+            public void limpar() {
+                console.setText("");
+            }
+        });
 
-		});
+        mundoAgenteJ.addFinalizouExecucaoListener(new FinalizouExecucaoListener() {
 
-		JPanel jpBotoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		jpBotoes.setBackground(Color.white);
-		jp.add(jpBotoes, BorderLayout.CENTER);
+            @Override
+            public void finalizouExecucao() {
+                if (executarProxMundo) {
+                    executarProxMundo = false;
+                    try {
+                        executarInterno(ExercicioFactory.create(nomesArquivosXML[mundoAtual], clazz));
+                    } catch (Exception e) {
+                        throw new MundoException(e.getMessage());
+                    }
+                } else {
+                    jbExecutar.setEnabled(true);
+                    jbParar.setEnabled(false);
+                    jbRenovar.setEnabled(true);
+                }
+            }
+        });
 
-		jbExecutar = createSimpleButton("imagens/iconplay.png", "Executar");
-		jpBotoes.add(jbExecutar);
-		ActionListener action = new ActionListener() {
+        gerarObjetivos(exercicio.getConfiguracoes(), exercicio);
+        initComponents(exercicio, autor);
+    }
 
-			public void actionPerformed(ActionEvent arg0) {
-				mundoAtual = 0;
-				executarProxMundo = false;
-				novaSequencia(exercicio);
-				executarInterno(exercicio);
-			}
+    public MundoVisual(String autor, Exercicio exercicio, Class<?> clazz,
+            String nomesArquivosXML[]) throws Exception {
+        this(exercicio, autor);
+        this.nomesArquivosXML = nomesArquivosXML;
+        this.clazz = clazz;
+    }
 
-		};
-		jbExecutar.addActionListener(action);
+    private static JButton createSimpleButton(String image, String tooltip) {
+        JButton button = new JButton();
+        button.setIcon(LoadImage.getInstance().getIcon(image));
+        button.setToolTipText(tooltip);
+        button.setForeground(Color.BLACK);
+        button.setBackground(Color.WHITE);
+        button.setFocusable(false);
+        button.setBorder(null);
+        return button;
+    }
 
-		jbRenovar = createSimpleButton("imagens/iconreloadcode.png", "Novo");
-		jpBotoes.add(jbRenovar);
-		jbRenovar.addActionListener(new ActionListener() {
+    private static JSlider createSimpleSlider() {
+        JSlider slider = new JSlider();
+        slider.setUI(new MySlider(slider));
+        return slider;
+    }
 
-			public void actionPerformed(ActionEvent arg0) {
-				mundoAgenteJ.parar();
-				novaSequencia(exercicio);
-				try {
-					mundoAgenteJ.setExercicio(exercicio);
-					mundoAgenteJ.reiniciar();
-					pack();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				executou = false;
-				mundoAgenteJ.requestFocus();
-			}
+    private void initComponents(Exercicio exercicio, String autor) {
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(300, 100));
+        String title = "Mundo do AgenteJ v " + AgenteJ.VERSAO;
+        if (autor != null) {
+            title = title + " [" + autor + "]";
+        }
+        setTitle(title);
 
-		});
-		jbParar = createSimpleButton("imagens/iconstop.png", "Parar");
-		jbParar.setEnabled(false);
-		jpBotoes.add(jbParar);
-		jbParar.addActionListener(new ActionListener() {
+        JPanel jp = getControle(exercicio);
+        getContentPane().add(jp, "North");
 
-			public void actionPerformed(ActionEvent arg0) {
-				mundoAgenteJ.parar();
-				jbExecutar.setEnabled(true);
-				jbParar.setEnabled(false);
-			}
+        
+        if (validarObjetivos){
+            checkList = new JCheckList();
+            checkList.setTitle("Objetivos:");
+            drawCheckList();
+            getContentPane().add(checkList, "East");
+        }
 
-		});
-		return jp;
-	}
+        getContentPane().add(mundoAgenteJ, "Center");
+        console = new JTextArea();
+        JScrollPane scroll = new JScrollPane(console);
+        console.setEditable(false);
+        console.setRows(5);
 
-	private void novaSequencia(Exercicio exercicio) {
-		atributos.clear();
-	}
+        DefaultCaret caret = (DefaultCaret) console.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 
-	private void executarInterno(Exercicio exercicio) {
-		if (executou)
-			try {
-				mundoAgenteJ.setExercicio(exercicio);
-				mundoAgenteJ.reiniciar();
-				pack();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		habilitarBotoesExecucao();
-		mundoAgenteJ.executar();
-		executou = true;
-		mundoAgenteJ.requestFocus();
-	}
+        getContentPane().add(scroll, "South");
+        addWindowListener(new WindowAdapter() {
 
-	private void habilitarBotoesExecucao() {
-		jbExecutar.setEnabled(false);
-		jbParar.setEnabled(true);
-		jbRenovar.setEnabled(false);
-	}
+            public void windowClosing(WindowEvent arg0) {
+                interrompido = true;
+                mundoAgenteJ.parar();
+            }
 
-	public static void iniciar(String nomeArquivoXML) {
-		iniciar(nomeArquivoXML, null, null, false);
-	}
+        });
 
-	public static void iniciarImediatamente(String nomeArquivoXML) {
-		iniciar(nomeArquivoXML, null, null, true);
-	}
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
 
-	public static void iniciar(String nomeArquivoXML, String autor) {
-		iniciar(nomeArquivoXML, null, autor, false);
-	}
-	
-	public static void iniciar(String nomeArquivoXML, Class<?> clazz, final String autor, boolean runImmediatelly) {
-		try {
-			int socket = MundoVisual.socket;
-			if (autor != null) {
-				String[] as = autor.split("|");
-				if (as.length > 2)
-					socket = Integer.parseInt(as[1]);
-			}
-			ServerSocket server = new ServerSocket(socket);
-			final Exercicio exercicio = ExercicioFactory.create(nomeArquivoXML,clazz);
-			EventQueue.invokeLater(new Runnable() {
+    private JPanel getControle(final Exercicio exercicio) {
+        JPanel jp = new JPanel(new BorderLayout());
+        jp.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
-				public void run() {
-					try {
-						
-						MundoVisual mundoVisual = new MundoVisual(exercicio, autor);
-						if (runImmediatelly) {
-							mundoVisual.mundoAgenteJ.executar();
-							mundoVisual.mundoAgenteJ.requestFocus();
-							mundoVisual.habilitarBotoesExecucao();
-						}
-						
-					} catch (ClassNotFoundException classE) {
-						JOptionPane.showMessageDialog(null, (new StringBuilder(
-								"Voc\352 precisa criar uma classe de nome "))
-								.append(classE.getLocalizedMessage())
-								.toString());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+        slider = createSimpleSlider();
+        jp.add(slider, BorderLayout.WEST);
 
-			});
-		} catch (BindException be) {
-			System.err.println("Existem outros mundos abertos. Feche as execu\347\365es anteriores.");
-		} catch (Exception e) {
-			System.out.println("Problemas no carregamento do Exerc\355cio");
-			e.printStackTrace();
-		}
+        slider.setMaximum(1000);
+        slider.setInverted(true);
+        slider.setMinimumSize(new Dimension(10, 10));
+        slider.setValue(mundoAgenteJ.getTempoEspera());
+        slider.addChangeListener(new ChangeListener() {
 
-	}
-	
-	public static void iniciar(String nomeArquivoXML, Class<?> clazz) {
-		iniciar(nomeArquivoXML, clazz, null, false);
-	}
+            public void stateChanged(ChangeEvent ev) {
+                mundoAgenteJ.setTempoEspera(slider.getValue());
+                mundoAgenteJ.requestFocus();
+            }
 
-	public static void iniciar(String nomeArquivoXML, Class<?> clazz, int socket) {
-		MundoVisual.socket = socket;
-		iniciar(nomeArquivoXML, clazz, null, false);
-	}
+        });
 
-	public static void iniciarImediatamente(String nomeArquivoXML, Class<?> clazz) {
-		iniciar(nomeArquivoXML, clazz, null, true);
-	}
+        JPanel jpBotoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jpBotoes.setBackground(Color.white);
+        jp.add(jpBotoes, BorderLayout.CENTER);
 
+        jbExecutar = createSimpleButton("imagens/iconplay.png", "Executar");
+        jpBotoes.add(jbExecutar);
+        ActionListener action = new ActionListener() {
 
-	
-	public static void iniciarSequencia(Class<?> clazz, String... nomesArquivosXML) {
-		iniciarSequencia(null, clazz, nomesArquivosXML);
-	}
-	
-	public static void iniciarSequencia(final String autor, Class<?> clazz, String... nomesArquivosXML) {
-		try {
-			final Exercicio exercicio = ExercicioFactory.create(
-					nomesArquivosXML[0], clazz);
-			final String arquivosXML[] = nomesArquivosXML;
-			final Class<?> classe = clazz;
-			EventQueue.invokeLater(new Runnable() {
+            public void actionPerformed(ActionEvent arg0) {
+                mundoAtual = 0;
+                executarProxMundo = false;
+                novaSequencia(exercicio);
+                executarInterno(exercicio);
+            }
 
-				public void run() {
-					try {
-						new MundoVisual(autor, exercicio, classe, arquivosXML);
-					} catch (ClassNotFoundException classE) {
-						JOptionPane.showMessageDialog(null, (new StringBuilder(
-								"Voc\352 precisa criar uma classe de nome "))
-								.append(classE.getLocalizedMessage())
-								.toString());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+        };
+        jbExecutar.addActionListener(action);
+        jbRenovar = createSimpleButton("imagens/iconreloadcode.png", "Novo");
+        jpBotoes.add(jbRenovar);
+        jbRenovar.addActionListener(new ActionListener() {
 
-			});
-		} catch (Exception e) {
-			System.out.println("Problemas no carregamento do Exerc\355cio");
-			e.printStackTrace();
-		}
-	}
+            public void actionPerformed(ActionEvent arg0) {
+                interrompido = true;
+                mundoAgenteJ.parar();
+                novaSequencia(exercicio);
+                try {
+                    mundoAgenteJ.setExercicio(exercicio);
+                    mundoAgenteJ.reiniciar();
+                    pack();
+                    drawCheckList();
+                    restart(exercicio);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                executou = false;
+                interrompido = false;
+                mundoAgenteJ.requestFocus();
+            }
 
-	public static void main(String args[]) throws Exception {
-		if (args.length > 0)
-			iniciar(args[0]);
-		throw new Exception("Faltou informar o nome do arquivo do enunciado.");
-	}
+        });
+        jbParar = createSimpleButton("imagens/iconstop.png", "Parar");
+        jbParar.setEnabled(false);
+        jpBotoes.add(jbParar);
+        jbParar.addActionListener(new ActionListener() {
 
-	private JTextArea console;
-	private boolean executou;
-	private String nomesArquivosXML[];
-	private int mundoAtual;
-	private boolean executarProxMundo;
-	private Class<?> clazz;
-	private static MundoVisual euMesmo;
-	private static HashMap<String, Object> atributos = new HashMap<String, Object>();
-	//private JLabel jlEnunciado;
-	private JButton jbExecutar;
-	private JButton jbParar;
-	private JSlider slider;
-	private JButton jbRenovar;
-	private static int socket = 57391;
+            public void actionPerformed(ActionEvent arg0) {
+                interrompido = true;
+                mundoAgenteJ.parar();
+                if (validarObjetivos){
+                    checkList.uncheckAllItems();
+                }
+                jbExecutar.setEnabled(true);
+                jbParar.setEnabled(false);
+            }
+
+        });
+        return jp;
+    }
+
+    private void novaSequencia(Exercicio exercicio) {
+        atributos.clear();
+        if (validarObjetivos){
+            checkList.uncheckAllItems();
+        }
+    }
+
+    private void executarInterno(Exercicio exercicio) {
+        if (executou) {
+            try {
+                mundoAgenteJ.setExercicio(exercicio);
+                mundoAgenteJ.reiniciar();
+                pack();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        habilitarBotoesExecucao();
+        mundoAgenteJ.executar();
+        executou = true;
+        interrompido = false;
+        mundoAgenteJ.requestFocus();
+    }
+
+    private void habilitarBotoesExecucao() {
+        jbExecutar.setEnabled(false);
+        jbParar.setEnabled(true);
+        jbRenovar.setEnabled(false);
+    }
+
+    public static void iniciar(String nomeArquivoXML) {
+        iniciar(nomeArquivoXML, null, null, false);
+    }
+
+    public static void iniciarImediatamente(String nomeArquivoXML) {
+        iniciar(nomeArquivoXML, null, null, true);
+    }
+
+    public static void iniciar(String nomeArquivoXML, String autor) {
+        iniciar(nomeArquivoXML, null, autor, false);
+    }
+
+    public static void iniciar(String nomeArquivoXML, Class<?> clazz, final String autor, final boolean runImmediatelly) {
+        try {
+            int socket = MundoVisual.socket;
+            if (autor != null) {
+                String[] as = autor.split("|");
+                if (as.length > 2) {
+                    socket = Integer.parseInt(as[1]);
+                }
+            }
+            ServerSocket server = new ServerSocket(socket);
+            final Exercicio exercicio = ExercicioFactory.create(nomeArquivoXML, clazz);
+            EventQueue.invokeLater(new Runnable() {
+
+                public void run() {
+                    try {
+
+                        MundoVisual mundoVisual = new MundoVisual(exercicio, autor);
+                        if (runImmediatelly) {
+                            mundoVisual.mundoAgenteJ.executar();
+                            mundoVisual.mundoAgenteJ.requestFocus();
+                            mundoVisual.habilitarBotoesExecucao();
+                        }
+
+                    } catch (ClassNotFoundException classE) {
+                        JOptionPane.showMessageDialog(null, (new StringBuilder(
+                                "Voc\352 precisa criar uma classe de nome "))
+                                .append(classE.getLocalizedMessage())
+                                .toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+        } catch (BindException be) {
+            System.err.println("Existem outros mundos abertos. Feche as execu\347\365es anteriores.");
+        } catch (Exception e) {
+            System.out.println("Problemas no carregamento do Exerc\355cio");
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void iniciar(String nomeArquivoXML, Class<?> clazz) {
+        iniciar(nomeArquivoXML, clazz, null, false);
+    }
+
+    public static void iniciar(String nomeArquivoXML, Class<?> clazz, int socket) {
+        MundoVisual.socket = socket;
+        iniciar(nomeArquivoXML, clazz, null, false);
+    }
+
+    public static void iniciarImediatamente(String nomeArquivoXML, Class<?> clazz) {
+        iniciar(nomeArquivoXML, clazz, null, true);
+    }
+
+    public static void iniciarSequencia(Class<?> clazz, String... nomesArquivosXML) {
+        iniciarSequencia(null, clazz, nomesArquivosXML);
+    }
+
+    public static void iniciarSequencia(final String autor, Class<?> clazz, String... nomesArquivosXML) {
+        try {
+            final Exercicio exercicio = ExercicioFactory.create(
+                    nomesArquivosXML[0], clazz);
+            final String arquivosXML[] = nomesArquivosXML;
+            final Class<?> classe = clazz;
+            EventQueue.invokeLater(new Runnable() {
+
+                public void run() {
+                    try {
+                        new MundoVisual(autor, exercicio, classe, arquivosXML);
+                    } catch (ClassNotFoundException classE) {
+                        JOptionPane.showMessageDialog(null, (new StringBuilder(
+                                "Voc\352 precisa criar uma classe de nome "))
+                                .append(classE.getLocalizedMessage())
+                                .toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+        } catch (Exception e) {
+            System.out.println("Problemas no carregamento do Exerc\355cio");
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String args[]) throws Exception {
+        if (args.length > 0) {
+            iniciar(args[0]);
+        }
+        throw new Exception("Faltou informar o nome do arquivo do enunciado.");
+    }
+
+    private JTextArea console;
+    private boolean executou;
+    private boolean interrompido;
+    private String nomesArquivosXML[];
+    private int mundoAtual;
+    private boolean executarProxMundo;
+    private Class<?> clazz;
+    private static MundoVisual euMesmo;
+    private static HashMap<String, Object> atributos = new HashMap<String, Object>();
+    //private JLabel jlEnunciado;
+    private JButton jbExecutar;
+    private JButton jbParar;
+    private JSlider slider;
+    private JButton jbRenovar;
+    private JCheckList checkList;
+    private static int socket = 57391;
+    private boolean validarObjetivos = true;
+    private List<Objetivo> objetivos = new ArrayList();
+
+    private void gerarObjetivos(List<ObjetivoConfiguracao> objetivoConfiguracoes, Exercicio e) throws Exception {
+        objetivos.clear();
+        for (ObjetivoConfiguracao oc : objetivoConfiguracoes) {
+            Objetivo obj = oc.gerar();
+            obj.setMundo(this);
+            objetivos.add(obj);
+        }
+        MethodManager.getInstance().prepare(objetivos, e.getClazz());     
+        MundoManager.getInstance();
+        alterarMetodos(objetivos, e.getClazz());
+    }
+
+    public void checkObjetivo(int i) {
+        checkList.checkItem(i);
+    }
+
+    public List<Objetivo> getObjetivos() {
+        return objetivos;
+    }
+
+    public void fim() {
+        if (validarObjetivos){
+            if (!interrompido) {
+                if (executou) {
+                    if (checkList.isAllGoalsAchieved()) {
+                        JOptionPane.showMessageDialog(null, "Parab\351ns! Todos os objetivos foram conclu\355dos.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Um ou mais objetivos n\343o foram alcan\347ados. Tente novamente.");
+                    }
+                }
+            }
+        }
+    }
+
+    public void verificarObjetivos(String tipo, Object opcoes) {
+        if (validarObjetivos){
+            for (int i = 0; i < objetivos.size(); i++) {
+                Objetivo objetivo = objetivos.get(i);
+                if (objetivo.isCompleto(tipo, opcoes)) {
+                    checkObjetivo(i);
+                }
+            }
+        }
+    }
+
+    public MundoAgenteJ getMundoAgenteJ() {
+        return mundoAgenteJ;
+    }
+    
+    private void alterarMetodos(List<Objetivo> objs, String clazz) {
+        try {
+            javassist.ClassPool pool = javassist.ClassPool.getDefault();
+            javassist.CtClass cc = pool.get(clazz);
+            for (Objetivo obj : objs) {
+                 if (obj.getConfig().getTipo().equals("usarMetodo")) {
+                    String nomeMetodo = obj.getConfig().getNome();
+                    try {
+                        javassist.CtMethod m = cc.getDeclaredMethod(nomeMetodo);
+                        String comando = "br.udesc.lagentj.objetivos.singletons.MethodManager.getInstance().countMethodCall(\"%s\");";
+                        String fcmd = String.format(comando, nomeMetodo);
+                        m.insertBefore(fcmd);
+                        String after = "{br.udesc.lagentj.objetivos.singletons.MethodManager.getInstance().storeReturn(\"%s\", ($w)$_); }";
+                        String acmd = String.format(after, nomeMetodo);
+                        m.insertAfter(acmd);
+                    } catch (Exception e){
+                        
+                    } 
+                }
+            }          
+            byte[] classFile = cc.toBytecode();            
+            javassist.util.HotSwapper hs = new javassist.util.HotSwapper(8000);
+            hs.reload(clazz, classFile);
+            System.out.println("O Mundo do AgentJ est\341 validando objetivos.");
+        } catch(NoClassDefFoundError e) {
+            validarObjetivos = false;
+            String message = "O Mundo do AgentJ est\341 sendo executado sem a valida\347\343o de objetivos.\n"
+                    + "Para habilitar a verifica\347\343o de objetivos confira os arquivos neces\341rios no build path como:\n"
+                    + " - tools.jar\n"
+                    + " - javasssit.jar\n"
+                    + "E tamb\351m verifique existem os argumentos necess\341rios na VM.";
+            System.out.println(message);
+        } catch(Exception e){
+            validarObjetivos = false;
+            String message = "O Mundo do AgentJ est\341 sendo executado sem a valida\347\343o de objetivos.\n"
+                    + "Para habilitar a verifica\347\343o de objetivos confira os arquivos neces\341rios no build path como:\n"
+                    + " - tools.jar\n"
+                    + " - javasssit.jar\n"
+                    + "E tamb\351m verifique existem os argumentos necess\341rios na VM.";
+            System.out.println(message);
+        }
+    }
+    
+    private void drawCheckList() {
+        if (validarObjetivos){
+            checkList.clear();
+            for (Objetivo obj : objetivos) {
+                checkList.addItem(obj.getDescricao());
+            }
+        }
+    }
+    
+    private void restart(Exercicio e) {
+        MundoManager.getInstance().restart();
+        MethodManager.getInstance().restart();
+        MethodManager.getInstance().prepare(objetivos, e.getClazz());
+        for (Objetivo objetivo : objetivos) {
+            if (objetivo.getConfig().getTipo().equals("usarMetodo")){
+                RestartInterface ri = (UsarMetodo) objetivo;
+                ri.restart();
+            }
+        }
+    }
 
 }

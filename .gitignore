@@ -1,3 +1,9 @@
 /bin/
 
 *.jar
+/nbproject/private/
+nb-build\.xml
+
+nbproject/
+/build/
+/dist/

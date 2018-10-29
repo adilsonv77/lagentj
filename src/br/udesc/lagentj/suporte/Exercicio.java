@@ -19,6 +19,7 @@
  */
 package br.udesc.lagentj.suporte;
 
+import br.udesc.lagentj.MundoVisual;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,9 @@ import java.util.Random;
 
 import br.udesc.lagentj.Numero;
 import br.udesc.lagentj.ObjetoDoMundo;
+import br.udesc.lagentj.objetivos.Mover;
+import br.udesc.lagentj.objetivos.Objetivo;
+import br.udesc.lagentj.objetivos.ObjetivoConfiguracao;
 
 /**
  * 
@@ -35,7 +39,8 @@ import br.udesc.lagentj.ObjetoDoMundo;
 public class Exercicio extends GrupoObjetos
 {
 
-    public AgenteJRandom getRandom()
+    
+	public AgenteJRandom getRandom()
     {
         return random;
     }
@@ -59,13 +64,13 @@ public class Exercicio extends GrupoObjetos
 	public Exercicio(String nomeArquivoXML) {
 		
 		String[] pedacos = nomeArquivoXML.split("[.]");
-		
 		this.clazz = "";
 		for (int x=0;x<pedacos.length-1;x++) {
 			this.clazz += pedacos[x];
 			if (x <pedacos.length-2)
 				this.clazz += ".";
 		}
+		configuracoes = new ArrayList();
 		
 	}
 
@@ -228,6 +233,7 @@ public class Exercicio extends GrupoObjetos
         ObjetoDoMundo objMundo = (ObjetoDoMundo)Class.forName(clazz).newInstance();
         ObjetoMundoImpl obj = objMundo.getObjetoMundoImpl();
         obj.setMundo(mundo);
+        obj.setMundoVisual(mv);
         obj.setBloqueado(elemento.isBloqueado());
         int x = getX(mundo, elemento);
         int y = getY(mundo, elemento);
@@ -291,6 +297,8 @@ public class Exercicio extends GrupoObjetos
         }
         obj.setX(x);
         obj.setY(y);
+        elemento.setX(x);
+        elemento.setY(y);
         if(elemento.isUsarEnergia())
             obj.setMaxEnergia(elemento.getEnergia());
         hashObjsMundo.put(elemento.getId(), obj);
@@ -360,6 +368,7 @@ public class Exercicio extends GrupoObjetos
                 ((ObjetoMundoImpl)hashObjsMundo.get("agente")).setBloqueado(true);
 
         }
+        
     }
 
     public boolean isUsarLinhasNaGrade()
@@ -378,17 +387,52 @@ public class Exercicio extends GrupoObjetos
     private boolean explodir;
     private String clazz;
     private boolean usarLinhasNaGrade = true;
-	private String tamanhoCel = "G";
+    private String tamanhoCel = "G";
     private AgenteJRandom random = new AgenteJRandom();
-	private HashMap<String, ObjetoMundoImpl> hashObjsMundo = new HashMap<String, ObjetoMundoImpl>();
+    private HashMap<String, ObjetoMundoImpl> hashObjsMundo = new HashMap<String, ObjetoMundoImpl>();
     private int contaAgente;
     private Random sorteio = new Random();
-    
-	public String getTamanhoCel() {
-		return tamanhoCel;
-	}
+    private List<ObjetivoConfiguracao> configuracoes;
+    private MundoVisual mv;
 
-	public void setTamanhoCel(String tamanhoCel) {
-		this.tamanhoCel = tamanhoCel;
-	}
+    public MundoVisual getMv() {
+        return mv;
+    }
+
+    public void setMv(MundoVisual mv) {
+        this.mv = mv;
+    }   
+
+    public List<ObjetivoConfiguracao> getConfiguracoes() {
+        return configuracoes;
+    }
+    
+    public void addObjetivo(ObjetivoConfiguracao o) {
+    	configuracoes.add(o);
+    }
+    
+    public String getTamanhoCel() {
+            return tamanhoCel;
+    }
+
+    public void setTamanhoCel(String tamanhoCel) {
+            this.tamanhoCel = tamanhoCel;
+    }
+
+    public String getClazz() {
+        return clazz;
+    }
+    
+    public String getClazzSimpleName() {
+        String[] parts = clazz.split("[.]");
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+        }
+        return parts[parts.length -1];
+        
+    }
+    
+    
+    
+    
 }
