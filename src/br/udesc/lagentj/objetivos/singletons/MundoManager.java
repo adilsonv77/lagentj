@@ -70,7 +70,10 @@ public class MundoManager implements RestartInterface {
         String pattern = "%s,%s";
         String key = String.format(pattern, x, y);
         Posicao p = posicoes.get(key);
-        posicoes.get(key).visit();
+        if (p != null){
+            p.visit();
+        }          
+        
     }
 
     @Override
